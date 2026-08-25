@@ -69,7 +69,6 @@
             --border: #ddd;
         }
 
-        /* وضع داكن */
         body.dark-mode {
             --bg: #1a1a2e;
             --card-bg: #16213e;
@@ -113,20 +112,11 @@
         .main-nav ul li a:hover, .main-nav ul li a.active { background: #0d6efd; color: #fff; }
         .nav-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text); }
 
-        /* زر الوضع الداكن */
         .dark-toggle {
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 38px;
-            height: 38px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            color: var(--text);
+            background: none; border: 1px solid var(--border); border-radius: 50%;
+            width: 38px; height: 38px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s; color: var(--text);
         }
         .dark-toggle:hover { background: #0d6efd; color: #fff; border-color: #0d6efd; }
 
@@ -139,7 +129,6 @@
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* صورة الواجهة */
         .hero-image { width: 100%; margin-bottom: 0; position: relative; overflow: hidden; }
         .hero-image img { width: 100%; height: auto; max-height: 500px; object-fit: cover; display: block; }
         .hero-image::after {
@@ -156,13 +145,11 @@
         }
         .site-description p { font-size: 1rem; font-weight: 700; max-width: 600px; margin: 0 auto; line-height: 1.5; }
 
-        /* شريط الوصول السريع */
         .quick-nav {
             display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap;
             overflow-x: auto; padding: 10px 15px; margin-bottom: 20px;
             background: var(--card-bg); border-radius: 12px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-            scrollbar-width: none;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08); scrollbar-width: none;
         }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a {
@@ -173,23 +160,99 @@
         .quick-nav a:hover, .quick-nav a.active { background: #0d6efd; color: #fff; }
         .quick-nav a:active { transform: scale(0.95); }
 
-        /* البحث */
         .search-box {
             display: flex; align-items: center; gap: 8px;
             background: var(--card-bg); border-radius: 30px;
             padding: 5px 15px; margin-bottom: 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
-            border: 1px solid var(--border);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08); border: 1px solid var(--border);
         }
         .search-box input {
-            flex: 1; border: none; outline: none;
-            font-family: inherit; font-size: 0.95rem;
-            background: transparent; color: var(--text);
-            padding: 8px 0;
+            flex: 1; border: none; outline: none; font-family: inherit;
+            font-size: 0.95rem; background: transparent; color: var(--text); padding: 8px 0;
         }
         .search-box .search-icon { color: var(--text-muted); }
 
-        .news-section { margin-bottom: 50px; }
+        /* ===== التخطيط الرئيسي مع الشريط الجانبي ===== */
+        .main-layout {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+        .main-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .sidebar {
+            width: 300px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .sidebar::-webkit-scrollbar { width: 5px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #0d6efd; border-radius: 10px; }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #dc3545;
+        }
+        .sidebar-header .icon {
+            font-size: 1.5rem;
+        }
+        .sidebar-header h3 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #dc3545;
+            animation: blink 2s infinite;
+        }
+        .sidebar-news-list {
+            list-style: none;
+        }
+        .sidebar-news-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: var(--bg);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-right: 3px solid #dc3545;
+        }
+        .sidebar-news-item:hover {
+            background: #dc3545;
+            color: #fff;
+            transform: translateX(-5px);
+        }
+        .sidebar-news-item .s-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 5px;
+        }
+        .sidebar-news-item .s-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .sidebar-news-item:hover .s-meta {
+            color: rgba(255,255,255,0.8);
+        }
+        .sidebar-empty {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 30px 0;
+        }
+
+        .news-section { margin-bottom: 40px; }
         .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: var(--text); border-right: 5px solid #0d6efd; padding-right: 15px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
@@ -223,7 +286,6 @@
         }
         .read-btn:hover { background: #0a58ca; transform: translateY(-2px); }
 
-        /* اللوحة المنبثقة */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.75); z-index: 2000;
@@ -255,7 +317,6 @@
         .modal-content .modal-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
         .modal-content .modal-body img { max-width: 100%; border-radius: 10px; margin: 12px 0; }
 
-        /* أزرار المشاركة */
         .modal-share { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.85rem; }
         .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -273,7 +334,6 @@
         .share-btn.telegram { background: #0088cc; }
         .share-btn.copy { background: #6c757d; }
 
-        /* أخبار ذات صلة */
         .related-news { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
         .related-news h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 15px; color: var(--text); }
         .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
@@ -306,6 +366,18 @@
 
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 992px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                position: static;
+                max-height: none;
+                margin-bottom: 30px;
+            }
+        }
 
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 12px 0; flex-wrap: wrap; }
@@ -385,40 +457,57 @@
         <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
     </div>
 
-    <main class="container">
-        <section class="news-section reveal" id="politics">
-            <h3 class="section-title">📰 سياسة</h3>
-            <div class="news-grid" id="politics-news"></div>
-        </section>
-        <section class="news-section reveal" id="society">
-            <h3 class="section-title">👥 مجتمع</h3>
-            <div class="news-grid" id="society-news"></div>
-        </section>
-        <section class="news-section reveal" id="economy">
-            <h3 class="section-title">💰 اقتصاد</h3>
-            <div class="news-grid" id="economy-news"></div>
-        </section>
-        <section class="news-section reveal" id="literature">
-            <h3 class="section-title">📚 أدب</h3>
-            <div class="news-grid" id="literature-news"></div>
-        </section>
-        <section class="news-section reveal" id="sports">
-            <h3 class="section-title">⚽ رياضة</h3>
-            <div class="news-grid" id="sports-news"></div>
-        </section>
-        <section class="news-section reveal" id="tech">
-            <h3 class="section-title">💻 تكنولوجيا</h3>
-            <div class="news-grid" id="tech-news"></div>
-        </section>
-        <section class="news-section reveal" id="health">
-            <h3 class="section-title">🩺 صحة</h3>
-            <div class="news-grid" id="health-news"></div>
-        </section>
-        <section class="news-section reveal" id="misc">
-            <h3 class="section-title">🎭 منوعات</h3>
-            <div class="news-grid" id="misc-news"></div>
-        </section>
-    </main>
+    <!-- التخطيط الرئيسي مع الشريط الجانبي -->
+    <div class="main-layout">
+        <!-- الشريط الجانبي الأيسر للأخبار العاجلة -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="icon">🔴</span>
+                <h3>الأخبار العاجلة</h3>
+            </div>
+            <ul class="sidebar-news-list" id="sidebarNewsList">
+                <li class="sidebar-empty">لا توجد أخبار عاجلة حاليًا.</li>
+            </ul>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <main>
+                <section class="news-section reveal" id="politics">
+                    <h3 class="section-title">📰 سياسة</h3>
+                    <div class="news-grid" id="politics-news"></div>
+                </section>
+                <section class="news-section reveal" id="society">
+                    <h3 class="section-title">👥 مجتمع</h3>
+                    <div class="news-grid" id="society-news"></div>
+                </section>
+                <section class="news-section reveal" id="economy">
+                    <h3 class="section-title">💰 اقتصاد</h3>
+                    <div class="news-grid" id="economy-news"></div>
+                </section>
+                <section class="news-section reveal" id="literature">
+                    <h3 class="section-title">📚 أدب</h3>
+                    <div class="news-grid" id="literature-news"></div>
+                </section>
+                <section class="news-section reveal" id="sports">
+                    <h3 class="section-title">⚽ رياضة</h3>
+                    <div class="news-grid" id="sports-news"></div>
+                </section>
+                <section class="news-section reveal" id="tech">
+                    <h3 class="section-title">💻 تكنولوجيا</h3>
+                    <div class="news-grid" id="tech-news"></div>
+                </section>
+                <section class="news-section reveal" id="health">
+                    <h3 class="section-title">🩺 صحة</h3>
+                    <div class="news-grid" id="health-news"></div>
+                </section>
+                <section class="news-section reveal" id="misc">
+                    <h3 class="section-title">🎭 منوعات</h3>
+                    <div class="news-grid" id="misc-news"></div>
+                </section>
+            </main>
+        </div>
+    </div>
 
     <!-- اللوحة المنبثقة -->
     <div class="modal-overlay" id="modalOverlay">
@@ -511,6 +600,7 @@
                 });
 
                 updateTicker(allNewsData);
+                updateSidebar(allNewsData);
                 
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
@@ -533,6 +623,36 @@
             } else {
                 tickerElement.textContent = 'لا توجد أخبار عاجلة حاليًا.';
             }
+        }
+
+        // ===== تحديث الشريط الجانبي للأخبار العاجلة =====
+        function updateSidebar(allNews) {
+            const breakingNews = allNews
+                .filter(item => item.isBreaking)
+                .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+            
+            const list = document.getElementById('sidebarNewsList');
+            if (breakingNews.length === 0) {
+                list.innerHTML = '<li class="sidebar-empty">لا توجد أخبار عاجلة حاليًا.</li>';
+                return;
+            }
+            
+            list.innerHTML = '';
+            breakingNews.forEach(article => {
+                const li = document.createElement('li');
+                li.className = 'sidebar-news-item';
+                li.innerHTML = `
+                    <div class="s-title">${article.title}</div>
+                    <div class="s-meta">
+                        ${article.city ? '📍 ' + article.city + ' • ' : ''}${article.time || ''}
+                    </div>
+                `;
+                li.addEventListener('click', () => {
+                    openModal(article);
+                    incrementViews(article.id);
+                });
+                list.appendChild(li);
+            });
         }
 
         function createNewsCard(article) {
@@ -746,10 +866,8 @@
             headerShadowOnScroll();
             handleQuickNav();
             
-            // زر الوضع الداكن
             document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
             
-            // البحث
             document.getElementById('searchInput').addEventListener('input', function() {
                 searchNews(this.value);
             });
