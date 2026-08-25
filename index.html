@@ -1,10 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-    <title>موقعي الجديد</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أخبار اليوم | محلية وعالمية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>مرحبًا بالعالم!</h1>
-    <p>إذا ظهرت هذه الصفحة، فموقعك يعمل بنجاح.</p>
+    <!-- شريط التنقل العلوي -->
+    <header class="top-header">
+        <div class="container header-flex">
+            <div class="logo">
+                <a href="#">أخبار <span>اليوم</span></a>
+            </div>
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="#home" class="active">الرئيسية</a></li>
+                    <li><a href="#politics">سياسة</a></li>
+                    <li><a href="#society">مجتمع</a></li>
+                    <li><a href="#economy">اقتصاد</a></li>
+                    <li><a href="#literature">أدب</a></li>
+                    <li><a href="#sports">رياضة</a></li>
+                    <li><a href="#tech">تكنولوجيا</a></li>
+                    <li><a href="#health">صحة</a></li>
+                    <li><a href="#misc">منوعات</a></li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" id="navToggle" aria-label="القائمة">
+                ☰
+            </button>
+        </div>
+    </header>
+
+    <!-- شريط الأخبار العاجلة -->
+    <div class="breaking-news">
+        <div class="container">
+            <span class="breaking-label">عاجل</span>
+            <div class="breaking-ticker" id="breakingTicker">
+                <p>أخبار عاجلة: انطلاق مؤتمر اقتصادي كبير في العاصمة.. منتخب الشباب يحقق فوزًا ثمينًا.. اكتشاف علاج جديد لمرض مزمن.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- القسم الرئيسي: الخبر الأبرز -->
+    <section class="hero-news" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h2>عنوان الخبر الرئيسي الكبير هنا</h2>
+                <p>ملخص الخبر الرئيسي بشكل موجز وجذاب، يعطي القارئ فكرة عن المحتوى ويدفعه للنقر لقراءة المزيد.</p>
+                <a href="#" class="btn">اقرأ المزيد</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- محتوى الأخبار حسب الأقسام -->
+    <main class="container">
+        <!-- قسم سياسة -->
+        <section class="news-section" id="politics">
+            <h3 class="section-title">📰 سياسة</h3>
+            <div class="news-grid" data-category="politics">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم مجتمع -->
+        <section class="news-section" id="society">
+            <h3 class="section-title">👥 مجتمع</h3>
+            <div class="news-grid" data-category="society">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم اقتصاد -->
+        <section class="news-section" id="economy">
+            <h3 class="section-title">💰 اقتصاد</h3>
+            <div class="news-grid" data-category="economy">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم أدب -->
+        <section class="news-section" id="literature">
+            <h3 class="section-title">📚 أدب</h3>
+            <div class="news-grid" data-category="literature">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم رياضة -->
+        <section class="news-section" id="sports">
+            <h3 class="section-title">⚽ رياضة</h3>
+            <div class="news-grid" data-category="sports">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم تكنولوجيا -->
+        <section class="news-section" id="tech">
+            <h3 class="section-title">💻 تكنولوجيا</h3>
+            <div class="news-grid" data-category="tech">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم صحة -->
+        <section class="news-section" id="health">
+            <h3 class="section-title">🩺 صحة</h3>
+            <div class="news-grid" data-category="health">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+
+        <!-- قسم منوعات -->
+        <section class="news-section" id="misc">
+            <h3 class="section-title">🎭 منوعات</h3>
+            <div class="news-grid" data-category="misc">
+                <!-- يتم الحقن عبر JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-flex">
+            <p>جميع الحقوق محفوظة &copy; 2025 أخبار اليوم</p>
+            <nav>
+                <a href="#">من نحن</a>
+                <a href="#">اتصل بنا</a>
+                <a href="#">سياسة الخصوصية</a>
+            </nav>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">↑</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
