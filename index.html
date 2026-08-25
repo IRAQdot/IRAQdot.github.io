@@ -62,44 +62,73 @@
             --success: #198754;
             --font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
             --transition: all 0.3s ease;
+            --bg: #f0f2f5;
+            --card-bg: #ffffff;
+            --text: #212529;
+            --text-muted: #666;
+            --border: #ddd;
+        }
+
+        /* وضع داكن */
+        body.dark-mode {
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e8e8e8;
+            --text-muted: #aaa;
+            --border: #2a3a5a;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-family);
-            background-color: #f0f2f5;
-            color: #212529;
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.7;
             font-size: 16px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
 
         .container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
-        /* ترويسة مع ظل متغير عند التمرير */
         .top-header {
-            background: #ffffff;
+            background: var(--card-bg);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: box-shadow 0.3s ease;
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
         }
-        .top-header.scrolled {
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
-        .header-flex { display: flex; align-items: center; justify-content: space-between; height: 80px; }
-        .logo a { display: flex; align-items: center; gap: 8px; font-size: 1.8rem; font-weight: 900; color: #212529; }
-        .logo a .dot-word { color: #0d6efd; font-size: 1.3rem; }
-        .logo a .english-name { font-size: 0.7rem; font-weight: 600; color: #0d6efd; letter-spacing: 2px; margin-top: 10px; display: block; }
+        .top-header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .header-flex { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 15px; }
+        .logo a { display: flex; align-items: center; gap: 8px; font-size: 1.6rem; font-weight: 900; color: var(--text); }
+        .logo a .dot-word { color: #0d6efd; font-size: 1.2rem; }
+        .logo a .english-name { font-size: 0.65rem; font-weight: 600; color: #0d6efd; letter-spacing: 2px; margin-top: 8px; display: block; }
         .logo a:hover { opacity: 0.85; }
 
-        .main-nav ul { display: flex; list-style: none; gap: 10px; }
-        .main-nav ul li a { padding: 8px 15px; border-radius: 30px; font-weight: 700; color: #444; transition: all 0.3s ease; font-size: 0.95rem; }
+        .main-nav ul { display: flex; list-style: none; gap: 5px; }
+        .main-nav ul li a { padding: 8px 12px; border-radius: 30px; font-weight: 700; color: var(--text-muted); transition: all 0.3s ease; font-size: 0.9rem; }
         .main-nav ul li a:hover, .main-nav ul li a.active { background: #0d6efd; color: #fff; }
-        .nav-toggle { display: none; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: #212529; }
+        .nav-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text); }
+
+        /* زر الوضع الداكن */
+        .dark-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--text);
+        }
+        .dark-toggle:hover { background: #0d6efd; color: #fff; border-color: #0d6efd; }
 
         .breaking-news { background: #212529; color: #fff; padding: 10px 0; overflow: hidden; }
         .breaking-news .container { display: flex; align-items: center; gap: 15px; }
@@ -110,123 +139,74 @@
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* صورة الواجهة مع تأثير لمعان */
-        .hero-image {
-            width: 100%;
-            margin-bottom: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            max-height: 550px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-        }
+        /* صورة الواجهة */
+        .hero-image { width: 100%; margin-bottom: 0; position: relative; overflow: hidden; }
+        .hero-image img { width: 100%; height: auto; max-height: 500px; object-fit: cover; display: block; }
         .hero-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 50%; height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             animation: shine 3s infinite;
         }
-        @keyframes shine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
-        }
+        @keyframes shine { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
 
-        /* الوصف تحت الصورة */
         .site-description {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-            text-align: center;
-            padding: 12px 20px;
-            margin-bottom: 0;
+            color: #fff; text-align: center; padding: 12px 20px; margin-bottom: 0;
         }
-        .site-description p {
-            font-size: 1rem;
-            font-weight: 700;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
+        .site-description p { font-size: 1rem; font-weight: 700; max-width: 600px; margin: 0 auto; line-height: 1.5; }
 
         /* شريط الوصول السريع */
         .quick-nav {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 10px 15px;
-            margin-bottom: 30px;
-            background: #ffffff;
-            border-radius: 12px;
+            display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap;
+            overflow-x: auto; padding: 10px 15px; margin-bottom: 20px;
+            background: var(--card-bg); border-radius: 12px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.08);
             scrollbar-width: none;
         }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #444;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border: 2px solid transparent;
+            display: inline-block; padding: 8px 16px; border-radius: 30px;
+            font-weight: 700; font-size: 0.9rem; color: var(--text-muted);
+            transition: all 0.3s ease; white-space: nowrap; border: 2px solid transparent;
         }
-        .quick-nav a:hover {
-            background: #0d6efd;
-            color: #fff;
-            border-color: #0d6efd;
+        .quick-nav a:hover, .quick-nav a.active { background: #0d6efd; color: #fff; }
+        .quick-nav a:active { transform: scale(0.95); }
+
+        /* البحث */
+        .search-box {
+            display: flex; align-items: center; gap: 8px;
+            background: var(--card-bg); border-radius: 30px;
+            padding: 5px 15px; margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
         }
-        .quick-nav a.active {
-            background: #0d6efd;
-            color: #fff;
-            border-color: #0d6efd;
+        .search-box input {
+            flex: 1; border: none; outline: none;
+            font-family: inherit; font-size: 0.95rem;
+            background: transparent; color: var(--text);
+            padding: 8px 0;
         }
-        .quick-nav a:active {
-            transform: scale(0.95);
-        }
+        .search-box .search-icon { color: var(--text-muted); }
 
         .news-section { margin-bottom: 50px; }
-        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: #212529; border-right: 5px solid #0d6efd; padding-right: 15px; }
+        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: var(--text); border-right: 5px solid #0d6efd; padding-right: 15px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
-        /* بطاقة الخبر مع تأثير التحديد */
         .news-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
+            background: var(--card-bg); border-radius: 12px; overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            display: flex; flex-direction: column; cursor: pointer;
         }
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .news-card.selected {
-            box-shadow: 0 0 0 3px var(--primary), 0 8px 25px rgba(0,0,0,0.2);
-            transform: scale(1.02);
-        }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .news-card.selected { box-shadow: 0 0 0 3px #0d6efd, 0 8px 25px rgba(0,0,0,0.2); transform: scale(1.02); }
         .news-card img { width: 100%; height: 180px; object-fit: cover; }
         .news-card .card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
         .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
-        .news-card .card-body h4 a { color: #212529; }
+        .news-card .card-body h4 a { color: var(--text); }
         .news-card .card-body h4 a:hover { color: #0d6efd; }
-        .news-card .card-body p { color: #666; font-size: 0.95rem; flex: 1; }
-        .news-card .card-body .meta { margin-top: 15px; font-size: 0.85rem; color: #999; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+        .news-card .card-body p { color: var(--text-muted); font-size: 0.95rem; flex: 1; }
+        .news-card .card-body .meta { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
 
         .badge-urgent {
             background: #dc3545; color: #fff; font-size: 0.7rem;
@@ -235,143 +215,55 @@
         }
 
         .read-btn {
-            display: inline-block;
-            background: var(--primary);
-            color: #fff;
-            padding: 8px 18px;
-            border: none;
-            border-radius: 30px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 15px;
-            text-align: center;
-            align-self: flex-start;
+            display: inline-block; background: #0d6efd; color: #fff;
+            padding: 8px 18px; border: none; border-radius: 30px;
+            font-family: inherit; font-weight: 700; font-size: 0.85rem;
+            cursor: pointer; transition: all 0.3s ease;
+            margin-top: 15px; text-align: center; align-self: flex-start;
         }
-        .read-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
+        .read-btn:hover { background: #0a58ca; transform: translateY(-2px); }
 
-        /* اللوحة المنبثقة مع انزلاق من اليسار */
+        /* اللوحة المنبثقة */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.75);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-            opacity: 0;
-            visibility: hidden;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75); z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px; overflow-y: auto;
+            opacity: 0; visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content {
-            background: #fff;
-            border-radius: 20px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            padding: 30px 25px 25px;
+            background: var(--card-bg); border-radius: 20px;
+            max-width: 800px; width: 100%; max-height: 90vh;
+            overflow-y: auto; position: relative; padding: 30px 25px 25px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             transform: translateX(-100%);
             transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
-        .modal-overlay.active .modal-content {
-            transform: translateX(0);
-        }
+        .modal-overlay.active .modal-content { transform: translateX(0); }
         .modal-close {
-            position: absolute;
-            top: 12px;
-            left: 18px;
-            font-size: 2rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #666;
-            font-family: inherit;
-            line-height: 1;
-            transition: all 0.3s;
+            position: absolute; top: 12px; left: 18px;
+            font-size: 2rem; background: none; border: none;
+            cursor: pointer; color: var(--text-muted);
+            font-family: inherit; line-height: 1; transition: all 0.3s;
         }
-        .modal-close:hover { color: var(--danger); transform: scale(1.2); }
-        .modal-content h2 {
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            color: #212529;
-            padding-left: 30px;
-        }
-        .modal-content .modal-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-        .modal-content .modal-image {
-            width: 100%;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            max-height: 350px;
-            object-fit: cover;
-        }
-        .modal-content .modal-body {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #333;
-        }
-        .modal-content .modal-body img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 12px 0;
-        }
+        .modal-close:hover { color: #dc3545; transform: scale(1.2); }
+        .modal-content h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; line-height: 1.4; color: var(--text); padding-left: 30px; }
+        .modal-content .modal-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted); }
+        .modal-content .modal-image { width: 100%; border-radius: 12px; margin-bottom: 15px; max-height: 350px; object-fit: cover; }
+        .modal-content .modal-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
+        .modal-content .modal-body img { max-width: 100%; border-radius: 10px; margin: 12px 0; }
 
-        /* أزرار المشاركة داخل المودال */
-        .modal-share {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .modal-share .share-label {
-            font-weight: 700;
-            color: #666;
-            font-size: 0.85rem;
-        }
+        /* أزرار المشاركة */
+        .modal-share { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.85rem; }
         .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
         .share-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 20px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #fff;
-            text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 4px; padding: 5px 10px; border: none; border-radius: 20px;
+            font-family: inherit; font-weight: 700; font-size: 0.75rem;
+            cursor: pointer; transition: all 0.2s ease; color: #fff;
         }
         .share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
         .share-btn svg { width: 14px; height: 14px; fill: currentColor; }
@@ -379,6 +271,18 @@
         .share-btn.twitter { background: #000000; }
         .share-btn.whatsapp { background: #25d366; }
         .share-btn.telegram { background: #0088cc; }
+        .share-btn.copy { background: #6c757d; }
+
+        /* أخبار ذات صلة */
+        .related-news { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
+        .related-news h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 15px; color: var(--text); }
+        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+        .related-item {
+            background: var(--bg); border-radius: 8px; padding: 10px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .related-item:hover { background: #0d6efd; color: #fff; }
+        .related-item .r-title { font-size: 0.8rem; font-weight: 700; }
 
         footer { background: #212529; color: #ccc; padding: 30px 0; margin-top: 40px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -386,20 +290,11 @@
         .footer-flex nav a:hover { color: #fff; }
 
         .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #0d6efd;
-            color: #fff;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: none;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            z-index: 999;
+            position: fixed; bottom: 30px; right: 30px;
+            background: #0d6efd; color: #fff; border: none;
+            width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.5rem; cursor: pointer; display: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3); z-index: 999;
             animation: pulse 2s infinite;
         }
         .back-to-top.show { display: block; }
@@ -409,20 +304,12 @@
             100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
         }
 
-        /* تأثير الظهور عند التمرير */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
-            .header-flex { height: auto; padding: 15px 0; flex-wrap: wrap; }
-            .logo a { font-size: 1.5rem; }
+            .header-flex { height: auto; padding: 12px 0; flex-wrap: wrap; }
+            .logo a { font-size: 1.4rem; }
             .main-nav { display: none; width: 100%; order: 3; }
             .main-nav.open { display: block; }
             .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
@@ -458,6 +345,7 @@
                     <li><a href="#misc">منوعات</a></li>
                 </ul>
             </nav>
+            <button class="dark-toggle" id="darkToggle" title="تبديل المظهر">🌙</button>
             <button class="nav-toggle" id="navToggle">☰</button>
         </div>
     </header>
@@ -490,6 +378,12 @@
         <a href="#health">صحة</a>
         <a href="#misc">منوعات</a>
     </nav>
+
+    <!-- مربع البحث -->
+    <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
+    </div>
 
     <main class="container">
         <section class="news-section reveal" id="politics">
@@ -534,27 +428,19 @@
             <div class="modal-meta" id="modalMeta"></div>
             <img id="modalImage" class="modal-image" src="" alt="">
             <div class="modal-body" id="modalBody"></div>
-            <!-- أزرار المشاركة -->
             <div class="modal-share">
                 <span class="share-label">شارك الخبر:</span>
                 <div class="share-buttons">
-                    <button class="share-btn facebook" id="shareFb">
-                        <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H7.9V12h2.6V9.8c0-2.6 1.5-4 3.9-4 .8 0 1.5.1 1.5.1v2.7h-.9c-1 0-1.3.6-1.3 1.2V12h2.2l-.3 2.9h-1.9v7A10 10 0 0 0 22 12z"/></svg>
-                        فيسبوك
-                    </button>
-                    <button class="share-btn twitter" id="shareTw">
-                        <svg viewBox="0 0 24 24"><path d="M18.9 1.5h3.4l-7.4 8.5 8.7 11.5h-6.8l-5.3-7-6.1 7H1.9l7.9-9L1.5 1.5h7l4.8 6.3 5.6-6.3zm-1.2 18h1.9L7.4 3.4H5.4l12.3 16.1z"/></svg>
-                        تويتر
-                    </button>
-                    <button class="share-btn whatsapp" id="shareWa">
-                        <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.4.3-.6.1-.3 0-.5-.1-.7-.1-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 .9-1 2.3s1 2.7 1.1 2.9c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4zM12 21.8c-1.7 0-3.4-.5-4.9-1.3l-.3-.2-3.6.9 1-3.5-.2-.3C2.8 15.6 2.2 13.8 2.2 12c0-5.4 4.4-9.8 9.8-9.8s9.8 4.4 9.8 9.8-4.4 9.8-9.8 9.8zM12 0C5.4 0 0 5.4 0 12c0 2.1.5 4.2 1.5 6L0 24l6.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S18.6 0 12 0z"/></svg>
-                        واتساب
-                    </button>
-                    <button class="share-btn telegram" id="shareTg">
-                        <svg viewBox="0 0 24 24"><path d="M11.9 0C5.3 0 0 5.3 0 11.9S5.3 23.8 11.9 23.8 23.8 18.5 23.8 11.9 18.5 0 11.9 0zm5.7 8.2c-.2 2.3-1.2 7.9-1.7 10.5-.2 1.1-.7 1.5-1.1 1.5-.9 0-1.6-.6-2.4-1.2-1.4-.9-2.2-1.5-3.5-2.4-1.6-1-.6-1.6.4-2.5 1.3-1.2 2.9-2.7 3.8-4.4.2-.5.1-1-.5-.7-.8.3-3 2-3.9 2.6-.5.4-1 .4-1.5.1-.7-.2-2.2-.8-2.7-1.1-.6-.4-1.1-.5-1-.9 0-.4.6-.6 1.6-1.1 6.4-2.8 10.3-4.4 11.6-4.7 1.2-.2 2 .6 1.6 2.8z"/></svg>
-                        تيليجرام
-                    </button>
+                    <button class="share-btn facebook" id="shareFb">فيسبوك</button>
+                    <button class="share-btn twitter" id="shareTw">تويتر</button>
+                    <button class="share-btn whatsapp" id="shareWa">واتساب</button>
+                    <button class="share-btn telegram" id="shareTg">تيليجرام</button>
+                    <button class="share-btn copy" id="shareCopy">نسخ الرابط</button>
                 </div>
+            </div>
+            <div class="related-news" id="relatedNews" style="display:none;">
+                <h3>أخبار ذات صلة</h3>
+                <div class="related-grid" id="relatedGrid"></div>
             </div>
         </div>
     </div>
@@ -589,22 +475,45 @@
         const database = firebase.database();
 
         const categories = ['politics', 'society', 'economy', 'literature', 'sports', 'tech', 'health', 'misc'];
+        let allNewsData = [];
         let currentArticle = null;
+
+        // ===== الوضع الداكن =====
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('iraqdot_dark', isDark);
+            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+        }
+        function initDarkMode() {
+            const saved = localStorage.getItem('iraqdot_dark') === 'true';
+            if (saved) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkToggle').textContent = '☀️';
+            }
+        }
+
+        // ===== عدّاد المشاهدات =====
+        function incrementViews(articleId) {
+            if (!articleId) return;
+            database.ref('news/' + articleId + '/views').transaction(function(current) {
+                return (current || 0) + 1;
+            });
+        }
 
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
-                const allNews = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
                 
                 categories.forEach(cat => {
                     const grid = document.getElementById(cat + '-news');
                     if (grid) grid.innerHTML = '';
                 });
 
-                updateTicker(allNews);
+                updateTicker(allNewsData);
                 
                 categories.forEach(cat => {
-                    const filtered = allNews.filter(item => item.category === cat);
+                    const filtered = allNewsData.filter(item => item.category === cat);
                     const grid = document.getElementById(cat + '-news');
                     if (grid && filtered.length > 0) {
                         filtered.forEach(article => grid.appendChild(createNewsCard(article)));
@@ -644,6 +553,7 @@
             const time = article.date || article.time 
                 ? `🕐 ${article.date || ''} ${article.time || ''}` 
                 : '';
+            const views = article.views ? `👁️ ${article.views}` : '';
 
             card.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}" loading="lazy">
@@ -653,6 +563,7 @@
                     <div class="meta">
                         <span>${location}</span>
                         <span>${time}</span>
+                        ${views ? `<span>${views}</span>` : ''}
                     </div>
                     <button class="read-btn">قراءة الخبر</button>
                 </div>
@@ -662,6 +573,7 @@
             readBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 openModal(article);
+                incrementViews(article.id);
             });
             
             card.addEventListener('click', () => {
@@ -672,33 +584,81 @@
             return card;
         }
 
+        // ===== البحث الفوري =====
+        function searchNews(query) {
+            const q = query.trim().toLowerCase();
+            if (!q) {
+                renderNews();
+                return;
+            }
+            const results = allNewsData.filter(item => 
+                item.title.toLowerCase().includes(q) || 
+                (item.summary && item.summary.toLowerCase().includes(q)) ||
+                (item.country && item.country.toLowerCase().includes(q)) ||
+                (item.city && item.city.toLowerCase().includes(q))
+            );
+            
+            categories.forEach(cat => {
+                const grid = document.getElementById(cat + '-news');
+                if (grid) grid.innerHTML = '';
+            });
+            
+            results.forEach(article => {
+                const grid = document.getElementById(article.category + '-news');
+                if (grid) grid.appendChild(createNewsCard(article));
+            });
+        }
+
         // ===== دوال المشاركة =====
         function getShareText(article) {
             return article.title + ' - عراق دوت IRAQdot';
         }
-
         function getShareUrl() {
             return 'https://iraqdot.github.io';
         }
-
         function shareOnFacebook(article) {
-            const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`;
-            window.open(url, '_blank', 'width=600,height=500');
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank', 'width=600,height=500');
         }
-
         function shareOnTwitter(article) {
-            const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`;
-            window.open(url, '_blank', 'width=600,height=500');
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`, '_blank', 'width=600,height=500');
         }
-
         function shareOnWhatsApp(article) {
-            const url = `https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`;
-            window.open(url, '_blank', 'width=600,height=500');
+            window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`, '_blank', 'width=600,height=500');
+        }
+        function shareOnTelegram(article) {
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank', 'width=600,height=500');
+        }
+        function copyLink() {
+            navigator.clipboard.writeText(getShareUrl()).then(() => {
+                alert('✅ تم نسخ الرابط بنجاح!');
+            });
         }
 
-        function shareOnTelegram(article) {
-            const url = `https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`;
-            window.open(url, '_blank', 'width=600,height=500');
+        // ===== أخبار ذات صلة =====
+        function showRelatedNews(article) {
+            const related = allNewsData.filter(item => 
+                item.category === article.category && item.id !== article.id
+            ).slice(0, 3);
+            
+            const container = document.getElementById('relatedNews');
+            const grid = document.getElementById('relatedGrid');
+            
+            if (related.length > 0) {
+                container.style.display = 'block';
+                grid.innerHTML = '';
+                related.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'related-item';
+                    div.innerHTML = `<span class="r-title">${item.title}</span>`;
+                    div.addEventListener('click', () => {
+                        closeModal();
+                        setTimeout(() => openModal(item), 300);
+                    });
+                    grid.appendChild(div);
+                });
+            } else {
+                container.style.display = 'none';
+            }
         }
 
         // ===== اللوحة المنبثقة =====
@@ -711,6 +671,7 @@
             if (article.city) metaHtml += `<span>🏙️ ${article.city}</span>`;
             if (article.date) metaHtml += `<span>📅 ${article.date}</span>`;
             if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
+            if (article.views) metaHtml += `<span>👁️ ${article.views} مشاهدة</span>`;
             document.getElementById('modalMeta').innerHTML = metaHtml;
             
             const modalImage = document.getElementById('modalImage');
@@ -727,6 +688,9 @@
             document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
             document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
             document.getElementById('shareTg').onclick = () => shareOnTelegram(article);
+            document.getElementById('shareCopy').onclick = copyLink;
+            
+            showRelatedNews(article);
             
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -751,15 +715,12 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        // ===== تغيير ظل الترويسة عند التمرير =====
+        // ===== تغيير ظل الترويسة =====
         function headerShadowOnScroll() {
             const header = document.getElementById('topHeader');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
+                if (window.scrollY > 50) header.classList.add('scrolled');
+                else header.classList.remove('scrolled');
             });
         }
 
@@ -769,24 +730,29 @@
             quickLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    // إزالة النشط من الكل وإضافته للرابط الحالي
                     quickLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
-                    
                     const targetId = this.getAttribute('href').substring(1);
                     const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
                 });
             });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            initDarkMode();
             renderNews();
             revealOnScroll();
             headerShadowOnScroll();
             handleQuickNav();
+            
+            // زر الوضع الداكن
+            document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
+            
+            // البحث
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchNews(this.value);
+            });
             
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
