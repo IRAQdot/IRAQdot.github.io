@@ -383,6 +383,22 @@
             document.getElementById('editor').focus();
         }
 
+        // ===== معالجة اللصق بدون تنسيق =====
+        document.getElementById('editor').addEventListener('paste', function(e) {
+            e.preventDefault();
+            
+            let text = '';
+            if (e.clipboardData && e.clipboardData.getData) {
+                text = e.clipboardData.getData('text/plain');
+            } else if (window.clipboardData && window.clipboardData.getData) {
+                text = window.clipboardData.getData('Text');
+            }
+            
+            if (text) {
+                document.execCommand('insertText', false, text);
+            }
+        });
+
         function insertImage() {
             const url = prompt('أدخل رابط الصورة:');
             if (url) document.execCommand('insertImage', false, url);
@@ -431,7 +447,6 @@
             };
 
             if (editingId) {
-                // تحديث خبر موجود
                 database.ref('news/' + editingId).update(newsData)
                     .then(() => {
                         alert('✅ تم تحديث الخبر بنجاح!');
@@ -439,7 +454,6 @@
                     })
                     .catch(error => alert('❌ خطأ: ' + error.message));
             } else {
-                // إضافة خبر جديد
                 database.ref('news').push(newsData)
                     .then(() => {
                         alert('✅ تم نشر الخبر بنجاح!');
@@ -456,7 +470,6 @@
             document.getElementById('editingId').value = id;
             document.getElementById('formTitle').textContent = '✏️ تعديل الخبر';
             
-            // اختيار القسم
             document.querySelectorAll('.cat-btn').forEach(b => {
                 b.classList.remove('active');
                 if (b.dataset.cat === article.category) {
