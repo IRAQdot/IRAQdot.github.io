@@ -68,7 +68,6 @@
             height: 80px;
         }
 
-        /* ===== تنسيق اللوغو في الشريط العلوي ===== */
         .logo a {
             display: flex;
             align-items: center;
@@ -166,70 +165,35 @@
             100% { transform: translateX(-100%); }
         }
 
-        /* ===== قسم الواجهة الرئيسية مع الصورة ===== */
-        .hero-news {
-            position: relative;
-            background: url('1787665502863.png') no-repeat center center;
-            background-size: cover;
-            min-height: 650px;
-            display: flex;
-            align-items: center;
+        /* ===== صورة الواجهة (بدون أي نص فوقها) ===== */
+        .hero-image {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            max-height: 550px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ===== الوصف تحت الصورة ===== */
+        .site-description {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            text-align: center;
+            padding: 30px 20px;
             margin-bottom: 40px;
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.55);
-            display: flex;
-            align-items: center;
-            width: 100%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            color: #fff;
-            padding: 40px 20px;
-        }
-
-        .hero-content h2 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            line-height: 1.3;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            opacity: 0.95;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-        }
-
-        .btn {
-            display: inline-block;
-            background: #fff;
-            color: #212529;
-            padding: 14px 35px;
-            border-radius: 40px;
+        .site-description p {
+            font-size: 1.5rem;
             font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #0d6efd;
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
         }
 
         /* ===== أقسام الأخبار ===== */
@@ -401,15 +365,11 @@
                 display: block;
             }
 
-            .hero-news {
-                min-height: 400px;
+            .hero-image img {
+                max-height: 300px;
             }
 
-            .hero-content h2 {
-                font-size: 2rem;
-            }
-
-            .hero-content p {
+            .site-description p {
                 font-size: 1.1rem;
             }
 
@@ -457,18 +417,15 @@
         </div>
     </div>
 
-    <!-- القسم الرئيسي: صورة الواجهة -->
-    <section class="hero-news" id="home">
-        <div class="hero-overlay">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>عراق دوت IRAQdot</h2>
-                    <p>موقعك الإخباري المحلي والعالمي</p>
-                    <a href="#politics" class="btn">تصفح الأخبار</a>
-                </div>
-            </div>
-        </div>
+    <!-- صورة الواجهة -->
+    <section class="hero-image" id="home">
+        <img src="1787665502863.png" alt="عراق دوت IRAQdot">
     </section>
+
+    <!-- الوصف تحت الصورة -->
+    <div class="site-description">
+        <p>نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية</p>
+    </div>
 
     <!-- محتوى الأخبار حسب الأقسام -->
     <main class="container">
