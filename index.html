@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO: العنوان والوصف -->
+    <!-- SEO -->
     <title>عراق دوت IRAQdot | أخبار محلية وعالمية</title>
     <meta name="description" content="عراق دوت - نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية. أخبار سياسية، مجتمعية، اقتصادية، أدبية، رياضية، تكنولوجية وصحية.">
     <meta name="keywords" content="عراق دوت, IRAQdot, أخبار العراق, أخبار محلية, أخبار عالمية, سياسة, مجتمع, اقتصاد, أدب, رياضة, تكنولوجيا, صحة, منوعات, أخبار عاجلة">
     <meta name="author" content="عراق دوت IRAQdot">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Arabic">
-    <meta name="revisit-after" content="1 day">
     <meta name="theme-color" content="#0d6efd">
     <link rel="canonical" href="https://iraqdot.github.io/">
     
-    <!-- Open Graph للمشاركة على فيسبوك وواتساب -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="عراق دوت IRAQdot | أخبار محلية وعالمية">
-    <meta property="og:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية. تابع آخر الأخبار في السياسة والمجتمع والاقتصاد والأدب والرياضة والتكنولوجيا والصحة.">
+    <meta property="og:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
     <meta property="og:url" content="https://iraqdot.github.io">
     <meta property="og:image" content="https://iraqdot.github.io/1787665502863.png">
     <meta property="og:locale" content="ar_AR">
@@ -30,7 +29,7 @@
     <meta name="twitter:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
     <meta name="twitter:image" content="https://iraqdot.github.io/1787665502863.png">
     
-    <!-- البيانات المنظمة Schema.org للموقع الإخباري -->
+    <!-- Schema.org -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -38,12 +37,11 @@
         "name": "عراق دوت IRAQdot",
         "url": "https://iraqdot.github.io",
         "logo": "https://iraqdot.github.io/1787665502863.png",
-        "description": "موقع إخباري محلي وعالمي يغطي جميع الأحداث",
-        "sameAs": []
+        "description": "موقع إخباري محلي وعالمي يغطي جميع الأحداث"
     }
     </script>
     
-    <!-- خط Cairo من Google Fonts -->
+    <!-- خط Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -66,16 +64,8 @@
             --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-family);
             background-color: #f0f2f5;
@@ -83,359 +73,88 @@
             line-height: 1.7;
             font-size: 16px;
         }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        .container {
-            width: 92%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
+        .container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
         .top-header {
             background: #ffffff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .header-flex { display: flex; align-items: center; justify-content: space-between; height: 80px; }
+        .logo a { display: flex; align-items: center; gap: 8px; font-size: 1.8rem; font-weight: 900; color: #212529; }
+        .logo a .dot-word { color: #0d6efd; font-size: 1.3rem; }
+        .logo a .english-name { font-size: 0.7rem; font-weight: 600; color: #0d6efd; letter-spacing: 2px; margin-top: 10px; display: block; }
+        .logo a:hover { opacity: 0.85; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 10px; }
+        .main-nav ul li a { padding: 8px 15px; border-radius: 30px; font-weight: 700; color: #444; transition: all 0.3s ease; font-size: 0.95rem; }
+        .main-nav ul li a:hover, .main-nav ul li a.active { background: #0d6efd; color: #fff; }
+        .nav-toggle { display: none; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: #212529; }
+
+        .breaking-news { background: #212529; color: #fff; padding: 10px 0; overflow: hidden; }
+        .breaking-news .container { display: flex; align-items: center; gap: 15px; }
+        .breaking-label { background: #dc3545; padding: 4px 15px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; white-space: nowrap; animation: blink 1s infinite; }
+        .breaking-ticker { flex: 1; overflow: hidden; white-space: nowrap; }
+        .breaking-ticker p { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; font-weight: 600; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        .hero-image { width: 100%; margin-bottom: 0; }
+        .hero-image img { width: 100%; height: auto; max-height: 550px; object-fit: cover; display: block; }
+
+        .site-description { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; text-align: center; padding: 35px 20px; margin-bottom: 40px; }
+        .site-description p { font-size: 1.6rem; font-weight: 800; max-width: 700px; margin: 0 auto; line-height: 1.8; }
+
+        .news-section { margin-bottom: 50px; }
+        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: #212529; border-right: 5px solid #0d6efd; padding-right: 15px; }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+
+        .news-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; display: flex; flex-direction: column; }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .news-card img { width: 100%; height: 180px; object-fit: cover; }
+        .news-card .card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+        .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
+        .news-card .card-body h4 a { color: #212529; }
+        .news-card .card-body h4 a:hover { color: #0d6efd; }
+        .news-card .card-body p { color: #666; font-size: 0.95rem; flex: 1; }
+        .news-card .card-body .meta { margin-top: 15px; font-size: 0.85rem; color: #999; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+
+        .badge-urgent {
+            background: #dc3545; color: #fff; font-size: 0.7rem;
+            padding: 3px 10px; border-radius: 20px; display: inline-block;
+            margin-left: 5px; animation: blink 1s infinite;
         }
 
-        .header-flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 80px;
-        }
+        footer { background: #212529; color: #ccc; padding: 30px 0; margin-top: 40px; }
+        .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .footer-flex nav a { margin-left: 20px; color: #ccc; }
+        .footer-flex nav a:hover { color: #fff; }
 
-        .logo a {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #212529;
-            transition: all 0.3s ease;
-        }
-
-        .logo a .dot-word {
-            color: #0d6efd;
-            font-size: 1.3rem;
-        }
-
-        .logo a .english-name {
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #0d6efd;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            display: block;
-        }
-
-        .logo a:hover {
-            opacity: 0.85;
-        }
-
-        .main-nav ul {
-            display: flex;
-            list-style: none;
-            gap: 10px;
-        }
-
-        .main-nav ul li a {
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-weight: 700;
-            color: #444;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        .main-nav ul li a:hover,
-        .main-nav ul li a.active {
-            background: #0d6efd;
-            color: #fff;
-        }
-
-        .nav-toggle {
-            display: none;
-            font-size: 1.8rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #212529;
-        }
-
-        .breaking-news {
-            background: #212529;
-            color: #fff;
-            padding: 10px 0;
-            overflow: hidden;
-        }
-
-        .breaking-news .container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .breaking-label {
-            background: #dc3545;
-            padding: 4px 15px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .breaking-ticker {
-            flex: 1;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .breaking-ticker p {
-            display: inline-block;
-            padding-left: 100%;
-            animation: ticker 25s linear infinite;
-            font-weight: 600;
-        }
-
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        .hero-image {
-            width: 100%;
-            margin-bottom: 0;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            max-height: 550px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .site-description {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-            text-align: center;
-            padding: 35px 20px;
-            margin-bottom: 40px;
-        }
-
-        .site-description p {
-            font-size: 1.6rem;
-            font-weight: 800;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .news-section {
-            margin-bottom: 50px;
-        }
-
-        .section-title {
-            font-size: 1.7rem;
-            font-weight: 900;
-            margin-bottom: 25px;
-            color: #212529;
-            border-right: 5px solid #0d6efd;
-            padding-right: 15px;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .news-card {
-            background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .news-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
-
-        .news-card .card-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .news-card .card-body h4 {
-            font-size: 1.15rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .news-card .card-body h4 a {
-            color: #212529;
-            transition: all 0.3s ease;
-        }
-
-        .news-card .card-body h4 a:hover {
-            color: #0d6efd;
-        }
-
-        .news-card .card-body p {
-            color: #666;
-            font-size: 0.95rem;
-            flex: 1;
-            font-weight: 400;
-        }
-
-        .news-card .card-body .meta {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: #999;
-            display: flex;
-            justify-content: space-between;
-            font-weight: 600;
-        }
-
-        footer {
-            background: #212529;
-            color: #ccc;
-            padding: 30px 0;
-            margin-top: 40px;
-        }
-
-        .footer-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .footer-flex nav a {
-            margin-left: 20px;
-            color: #ccc;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .footer-flex nav a:hover {
-            color: #fff;
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #0d6efd;
-            color: #fff;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: none;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-            transition: all 0.3s ease;
-            z-index: 999;
-        }
-
-        .back-to-top:hover {
-            background: #0a58ca;
-            transform: translateY(-3px);
-        }
-
-        .back-to-top.show {
-            display: block;
-        }
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; background: #0d6efd; color: #fff; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: none; box-shadow: 0 3px 10px rgba(0,0,0,0.3); z-index: 999; }
+        .back-to-top.show { display: block; }
 
         @media (max-width: 768px) {
-            .header-flex {
-                height: auto;
-                padding: 15px 0;
-                flex-wrap: wrap;
-            }
-
-            .logo a {
-                font-size: 1.5rem;
-            }
-
-            .main-nav {
-                display: none;
-                width: 100%;
-                order: 3;
-            }
-
-            .main-nav.open {
-                display: block;
-            }
-
-            .main-nav ul {
-                flex-direction: column;
-                align-items: center;
-                gap: 5px;
-                padding: 15px 0;
-            }
-
-            .main-nav ul li a {
-                display: block;
-                width: 100%;
-                text-align: center;
-            }
-
-            .nav-toggle {
-                display: block;
-            }
-
-            .hero-image img {
-                max-height: 300px;
-            }
-
-            .site-description p {
-                font-size: 1.2rem;
-            }
-
-            .news-grid {
-                grid-template-columns: 1fr;
-            }
+            .header-flex { height: auto; padding: 15px 0; flex-wrap: wrap; }
+            .logo a { font-size: 1.5rem; }
+            .main-nav { display: none; width: 100%; order: 3; }
+            .main-nav.open { display: block; }
+            .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
+            .nav-toggle { display: block; }
+            .hero-image img { max-height: 300px; }
+            .site-description p { font-size: 1.2rem; }
+            .news-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- شريط التنقل العلوي -->
     <header class="top-header">
         <div class="container header-flex">
             <div class="logo">
                 <a href="https://iraqdot.github.io" title="العودة للرئيسية">
-                    عراق
-                    <span class="dot-word">دوت</span>
-                    <span class="english-name">IRAQdot</span>
+                    عراق<span class="dot-word">دوت</span><span class="english-name">IRAQdot</span>
                 </a>
             </div>
             <nav class="main-nav" id="mainNav">
@@ -451,75 +170,56 @@
                     <li><a href="#misc">منوعات</a></li>
                 </ul>
             </nav>
-            <button class="nav-toggle" id="navToggle" aria-label="القائمة">☰</button>
+            <button class="nav-toggle" id="navToggle">☰</button>
         </div>
     </header>
 
-    <!-- شريط الأخبار العاجلة -->
     <div class="breaking-news">
         <div class="container">
             <span class="breaking-label">عاجل</span>
             <div class="breaking-ticker" id="breakingTicker">
-                <p>أخبار عاجلة: انطلاق مؤتمر اقتصادي كبير في العاصمة.. منتخب الشباب يحقق فوزًا ثمينًا.. اكتشاف علاج جديد لمرض مزمن.</p>
+                <p id="tickerText">لا توجد أخبار عاجلة حاليًا.</p>
             </div>
         </div>
     </div>
 
-    <!-- صورة الواجهة -->
     <section class="hero-image" id="home">
         <img src="1787665502863.png" alt="عراق دوت IRAQdot - أخبار محلية وعالمية">
     </section>
 
-    <!-- الوصف تحت الصورة -->
     <div class="site-description">
         <p>نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية</p>
     </div>
 
-    <!-- محتوى الأخبار حسب الأقسام -->
     <main class="container">
-        <!-- قسم سياسة -->
         <section class="news-section" id="politics">
             <h3 class="section-title">📰 سياسة</h3>
             <div class="news-grid" id="politics-news"></div>
         </section>
-
-        <!-- قسم مجتمع -->
         <section class="news-section" id="society">
             <h3 class="section-title">👥 مجتمع</h3>
             <div class="news-grid" id="society-news"></div>
         </section>
-
-        <!-- قسم اقتصاد -->
         <section class="news-section" id="economy">
             <h3 class="section-title">💰 اقتصاد</h3>
             <div class="news-grid" id="economy-news"></div>
         </section>
-
-        <!-- قسم أدب -->
         <section class="news-section" id="literature">
             <h3 class="section-title">📚 أدب</h3>
             <div class="news-grid" id="literature-news"></div>
         </section>
-
-        <!-- قسم رياضة -->
         <section class="news-section" id="sports">
             <h3 class="section-title">⚽ رياضة</h3>
             <div class="news-grid" id="sports-news"></div>
         </section>
-
-        <!-- قسم تكنولوجيا -->
         <section class="news-section" id="tech">
             <h3 class="section-title">💻 تكنولوجيا</h3>
             <div class="news-grid" id="tech-news"></div>
         </section>
-
-        <!-- قسم صحة -->
         <section class="news-section" id="health">
             <h3 class="section-title">🩺 صحة</h3>
             <div class="news-grid" id="health-news"></div>
         </section>
-
-        <!-- قسم منوعات -->
         <section class="news-section" id="misc">
             <h3 class="section-title">🎭 منوعات</h3>
             <div class="news-grid" id="misc-news"></div>
@@ -537,10 +237,10 @@
         </div>
     </footer>
 
-    <button class="back-to-top" id="backToTop" aria-label="العودة للأعلى">↑</button>
+    <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // ===== إعدادات Firebase الخاصة بك =====
+        // ===== إعدادات Firebase =====
         const firebaseConfig = {
             apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
             authDomain: "iraqdot-news.firebaseapp.com",
@@ -552,33 +252,47 @@
             measurementId: "G-M236VH0P44"
         };
 
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ===== عرض الأخبار من Firebase =====
+        const categories = ['politics', 'society', 'economy', 'literature', 'sports', 'tech', 'health', 'misc'];
+
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 const allNews = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
                 
                 // تفريغ الأقسام
-                document.querySelectorAll('.news-grid').forEach(grid => grid.innerHTML = '');
+                categories.forEach(cat => {
+                    const grid = document.getElementById(cat + '-news');
+                    if (grid) grid.innerHTML = '';
+                });
+
+                // تحديث الشريط المتحرك
+                updateTicker(allNews);
                 
-                // تصنيف الأخبار حسب القسم
-                const categories = ['politics', 'society', 'economy', 'literature', 'sports', 'tech', 'health', 'misc'];
+                // تصنيف الأخبار
                 categories.forEach(cat => {
                     const filtered = allNews.filter(item => item.category === cat);
                     const grid = document.getElementById(cat + '-news');
                     if (grid && filtered.length > 0) {
-                        filtered.forEach(article => {
-                            grid.appendChild(createNewsCard(article));
-                        });
+                        filtered.forEach(article => grid.appendChild(createNewsCard(article)));
                     } else if (grid) {
                         grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
                     }
                 });
             });
+        }
+
+        function updateTicker(allNews) {
+            const breakingNews = allNews.filter(item => item.isBreaking && item.breakingText);
+            const tickerElement = document.getElementById('tickerText');
+            if (breakingNews.length > 0) {
+                const texts = breakingNews.map(item => item.breakingText).join('  •  ');
+                tickerElement.textContent = texts;
+            } else {
+                tickerElement.textContent = 'لا توجد أخبار عاجلة حاليًا.';
+            }
         }
 
         function createNewsCard(article) {
@@ -589,50 +303,47 @@
                 ? article.cover 
                 : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
             
+            const urgentBadge = article.isBreaking 
+                ? '<span class="badge-urgent">عاجل</span>' 
+                : '';
+            
+            const location = article.country || article.city 
+                ? `📍 ${article.country || ''} ${article.city ? '- ' + article.city : ''}` 
+                : '';
+            const time = article.date || article.time 
+                ? `🕐 ${article.date || ''} ${article.time || ''}` 
+                : '';
+
             card.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}" loading="lazy">
                 <div class="card-body">
-                    <h4><a href="#">${article.title}</a></h4>
+                    <h4>${urgentBadge} <a href="#">${article.title}</a></h4>
                     <p>${article.summary || ''}</p>
                     <div class="meta">
-                        <span>📅 ${article.date || ''}</span>
-                        <span>⏱️ 5 دقائق قراءة</span>
+                        <span>${location}</span>
+                        <span>${time}</span>
                     </div>
                 </div>
             `;
             return card;
         }
 
-        // ===== تفعيل القائمة والزر العلوي =====
         document.addEventListener('DOMContentLoaded', function() {
-            // تشغيل عرض الأخبار
             renderNews();
             
-            // قائمة الجوال
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
-            navToggle.addEventListener('click', function() {
-                mainNav.classList.toggle('open');
-            });
+            navToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
 
-            // زر العودة للأعلى
             const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', function() {
-                if (window.scrollY > 300) {
-                    backToTop.classList.add('show');
-                } else {
-                    backToTop.classList.remove('show');
-                }
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) backToTop.classList.add('show');
+                else backToTop.classList.remove('show');
             });
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-            // إغلاق القائمة عند الضغط على رابط
             document.querySelectorAll('.main-nav a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mainNav.classList.remove('open');
-                });
+                link.addEventListener('click', () => mainNav.classList.remove('open'));
             });
         });
     </script>
