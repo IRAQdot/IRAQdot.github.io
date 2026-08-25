@@ -23,39 +23,25 @@
             --warning: #ffc107;
             --font: 'Cairo', sans-serif;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: var(--font);
-            background: #f0f2f5;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        body { font-family: var(--font); background: #f0f2f5; min-height: 100vh; padding: 20px; }
 
         .login-box {
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 50px 40px;
-            text-align: center;
-            max-width: 450px;
-            margin: 80px auto;
+            background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 50px 40px; text-align: center; max-width: 450px; margin: 80px auto;
         }
         .login-box h2 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
         .login-box .sub { color: #666; margin-bottom: 30px; }
         .login-box input {
-            width: 100%; padding: 15px; border: 2px solid #ddd;
-            border-radius: 12px; font-size: 1.1rem; text-align: center;
-            font-family: inherit; margin-bottom: 20px; direction: ltr;
-            transition: all 0.3s;
+            width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px;
+            font-size: 1.1rem; text-align: center; font-family: inherit;
+            margin-bottom: 20px; direction: ltr; transition: all 0.3s;
         }
         .login-box input:focus { border-color: var(--primary); outline: none; }
         .login-box button {
-            width: 100%; padding: 15px; background: var(--primary);
-            color: #fff; border: none; border-radius: 12px;
-            font-size: 1.2rem; font-weight: 800; cursor: pointer;
-            font-family: inherit; transition: all 0.3s;
+            width: 100%; padding: 15px; background: var(--primary); color: #fff;
+            border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 800;
+            cursor: pointer; font-family: inherit; transition: all 0.3s;
         }
         .login-box button:hover { background: var(--primary-dark); }
         .error { color: var(--danger); margin-top: 15px; display: none; font-weight: 700; }
@@ -121,9 +107,7 @@
             display: flex; align-items: center; gap: 10px;
             background: #f8f9fa; padding: 15px; border-radius: 10px;
         }
-        .checkbox-group input[type="checkbox"] {
-            width: 20px; height: 20px; cursor: pointer;
-        }
+        .checkbox-group input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
         .checkbox-group label { margin: 0; cursor: pointer; }
 
         .toolbar {
@@ -187,15 +171,8 @@
         }
         .btn-submit:hover { background: #146c43; }
 
-        .loading {
-            text-align: center; padding: 20px; color: #666; font-weight: 700;
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
+        .loading { text-align: center; padding: 20px; color: #666; font-weight: 700; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
         @media (max-width: 900px) {
             .content-grid { grid-template-columns: 1fr; }
@@ -236,9 +213,10 @@
         </div>
 
         <div class="content-grid">
-            <!-- ===== إضافة خبر ===== -->
+            <!-- ===== إضافة / تعديل خبر ===== -->
             <div class="panel">
-                <h3>✍️ إضافة خبر جديد</h3>
+                <h3 id="formTitle">✍️ إضافة خبر جديد</h3>
+                <input type="hidden" id="editingId" value="">
                 
                 <div class="form-group">
                     <label>اختر القسم:</label>
@@ -289,7 +267,6 @@
                     </div>
                 </div>
 
-                <!-- ===== حقل الخبر العاجل ===== -->
                 <div class="form-group">
                     <div class="checkbox-group">
                         <input type="checkbox" id="isBreaking" onchange="toggleBreakingFields()">
@@ -302,7 +279,6 @@
                     <input type="text" id="breakingText" placeholder="مثال: انفجار في وسط بغداد.. القوات الأمنية تطوق المنطقة">
                 </div>
 
-                <!-- ===== معلومات الموقع والوقت ===== -->
                 <div class="form-group">
                     <label>الدولة:</label>
                     <input type="text" id="country" placeholder="مثال: العراق">
@@ -321,6 +297,7 @@
                 </div>
 
                 <button class="btn-submit" onclick="submitNews()">🚀 نشر الخبر</button>
+                <button class="btn-submit" style="background:#6c757d; margin-top:10px; display:none;" id="cancelEditBtn" onclick="cancelEdit()">إلغاء التعديل</button>
             </div>
 
             <!-- ===== قائمة الأخبار ===== -->
@@ -334,7 +311,7 @@
     </div>
 
     <script>
-        // ===== إعدادات Firebase الخاصة بك =====
+        // ===== إعدادات Firebase =====
         const firebaseConfig = {
             apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
             authDomain: "iraqdot-news.firebaseapp.com",
@@ -346,23 +323,18 @@
             measurementId: "G-M236VH0P44"
         };
 
-        // تهيئة Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // ===== إعدادات =====
         const VALID_TOKEN = 'iraqdot2025';
         let selectedCat = 'politics';
         let allNews = [];
 
-        // ===== الاستماع للتغييرات في قاعدة البيانات =====
+        // ===== الاستماع للتغييرات =====
         database.ref('news').on('value', function(snapshot) {
             const data = snapshot.val();
             if (data) {
-                allNews = Object.keys(data).map(key => ({
-                    id: key,
-                    ...data[key]
-                }));
+                allNews = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             } else {
                 allNews = [];
             }
@@ -375,14 +347,12 @@
             document.getElementById('dbStatus').style.color = '#dc3545';
         });
 
-        // ===== تسجيل الدخول =====
         function login() {
             const t = document.getElementById('tokenInput').value.trim();
             if (t === VALID_TOKEN) {
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
                 sessionStorage.setItem('iraqdot_admin', 'yes');
-                // تعيين تاريخ اليوم افتراضيًا
                 document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
                 document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
             } else {
@@ -430,6 +400,7 @@
         }
 
         function submitNews() {
+            const editingId = document.getElementById('editingId').value;
             const title = document.getElementById('newsTitle').value.trim();
             const summary = document.getElementById('newsSummary').value.trim();
             const content = document.getElementById('editor').innerHTML;
@@ -444,7 +415,7 @@
             if (!title) { alert('أدخل عنوان الخبر'); return; }
             if (!summary) { alert('أدخل ملخص الخبر'); return; }
 
-            const newNews = {
+            const newsData = {
                 category: selectedCat,
                 title: title,
                 summary: summary,
@@ -459,22 +430,82 @@
                 createdAt: new Date().toISOString()
             };
 
-            database.ref('news').push(newNews)
-                .then(() => {
-                    document.getElementById('newsTitle').value = '';
-                    document.getElementById('newsSummary').value = '';
-                    document.getElementById('editor').innerHTML = '';
-                    document.getElementById('coverImage').value = '';
-                    document.getElementById('isBreaking').checked = false;
-                    document.getElementById('breakingText').value = '';
-                    document.getElementById('breakingTextGroup').style.display = 'none';
-                    document.getElementById('country').value = '';
-                    document.getElementById('city').value = '';
-                    alert('✅ تم نشر الخبر بنجاح!');
-                })
-                .catch(error => {
-                    alert('❌ خطأ في النشر: ' + error.message);
-                });
+            if (editingId) {
+                // تحديث خبر موجود
+                database.ref('news/' + editingId).update(newsData)
+                    .then(() => {
+                        alert('✅ تم تحديث الخبر بنجاح!');
+                        resetForm();
+                    })
+                    .catch(error => alert('❌ خطأ: ' + error.message));
+            } else {
+                // إضافة خبر جديد
+                database.ref('news').push(newsData)
+                    .then(() => {
+                        alert('✅ تم نشر الخبر بنجاح!');
+                        resetForm();
+                    })
+                    .catch(error => alert('❌ خطأ: ' + error.message));
+            }
+        }
+
+        function editNews(id) {
+            const article = allNews.find(n => n.id === id);
+            if (!article) return;
+            
+            document.getElementById('editingId').value = id;
+            document.getElementById('formTitle').textContent = '✏️ تعديل الخبر';
+            
+            // اختيار القسم
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.remove('active');
+                if (b.dataset.cat === article.category) {
+                    b.classList.add('active');
+                    selectedCat = article.category;
+                }
+            });
+            
+            document.getElementById('newsTitle').value = article.title || '';
+            document.getElementById('newsSummary').value = article.summary || '';
+            document.getElementById('editor').innerHTML = article.content || '';
+            document.getElementById('coverImage').value = article.cover || '';
+            document.getElementById('isBreaking').checked = article.isBreaking || false;
+            document.getElementById('breakingText').value = article.breakingText || '';
+            toggleBreakingFields();
+            document.getElementById('country').value = article.country || '';
+            document.getElementById('city').value = article.city || '';
+            document.getElementById('publishDate').value = article.date || '';
+            document.getElementById('publishTime').value = article.time || '';
+            
+            document.getElementById('cancelEditBtn').style.display = 'block';
+            document.querySelector('.panel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById('editingId').value = '';
+            document.getElementById('formTitle').textContent = '✍️ إضافة خبر جديد';
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsSummary').value = '';
+            document.getElementById('editor').innerHTML = '';
+            document.getElementById('coverImage').value = '';
+            document.getElementById('isBreaking').checked = false;
+            document.getElementById('breakingText').value = '';
+            document.getElementById('breakingTextGroup').style.display = 'none';
+            document.getElementById('country').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+        }
+
+        function deleteNews(id) {
+            if (confirm('حذف هذا الخبر؟')) {
+                database.ref('news/' + id).remove()
+                    .then(() => alert('✅ تم الحذف بنجاح'))
+                    .catch(error => alert('❌ خطأ: ' + error.message));
+            }
         }
 
         function renderList() {
@@ -501,6 +532,7 @@
                             <small style="display:block;color:#999;margin-top:3px;">${item.country || ''} ${item.city ? '- ' + item.city : ''} | ${item.date} ${item.time}</small>
                         </div>
                         <div class="actions">
+                            <button class="btn-edit" onclick="editNews('${item.id}')">تعديل</button>
                             <button class="btn-del" onclick="deleteNews('${item.id}')">حذف</button>
                         </div>
                     </li>
@@ -510,21 +542,12 @@
             container.innerHTML = html;
         }
 
-        function deleteNews(id) {
-            if (confirm('حذف هذا الخبر؟')) {
-                database.ref('news/' + id).remove()
-                    .then(() => alert('✅ تم الحذف بنجاح'))
-                    .catch(error => alert('❌ خطأ: ' + error.message));
-            }
-        }
-
         function updateStats() {
             document.getElementById('totalNews').textContent = allNews.length;
             const cats = new Set(allNews.map(n => n.category));
             document.getElementById('totalCats').textContent = cats.size;
         }
 
-        // التحقق من الجلسة
         if (sessionStorage.getItem('iraqdot_admin') === 'yes') {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
