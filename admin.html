@@ -7,190 +7,316 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #0d6efd;
+            --primary-dark: #0a58ca;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --white: #fff;
+            --danger: #dc3545;
+            --success: #198754;
+            --warning: #ffc107;
+            --font: 'Cairo', sans-serif;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: var(--font);
             background: #f0f2f5;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
-        
+
+        /* شاشة الدخول */
         .login-box {
             background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
-            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 50px 40px;
             text-align: center;
-            max-width: 400px;
-            width: 100%;
+            max-width: 450px;
+            margin: 80px auto;
         }
-        
-        .login-box h2 { margin-bottom: 10px; color: #212529; }
-        .login-box .sub { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
-        
+        .login-box h2 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
+        .login-box .sub { color: #666; margin-bottom: 30px; }
         .login-box input {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             text-align: center;
-            margin-bottom: 15px;
             font-family: inherit;
+            margin-bottom: 20px;
             direction: ltr;
+            transition: all 0.3s;
         }
-        
+        .login-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(13,110,253,0.1);
+            outline: none;
+        }
         .login-box button {
             width: 100%;
-            padding: 14px;
-            background: #0d6efd;
+            padding: 15px;
+            background: var(--primary);
             color: #fff;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 800;
             cursor: pointer;
             font-family: inherit;
+            transition: all 0.3s;
         }
-        
-        .login-box button:hover { background: #0a58ca; }
-        
-        .error {
-            color: #dc3545;
-            margin-top: 15px;
-            display: none;
-            font-weight: 700;
-        }
-        
+        .login-box button:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .error { color: var(--danger); margin-top: 15px; display: none; font-weight: 700; }
+
+        /* لوحة التحكم */
         .dashboard {
             display: none;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
-            padding: 30px;
-            max-width: 700px;
-            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .dashboard h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #212529;
-        }
-        
-        .stats {
+
+        .dash-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            border-radius: 20px;
+            padding: 25px 30px;
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
-        
-        .stat {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            flex: 1;
-            min-width: 120px;
-        }
-        
-        .stat .num {
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: #0d6efd;
-        }
-        
-        .stat .lbl {
-            font-size: 0.85rem;
-            color: #666;
-            font-weight: 600;
-        }
-        
-        .btns {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .btns button {
-            padding: 10px 20px;
-            border: none;
+        .dash-header h1 { font-size: 1.5rem; font-weight: 900; }
+        .logout-btn {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 25px;
             border-radius: 30px;
             cursor: pointer;
             font-family: inherit;
             font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover { background: rgba(255,255,255,0.3); }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+        .stat-card .num { font-size: 2.2rem; font-weight: 900; color: var(--primary); }
+        .stat-card .lbl { color: #666; font-weight: 600; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+        .panel h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 20px; }
+
+        /* أزرار الأقسام */
+        .cat-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .cat-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            background: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
             font-size: 0.9rem;
+            transition: all 0.3s;
         }
-        
-        .btn-add { background: #198754; color: #fff; }
-        .btn-add:hover { background: #146c43; }
-        
-        .btn-refresh { background: #0d6efd; color: #fff; }
-        .btn-refresh:hover { background: #0a58ca; }
-        
-        .btn-logout { background: #dc3545; color: #fff; }
-        .btn-logout:hover { background: #bb2d3b; }
-        
-        .news-list {
-            margin-top: 25px;
-            list-style: none;
+        .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .cat-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
         }
-        
-        .news-item {
+
+        /* حقول الإدخال */
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        /* محرر النصوص */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 10px;
             background: #f8f9fa;
             border-radius: 10px;
+        }
+        .toolbar button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .toolbar button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        .editor {
+            min-height: 200px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1rem;
+            line-height: 1.7;
+            outline: none;
+            overflow-y: auto;
+        }
+        .editor:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13,110,253,0.1);
+        }
+        .editor img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        /* رفع الصور */
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(13,110,253,0.03);
+        }
+        .upload-area .icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .upload-area p { color: #666; }
+
+        /* قائمة الأخبار */
+        .news-list {
+            list-style: none;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .news-item {
+            background: #f8f9fa;
+            border-radius: 12px;
             padding: 15px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
-        
-        .news-item .title {
-            font-weight: 700;
-            flex: 1;
-        }
-        
-        .news-item .cat {
+        .news-item .info { flex: 1; }
+        .news-item .info h4 { font-weight: 800; margin-bottom: 5px; font-size: 1rem; }
+        .news-item .info .cat {
             font-size: 0.75rem;
-            background: #0d6efd;
+            background: var(--primary);
             color: #fff;
-            padding: 3px 10px;
+            padding: 3px 12px;
             border-radius: 20px;
+            display: inline-block;
         }
-        
-        .news-item .del {
-            background: #dc3545;
-            color: #fff;
+        .news-item .actions { display: flex; gap: 8px; }
+        .news-item .actions button {
             border: none;
-            padding: 5px 12px;
+            padding: 7px 14px;
             border-radius: 20px;
             cursor: pointer;
             font-family: inherit;
+            font-weight: 700;
             font-size: 0.8rem;
+            transition: all 0.2s;
         }
-        
-        .note {
-            margin-top: 20px;
-            background: #fff3cd;
-            color: #856404;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            text-align: center;
+        .btn-edit { background: var(--warning); color: #212529; }
+        .btn-edit:hover { background: #e0a800; }
+        .btn-del { background: var(--danger); color: #fff; }
+        .btn-del:hover { background: #bb2d3b; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: var(--success);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .btn-submit:hover { background: #146c43; transform: translateY(-2px); }
+
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول -->
+    <!-- ===== شاشة تسجيل الدخول ===== -->
     <div class="login-box" id="loginBox">
         <h2>🔐 لوحة التحكم</h2>
         <p class="sub">أدخل التوكن للوصول إلى الإدارة</p>
@@ -199,71 +325,111 @@
         <p class="error" id="errorMsg">❌ التوكن غير صحيح</p>
     </div>
 
-    <!-- لوحة التحكم -->
+    <!-- ===== لوحة التحكم ===== -->
     <div class="dashboard" id="dashboard">
-        <h2>📊 إدارة أخبار عراق دوت</h2>
-        
-        <div class="stats">
-            <div class="stat">
+
+        <div class="dash-header">
+            <h1>📊 لوحة تحكم عراق دوت IRAQdot</h1>
+            <button class="logout-btn" onclick="logout()">🚪 تسجيل الخروج</button>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
                 <div class="num" id="totalNews">0</div>
-                <div class="lbl">إجمالي الأخبار</div>
+                <div class="lbl">📰 إجمالي الأخبار</div>
             </div>
-            <div class="stat">
+            <div class="stat-card">
                 <div class="num" id="totalCats">0</div>
-                <div class="lbl">الأقسام</div>
+                <div class="lbl">📂 الأقسام</div>
+            </div>
+            <div class="stat-card">
+                <div class="num">🟢</div>
+                <div class="lbl">حالة الموقع</div>
             </div>
         </div>
-        
-        <div class="btns">
-            <button class="btn-add" onclick="addNews()">+ إضافة خبر</button>
-            <button class="btn-refresh" onclick="renderList()">🔄 تحديث</button>
-            <button class="btn-logout" onclick="logout()">🚪 خروج</button>
-        </div>
-        
-        <ul class="news-list" id="newsList"></ul>
-        
-        <div class="note">
-            ⚠️ ملاحظة: البيانات محفوظة في متصفحك فقط. لإظهارها للزوار، يجب تعديل ملف index.html يدويًا.
+
+        <div class="content-grid">
+            <!-- ===== إضافة خبر جديد ===== -->
+            <div class="panel">
+                <h3>✍️ إضافة خبر جديد</h3>
+                
+                <div class="form-group">
+                    <label>اختر القسم:</label>
+                    <div class="cat-buttons" id="catButtons">
+                        <button class="cat-btn active" data-cat="politics" onclick="selectCat(this)">سياسة</button>
+                        <button class="cat-btn" data-cat="society" onclick="selectCat(this)">مجتمع</button>
+                        <button class="cat-btn" data-cat="economy" onclick="selectCat(this)">اقتصاد</button>
+                        <button class="cat-btn" data-cat="literature" onclick="selectCat(this)">أدب</button>
+                        <button class="cat-btn" data-cat="sports" onclick="selectCat(this)">رياضة</button>
+                        <button class="cat-btn" data-cat="tech" onclick="selectCat(this)">تكنولوجيا</button>
+                        <button class="cat-btn" data-cat="health" onclick="selectCat(this)">صحة</button>
+                        <button class="cat-btn" data-cat="misc" onclick="selectCat(this)">منوعات</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>عنوان الخبر:</label>
+                    <input type="text" id="newsTitle" placeholder="اكتب العنوان هنا...">
+                </div>
+
+                <div class="form-group">
+                    <label>ملخص الخبر:</label>
+                    <textarea id="newsSummary" placeholder="اكتب ملخصًا موجزًا..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>محتوى الخبر الكامل:</label>
+                    <div class="toolbar">
+                        <button onclick="format('bold')" title="غامق"><b>B</b></button>
+                        <button onclick="format('italic')" title="مائل"><i>I</i></button>
+                        <button onclick="format('underline')" title="تحت خط"><u>U</u></button>
+                        <button onclick="format('insertUnorderedList')" title="قائمة">• قائمة</button>
+                        <button onclick="format('insertOrderedList')" title="قائمة مرقمة">1. قائمة</button>
+                        <button onclick="format('formatBlock', 'h3')" title="عنوان">عنوان</button>
+                        <button onclick="insertImage()" title="إدراج صورة">🖼️ صورة</button>
+                        <button onclick="format('insertHorizontalRule')" title="خط فاصل">—</button>
+                    </div>
+                    <div class="editor" id="editor" contenteditable="true" placeholder="اكتب محتوى الخبر هنا..."></div>
+                </div>
+
+                <div class="form-group">
+                    <label>صورة الغلاف (رابط أو رفع):</label>
+                    <input type="text" id="coverImage" placeholder="ضع رابط الصورة هنا..." style="margin-bottom:10px;">
+                    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                        <div class="icon">📤</div>
+                        <p>اضغط لرفع صورة من جهازك</p>
+                        <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="uploadImage()">
+                    </div>
+                </div>
+
+                <button class="btn-submit" onclick="submitNews()">🚀 نشر الخبر</button>
+            </div>
+
+            <!-- ===== قائمة الأخبار ===== -->
+            <div class="panel">
+                <h3>📋 الأخبار المنشورة</h3>
+                <ul class="news-list" id="newsList"></ul>
+            </div>
         </div>
     </div>
 
     <script>
-        // ===== التوكن =====
+        // ===== الإعدادات =====
         var VALID_TOKEN = 'iraqdot2025';
-        
+        var selectedCat = 'politics';
+
         // ===== بيانات الأخبار =====
         var newsData = JSON.parse(localStorage.getItem('iraqdot_news')) || {
-            politics: [
-                { title: 'اجتماع طارئ لمجلس الوزراء', summary: 'نقاش آخر التطورات', date: '2025-04-01' },
-                { title: 'البرلمان يناقش قانون الانتخابات', summary: 'جلسات مستمرة', date: '2025-04-02' }
-            ],
-            society: [
-                { title: 'حملة توعوية في المدارس', summary: 'مكافحة المخدرات', date: '2025-04-01' }
-            ],
-            economy: [
-                { title: 'ارتفاع أسعار النفط', summary: 'تأثير على الأسواق', date: '2025-04-01' }
-            ],
-            literature: [
-                { title: 'صدور رواية جديدة', summary: 'قضايا اجتماعية', date: '2025-04-01' }
-            ],
-            sports: [
-                { title: 'فوز المنتخب الوطني', summary: 'هدفين نظيفين', date: '2025-04-01' }
-            ],
-            tech: [
-                { title: 'مؤتمر الذكاء الاصطناعي', summary: 'تطبيقات جديدة', date: '2025-04-01' }
-            ],
-            health: [
-                { title: 'علاج جديد للسكري', summary: 'نتائج مبشرة', date: '2025-04-01' }
-            ],
-            misc: [
-                { title: 'ظاهرة فلكية نادرة', summary: 'تشاهد الليلة', date: '2025-04-01' }
-            ]
+            politics: [], society: [], economy: [], literature: [],
+            sports: [], tech: [], health: [], misc: []
         };
-        
+
+        // ===== حفظ البيانات =====
         function saveData() {
             localStorage.setItem('iraqdot_news', JSON.stringify(newsData));
         }
-        
+
+        // ===== تسجيل الدخول =====
         function login() {
             var t = document.getElementById('tokenInput').value.trim();
             if (t === VALID_TOKEN) {
@@ -276,14 +442,123 @@
                 document.getElementById('errorMsg').style.display = 'block';
             }
         }
-        
+
+        // ===== تسجيل الخروج =====
         function logout() {
             sessionStorage.removeItem('iraqdot_admin');
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loginBox').style.display = 'block';
-            document.getElementById('tokenInput').value = '';
         }
-        
+
+        // ===== اختيار القسم =====
+        function selectCat(btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedCat = btn.dataset.cat;
+        }
+
+        // ===== محرر النصوص =====
+        function format(cmd, val) {
+            document.execCommand(cmd, false, val || null);
+            document.getElementById('editor').focus();
+        }
+
+        function insertImage() {
+            var url = prompt('أدخل رابط الصورة:');
+            if (url) {
+                document.execCommand('insertImage', false, url);
+            }
+        }
+
+        // ===== رفع الصور =====
+        function uploadImage() {
+            var file = document.getElementById('fileInput').files[0];
+            if (!file) return;
+            
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('coverImage').value = e.target.result;
+                alert('✅ تم تحميل الصورة!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ===== نشر الخبر =====
+        function submitNews() {
+            var title = document.getElementById('newsTitle').value.trim();
+            var summary = document.getElementById('newsSummary').value.trim();
+            var content = document.getElementById('editor').innerHTML;
+            var cover = document.getElementById('coverImage').value.trim();
+
+            if (!title) { alert('أدخل عنوان الخبر'); return; }
+            if (!summary) { alert('أدخل ملخص الخبر'); return; }
+
+            newsData[selectedCat].push({
+                title: title,
+                summary: summary,
+                content: content,
+                cover: cover,
+                date: new Date().toISOString().split('T')[0]
+            });
+
+            saveData();
+            renderList();
+            updateStats();
+
+            // مسح الحقول
+            document.getElementById('newsTitle').value = '';
+            document.getElementById('newsSummary').value = '';
+            document.getElementById('editor').innerHTML = '';
+            document.getElementById('coverImage').value = '';
+
+            alert('✅ تم نشر الخبر بنجاح!');
+        }
+
+        // ===== عرض الأخبار =====
+        function renderList() {
+            var list = document.getElementById('newsList');
+            list.innerHTML = '';
+            
+            for (var cat in newsData) {
+                newsData[cat].forEach(function(article, idx) {
+                    var li = document.createElement('li');
+                    li.className = 'news-item';
+                    li.innerHTML = 
+                        '<div class="info">' +
+                            '<h4>' + article.title + '</h4>' +
+                            '<span class="cat">' + cat + '</span>' +
+                        '</div>' +
+                        '<div class="actions">' +
+                            '<button class="btn-edit" onclick="editNews(\'' + cat + '\', ' + idx + ')">تعديل</button>' +
+                            '<button class="btn-del" onclick="delNews(\'' + cat + '\', ' + idx + ')">حذف</button>' +
+                        '</div>';
+                    list.appendChild(li);
+                });
+            }
+        }
+
+        // ===== حذف خبر =====
+        function delNews(cat, idx) {
+            if (confirm('حذف هذا الخبر؟')) {
+                newsData[cat].splice(idx, 1);
+                saveData();
+                renderList();
+                updateStats();
+            }
+        }
+
+        // ===== تعديل خبر =====
+        function editNews(cat, idx) {
+            var a = newsData[cat][idx];
+            var title = prompt('عدّل العنوان:', a.title);
+            if (title) a.title = title;
+            var summary = prompt('عدّل الملخص:', a.summary);
+            if (summary) a.summary = summary;
+            saveData();
+            renderList();
+        }
+
+        // ===== تحديث الإحصائيات =====
         function updateStats() {
             var total = 0;
             var cats = 0;
@@ -294,53 +569,8 @@
             document.getElementById('totalNews').textContent = total;
             document.getElementById('totalCats').textContent = cats;
         }
-        
-        function renderList() {
-            var list = document.getElementById('newsList');
-            list.innerHTML = '';
-            for (var cat in newsData) {
-                newsData[cat].forEach(function(article, idx) {
-                    var li = document.createElement('li');
-                    li.className = 'news-item';
-                    li.innerHTML = 
-                        '<span class="cat">' + cat + '</span>' +
-                        '<span class="title">' + article.title + '</span>' +
-                        '<button class="del" onclick="delNews(\'' + cat + '\', ' + idx + ')">حذف</button>';
-                    list.appendChild(li);
-                });
-            }
-        }
-        
-        function addNews() {
-            var cat = prompt('أدخل القسم:\npolitics, society, economy, literature, sports, tech, health, misc');
-            if (!cat || !newsData[cat]) {
-                alert('قسم غير صحيح');
-                return;
-            }
-            var title = prompt('عنوان الخبر:');
-            if (!title) return;
-            var summary = prompt('ملخص الخبر:');
-            if (!summary) return;
-            newsData[cat].push({
-                title: title,
-                summary: summary,
-                date: new Date().toISOString().split('T')[0]
-            });
-            saveData();
-            renderList();
-            updateStats();
-        }
-        
-        function delNews(cat, idx) {
-            if (confirm('حذف هذا الخبر؟')) {
-                newsData[cat].splice(idx, 1);
-                saveData();
-                renderList();
-                updateStats();
-            }
-        }
-        
-        // التحقق من الجلسة عند التحميل
+
+        // ===== التحقق من الجلسة =====
         if (sessionStorage.getItem('iraqdot_admin') === 'yes') {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
