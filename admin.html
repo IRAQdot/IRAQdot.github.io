@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK (compat) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     
@@ -106,6 +106,8 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-weight: 700; margin-bottom: 8px; color: #333; }
         .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="time"],
         .form-group textarea {
             width: 100%; padding: 12px 15px; border: 2px solid #ddd;
             border-radius: 10px; font-size: 1rem; font-family: inherit;
@@ -114,6 +116,15 @@
         .form-group input:focus,
         .form-group textarea:focus { border-color: var(--primary); outline: none; }
         .form-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+
+        .checkbox-group {
+            display: flex; align-items: center; gap: 10px;
+            background: #f8f9fa; padding: 15px; border-radius: 10px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 20px; height: 20px; cursor: pointer;
+        }
+        .checkbox-group label { margin: 0; cursor: pointer; }
 
         .toolbar {
             display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;
@@ -154,6 +165,11 @@
             font-size: 0.75rem; background: var(--primary); color: #fff;
             padding: 3px 12px; border-radius: 20px; display: inline-block;
         }
+        .news-item .info .badge-urgent {
+            font-size: 0.7rem; background: #dc3545; color: #fff;
+            padding: 3px 10px; border-radius: 20px; display: inline-block;
+            margin-right: 5px; animation: blink 1s infinite;
+        }
         .news-item .actions { display: flex; gap: 8px; }
         .news-item .actions button {
             border: none; padding: 7px 14px; border-radius: 20px;
@@ -173,6 +189,12 @@
 
         .loading {
             text-align: center; padding: 20px; color: #666; font-weight: 700;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
         @media (max-width: 900px) {
@@ -267,6 +289,37 @@
                     </div>
                 </div>
 
+                <!-- ===== حقل الخبر العاجل ===== -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="isBreaking" onchange="toggleBreakingFields()">
+                        <label for="isBreaking">🔴 هذا خبر عاجل</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="breakingTextGroup" style="display:none;">
+                    <label>نص الخبر العاجل (للشريط المتحرك):</label>
+                    <input type="text" id="breakingText" placeholder="مثال: انفجار في وسط بغداد.. القوات الأمنية تطوق المنطقة">
+                </div>
+
+                <!-- ===== معلومات الموقع والوقت ===== -->
+                <div class="form-group">
+                    <label>الدولة:</label>
+                    <input type="text" id="country" placeholder="مثال: العراق">
+                </div>
+                <div class="form-group">
+                    <label>المدينة:</label>
+                    <input type="text" id="city" placeholder="مثال: بغداد">
+                </div>
+                <div class="form-group">
+                    <label>تاريخ النشر:</label>
+                    <input type="date" id="publishDate">
+                </div>
+                <div class="form-group">
+                    <label>وقت النشر:</label>
+                    <input type="time" id="publishTime">
+                </div>
+
                 <button class="btn-submit" onclick="submitNews()">🚀 نشر الخبر</button>
             </div>
 
@@ -329,6 +382,9 @@
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
                 sessionStorage.setItem('iraqdot_admin', 'yes');
+                // تعيين تاريخ اليوم افتراضيًا
+                document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
@@ -345,6 +401,11 @@
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             selectedCat = btn.dataset.cat;
+        }
+
+        function toggleBreakingFields() {
+            const isChecked = document.getElementById('isBreaking').checked;
+            document.getElementById('breakingTextGroup').style.display = isChecked ? 'block' : 'none';
         }
 
         function format(cmd, val) {
@@ -373,6 +434,12 @@
             const summary = document.getElementById('newsSummary').value.trim();
             const content = document.getElementById('editor').innerHTML;
             const cover = document.getElementById('coverImage').value.trim();
+            const isBreaking = document.getElementById('isBreaking').checked;
+            const breakingText = document.getElementById('breakingText').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const publishDate = document.getElementById('publishDate').value;
+            const publishTime = document.getElementById('publishTime').value;
 
             if (!title) { alert('أدخل عنوان الخبر'); return; }
             if (!summary) { alert('أدخل ملخص الخبر'); return; }
@@ -383,7 +450,12 @@
                 summary: summary,
                 content: content,
                 cover: cover || '',
-                date: new Date().toISOString().split('T')[0],
+                isBreaking: isBreaking,
+                breakingText: isBreaking ? (breakingText || title) : '',
+                country: country,
+                city: city,
+                date: publishDate || new Date().toISOString().split('T')[0],
+                time: publishTime || new Date().toTimeString().slice(0,5),
                 createdAt: new Date().toISOString()
             };
 
@@ -393,6 +465,11 @@
                     document.getElementById('newsSummary').value = '';
                     document.getElementById('editor').innerHTML = '';
                     document.getElementById('coverImage').value = '';
+                    document.getElementById('isBreaking').checked = false;
+                    document.getElementById('breakingText').value = '';
+                    document.getElementById('breakingTextGroup').style.display = 'none';
+                    document.getElementById('country').value = '';
+                    document.getElementById('city').value = '';
                     alert('✅ تم نشر الخبر بنجاح!');
                 })
                 .catch(error => {
@@ -415,12 +492,13 @@
             
             let html = '<ul class="news-list">';
             allNews.forEach(item => {
+                const badge = item.isBreaking ? '<span class="badge-urgent">عاجل</span>' : '';
                 html += `
                     <li class="news-item">
                         <div class="info">
-                            <h4>${item.title}</h4>
+                            <h4>${badge} ${item.title}</h4>
                             <span class="cat">${catNames[item.category] || item.category}</span>
-                            <small style="display:block;color:#999;margin-top:3px;">${item.date}</small>
+                            <small style="display:block;color:#999;margin-top:3px;">${item.country || ''} ${item.city ? '- ' + item.city : ''} | ${item.date} ${item.time}</small>
                         </div>
                         <div class="actions">
                             <button class="btn-del" onclick="deleteNews('${item.id}')">حذف</button>
@@ -450,6 +528,8 @@
         if (sessionStorage.getItem('iraqdot_admin') === 'yes') {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
         }
     </script>
 </body>
