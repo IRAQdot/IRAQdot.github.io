@@ -207,18 +207,14 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #dc3545;
         }
-        .sidebar-header .icon {
-            font-size: 1.5rem;
-        }
+        .sidebar-header .icon { font-size: 1.5rem; }
         .sidebar-header h3 {
             font-size: 1.2rem;
             font-weight: 900;
             color: #dc3545;
             animation: blink 2s infinite;
         }
-        .sidebar-news-list {
-            list-style: none;
-        }
+        .sidebar-news-list { list-style: none; }
         .sidebar-news-item {
             padding: 12px;
             margin-bottom: 10px;
@@ -317,6 +313,30 @@
         .modal-content .modal-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
         .modal-content .modal-body img { max-width: 100%; border-radius: 10px; margin: 12px 0; }
 
+        /* قسم الأخبار ذات الصلة داخل المقال */
+        .inline-related {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .inline-related h4 {
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .inline-related ul { list-style: none; }
+        .inline-related li { margin-bottom: 8px; }
+        .inline-related a {
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .inline-related a:hover { color: var(--primary); }
+
         .modal-share { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.85rem; }
         .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -333,16 +353,6 @@
         .share-btn.whatsapp { background: #25d366; }
         .share-btn.telegram { background: #0088cc; }
         .share-btn.copy { background: #6c757d; }
-
-        .related-news { margin-top: 25px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .related-news h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 15px; color: var(--text); }
-        .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-        .related-item {
-            background: var(--bg); border-radius: 8px; padding: 10px;
-            cursor: pointer; transition: all 0.2s;
-        }
-        .related-item:hover { background: #0d6efd; color: #fff; }
-        .related-item .r-title { font-size: 0.8rem; font-weight: 700; }
 
         footer { background: #212529; color: #ccc; padding: 30px 0; margin-top: 40px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -527,10 +537,7 @@
                     <button class="share-btn copy" id="shareCopy">نسخ الرابط</button>
                 </div>
             </div>
-            <div class="related-news" id="relatedNews" style="display:none;">
-                <h3>أخبار ذات صلة</h3>
-                <div class="related-grid" id="relatedGrid"></div>
-            </div>
+            <!-- تمت إزالة قسم "أخبار ذات صلة" من هنا لأنه سيتم حقنه داخل المحتوى -->
         </div>
     </div>
 
@@ -754,31 +761,64 @@
             });
         }
 
-        // ===== أخبار ذات صلة =====
-        function showRelatedNews(article) {
+        // ===== حقن الأخبار ذات الصلة داخل محتوى المقال =====
+        function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => 
                 item.category === article.category && item.id !== article.id
             ).slice(0, 3);
             
-            const container = document.getElementById('relatedNews');
-            const grid = document.getElementById('relatedGrid');
+            if (related.length === 0) return;
             
-            if (related.length > 0) {
-                container.style.display = 'block';
-                grid.innerHTML = '';
-                related.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = 'related-item';
-                    div.innerHTML = `<span class="r-title">${item.title}</span>`;
-                    div.addEventListener('click', () => {
-                        closeModal();
-                        setTimeout(() => openModal(item), 300);
-                    });
-                    grid.appendChild(div);
-                });
+            const modalBody = document.getElementById('modalBody');
+            let contentHtml = modalBody.innerHTML;
+            
+            // بناء HTML لقسم الأخبار ذات الصلة
+            let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
+            related.forEach(item => {
+                relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`;
+            });
+            relatedHtml += '</ul></div>';
+            
+            // تحديد موضع الإدراج: بعد الفقرة الثانية أو الثالثة إذا وجدت
+            const paragraphs = contentHtml.split(/<\/p>/i);
+            if (paragraphs.length > 2) {
+                // إدراج بعد الفقرة الثانية (الفهرس 1)
+                let insertIndex = contentHtml.indexOf('</p>');
+                if (insertIndex !== -1) {
+                    // البحث عن ثاني </p>
+                    insertIndex = contentHtml.indexOf('</p>', insertIndex + 1);
+                    if (insertIndex !== -1) {
+                        insertIndex += 4; // طول </p>
+                        contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
+                    } else {
+                        // فقرة واحدة فقط - ندرج بعدها
+                        insertIndex = contentHtml.indexOf('</p>') + 4;
+                        contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
+                    }
+                }
             } else {
-                container.style.display = 'none';
+                // لا توجد وسوم فقرات، ندرج في منتصف النص
+                const half = Math.floor(contentHtml.length / 2);
+                // نتأكد أن القطع ليس في منتصف وسم
+                let cutIndex = contentHtml.indexOf(' ', half);
+                if (cutIndex === -1) cutIndex = half;
+                contentHtml = contentHtml.slice(0, cutIndex) + relatedHtml + contentHtml.slice(cutIndex);
             }
+            
+            modalBody.innerHTML = contentHtml;
+            
+            // ربط الأحداث للروابط المحقونة
+            modalBody.querySelectorAll('.related-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.dataset.id;
+                    const foundArticle = allNewsData.find(n => n.id === id);
+                    if (foundArticle) {
+                        closeModal();
+                        setTimeout(() => openModal(foundArticle), 300);
+                    }
+                });
+            });
         }
 
         // ===== اللوحة المنبثقة =====
@@ -804,13 +844,14 @@
             
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             
+            // حقن الأخبار ذات الصلة داخل المحتوى
+            injectInlineRelatedNews(article);
+            
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
             document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
             document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
             document.getElementById('shareTg').onclick = () => shareOnTelegram(article);
             document.getElementById('shareCopy').onclick = copyLink;
-            
-            showRelatedNews(article);
             
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
