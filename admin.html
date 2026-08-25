@@ -1,24 +1,351 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>دخول</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | عراق دوت IRAQdot</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-box {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .login-box h2 { margin-bottom: 10px; color: #212529; }
+        .login-box .sub { color: #666; margin-bottom: 25px; font-size: 0.9rem; }
+        
+        .login-box input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: inherit;
+            direction: ltr;
+        }
+        
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: #0d6efd;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .login-box button:hover { background: #0a58ca; }
+        
+        .error {
+            color: #dc3545;
+            margin-top: 15px;
+            display: none;
+            font-weight: 700;
+        }
+        
+        .dashboard {
+            display: none;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.15);
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        .dashboard h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #212529;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .stat {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .stat .num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0d6efd;
+        }
+        
+        .stat .lbl {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btns button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .btn-add { background: #198754; color: #fff; }
+        .btn-add:hover { background: #146c43; }
+        
+        .btn-refresh { background: #0d6efd; color: #fff; }
+        .btn-refresh:hover { background: #0a58ca; }
+        
+        .btn-logout { background: #dc3545; color: #fff; }
+        .btn-logout:hover { background: #bb2d3b; }
+        
+        .news-list {
+            margin-top: 25px;
+            list-style: none;
+        }
+        
+        .news-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .news-item .title {
+            font-weight: 700;
+            flex: 1;
+        }
+        
+        .news-item .cat {
+            font-size: 0.75rem;
+            background: #0d6efd;
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        
+        .news-item .del {
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+        
+        .note {
+            margin-top: 20px;
+            background: #fff3cd;
+            color: #856404;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+    </style>
 </head>
-<body style="text-align:center; padding:50px; font-family:Arial;">
-    <h2>أدخل التوكن</h2>
-    <input type="password" id="t" placeholder="التوكن" style="padding:10px; font-size:18px;">
-    <button onclick="f()" style="padding:10px 20px; font-size:18px; cursor:pointer;">دخول</button>
-    <p id="r"></p>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div class="login-box" id="loginBox">
+        <h2>🔐 لوحة التحكم</h2>
+        <p class="sub">أدخل التوكن للوصول إلى الإدارة</p>
+        <input type="password" id="tokenInput" placeholder="التوكن">
+        <button onclick="login()">دخول</button>
+        <p class="error" id="errorMsg">❌ التوكن غير صحيح</p>
+    </div>
+
+    <!-- لوحة التحكم -->
+    <div class="dashboard" id="dashboard">
+        <h2>📊 إدارة أخبار عراق دوت</h2>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="num" id="totalNews">0</div>
+                <div class="lbl">إجمالي الأخبار</div>
+            </div>
+            <div class="stat">
+                <div class="num" id="totalCats">0</div>
+                <div class="lbl">الأقسام</div>
+            </div>
+        </div>
+        
+        <div class="btns">
+            <button class="btn-add" onclick="addNews()">+ إضافة خبر</button>
+            <button class="btn-refresh" onclick="renderList()">🔄 تحديث</button>
+            <button class="btn-logout" onclick="logout()">🚪 خروج</button>
+        </div>
+        
+        <ul class="news-list" id="newsList"></ul>
+        
+        <div class="note">
+            ⚠️ ملاحظة: البيانات محفوظة في متصفحك فقط. لإظهارها للزوار، يجب تعديل ملف index.html يدويًا.
+        </div>
+    </div>
+
     <script>
-        function f() {
-            var x = document.getElementById('t').value;
-            if (x === 'iraqdot2025') {
-                document.getElementById('r').innerHTML = '✅ صحيح! مرحبًا بك';
-                document.getElementById('r').style.color = 'green';
+        // ===== التوكن =====
+        var VALID_TOKEN = 'iraqdot2025';
+        
+        // ===== بيانات الأخبار =====
+        var newsData = JSON.parse(localStorage.getItem('iraqdot_news')) || {
+            politics: [
+                { title: 'اجتماع طارئ لمجلس الوزراء', summary: 'نقاش آخر التطورات', date: '2025-04-01' },
+                { title: 'البرلمان يناقش قانون الانتخابات', summary: 'جلسات مستمرة', date: '2025-04-02' }
+            ],
+            society: [
+                { title: 'حملة توعوية في المدارس', summary: 'مكافحة المخدرات', date: '2025-04-01' }
+            ],
+            economy: [
+                { title: 'ارتفاع أسعار النفط', summary: 'تأثير على الأسواق', date: '2025-04-01' }
+            ],
+            literature: [
+                { title: 'صدور رواية جديدة', summary: 'قضايا اجتماعية', date: '2025-04-01' }
+            ],
+            sports: [
+                { title: 'فوز المنتخب الوطني', summary: 'هدفين نظيفين', date: '2025-04-01' }
+            ],
+            tech: [
+                { title: 'مؤتمر الذكاء الاصطناعي', summary: 'تطبيقات جديدة', date: '2025-04-01' }
+            ],
+            health: [
+                { title: 'علاج جديد للسكري', summary: 'نتائج مبشرة', date: '2025-04-01' }
+            ],
+            misc: [
+                { title: 'ظاهرة فلكية نادرة', summary: 'تشاهد الليلة', date: '2025-04-01' }
+            ]
+        };
+        
+        function saveData() {
+            localStorage.setItem('iraqdot_news', JSON.stringify(newsData));
+        }
+        
+        function login() {
+            var t = document.getElementById('tokenInput').value.trim();
+            if (t === VALID_TOKEN) {
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                sessionStorage.setItem('iraqdot_admin', 'yes');
+                renderList();
+                updateStats();
             } else {
-                document.getElementById('r').innerHTML = '❌ خطأ! التوكن الذي أدخلته: ' + x;
-                document.getElementById('r').style.color = 'red';
+                document.getElementById('errorMsg').style.display = 'block';
             }
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('iraqdot_admin');
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginBox').style.display = 'block';
+            document.getElementById('tokenInput').value = '';
+        }
+        
+        function updateStats() {
+            var total = 0;
+            var cats = 0;
+            for (var key in newsData) {
+                total += newsData[key].length;
+                cats++;
+            }
+            document.getElementById('totalNews').textContent = total;
+            document.getElementById('totalCats').textContent = cats;
+        }
+        
+        function renderList() {
+            var list = document.getElementById('newsList');
+            list.innerHTML = '';
+            for (var cat in newsData) {
+                newsData[cat].forEach(function(article, idx) {
+                    var li = document.createElement('li');
+                    li.className = 'news-item';
+                    li.innerHTML = 
+                        '<span class="cat">' + cat + '</span>' +
+                        '<span class="title">' + article.title + '</span>' +
+                        '<button class="del" onclick="delNews(\'' + cat + '\', ' + idx + ')">حذف</button>';
+                    list.appendChild(li);
+                });
+            }
+        }
+        
+        function addNews() {
+            var cat = prompt('أدخل القسم:\npolitics, society, economy, literature, sports, tech, health, misc');
+            if (!cat || !newsData[cat]) {
+                alert('قسم غير صحيح');
+                return;
+            }
+            var title = prompt('عنوان الخبر:');
+            if (!title) return;
+            var summary = prompt('ملخص الخبر:');
+            if (!summary) return;
+            newsData[cat].push({
+                title: title,
+                summary: summary,
+                date: new Date().toISOString().split('T')[0]
+            });
+            saveData();
+            renderList();
+            updateStats();
+        }
+        
+        function delNews(cat, idx) {
+            if (confirm('حذف هذا الخبر؟')) {
+                newsData[cat].splice(idx, 1);
+                saveData();
+                renderList();
+                updateStats();
+            }
+        }
+        
+        // التحقق من الجلسة عند التحميل
+        if (sessionStorage.getItem('iraqdot_admin') === 'yes') {
+            document.getElementById('loginBox').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            renderList();
+            updateStats();
         }
     </script>
 </body>
