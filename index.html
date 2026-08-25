@@ -106,7 +106,7 @@
         .breaking-label { background: #dc3545; padding: 4px 15px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; white-space: nowrap; animation: blink 1s infinite; }
         .breaking-ticker { flex: 1; overflow: hidden; white-space: nowrap; }
         .breaking-ticker p { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; font-weight: 600; }
-        .breaking-ticker p:hover { animation-play-state: paused; } /* إيقاف مؤقت عند التحويم */
+        .breaking-ticker p:hover { animation-play-state: paused; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
@@ -125,7 +125,6 @@
             display: block;
             transition: transform 0.5s ease;
         }
-        /* طبقة لمعان متحركة */
         .hero-image::after {
             content: '';
             position: absolute;
@@ -148,7 +147,7 @@
             color: #fff;
             text-align: center;
             padding: 12px 20px;
-            margin-bottom: 30px;
+            margin-bottom: 0;
         }
         .site-description p {
             font-size: 1rem;
@@ -156,6 +155,46 @@
             max-width: 600px;
             margin: 0 auto;
             line-height: 1.5;
+        }
+
+        /* شريط الوصول السريع */
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 10px 15px;
+            margin-bottom: 30px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            scrollbar-width: none;
+        }
+        .quick-nav::-webkit-scrollbar { display: none; }
+        .quick-nav a {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #444;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: 2px solid transparent;
+        }
+        .quick-nav a:hover {
+            background: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+        .quick-nav a.active {
+            background: #0d6efd;
+            color: #fff;
+            border-color: #0d6efd;
+        }
+        .quick-nav a:active {
+            transform: scale(0.95);
         }
 
         .news-section { margin-bottom: 50px; }
@@ -390,6 +429,7 @@
             .nav-toggle { display: block; }
             .hero-image img { max-height: 300px; }
             .site-description p { font-size: 0.9rem; }
+            .quick-nav { justify-content: flex-start; }
             .news-grid { grid-template-columns: 1fr; }
             .modal-content { padding: 20px 15px 15px; }
             .modal-content h2 { font-size: 1.2rem; }
@@ -438,6 +478,18 @@
     <div class="site-description">
         <p>نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية</p>
     </div>
+
+    <!-- شريط الوصول السريع -->
+    <nav class="quick-nav" id="quickNav">
+        <a href="#politics" class="active">سياسة</a>
+        <a href="#society">مجتمع</a>
+        <a href="#economy">اقتصاد</a>
+        <a href="#literature">أدب</a>
+        <a href="#sports">رياضة</a>
+        <a href="#tech">تكنولوجيا</a>
+        <a href="#health">صحة</a>
+        <a href="#misc">منوعات</a>
+    </nav>
 
     <main class="container">
         <section class="news-section reveal" id="politics">
@@ -608,13 +660,11 @@
             
             const readBtn = card.querySelector('.read-btn');
             readBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // منع تفعيل التحديد عند الضغط على الزر
+                e.stopPropagation();
                 openModal(article);
             });
             
-            // إضافة تأثير التحديد عند النقر على البطاقة
             card.addEventListener('click', () => {
-                // إلغاء تحديد أي بطاقة أخرى
                 document.querySelectorAll('.news-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
             });
@@ -673,7 +723,6 @@
             
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             
-            // تحديث أزرار المشاركة
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
             document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
             document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
@@ -714,10 +763,30 @@
             });
         }
 
+        // ===== شريط الوصول السريع =====
+        function handleQuickNav() {
+            const quickLinks = document.querySelectorAll('.quick-nav a');
+            quickLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // إزالة النشط من الكل وإضافته للرابط الحالي
+                    quickLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             renderNews();
             revealOnScroll();
             headerShadowOnScroll();
+            handleQuickNav();
             
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
