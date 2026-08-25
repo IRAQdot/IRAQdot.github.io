@@ -78,10 +78,17 @@
 
         .container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
+        /* ترويسة مع ظل متغير عند التمرير */
         .top-header {
             background: #ffffff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky; top: 0; z-index: 1000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: box-shadow 0.3s ease;
+        }
+        .top-header.scrolled {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
         .header-flex { display: flex; align-items: center; justify-content: space-between; height: 80px; }
         .logo a { display: flex; align-items: center; gap: 8px; font-size: 1.8rem; font-weight: 900; color: #212529; }
@@ -99,13 +106,43 @@
         .breaking-label { background: #dc3545; padding: 4px 15px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; white-space: nowrap; animation: blink 1s infinite; }
         .breaking-ticker { flex: 1; overflow: hidden; white-space: nowrap; }
         .breaking-ticker p { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; font-weight: 600; }
+        .breaking-ticker p:hover { animation-play-state: paused; } /* إيقاف مؤقت عند التحويم */
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        .hero-image { width: 100%; margin-bottom: 0; }
-        .hero-image img { width: 100%; height: auto; max-height: 550px; object-fit: cover; display: block; }
+        /* صورة الواجهة مع تأثير لمعان */
+        .hero-image {
+            width: 100%;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            max-height: 550px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        /* طبقة لمعان متحركة */
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
+        }
 
-        /* الوصف تحت الصورة - أصغر حجماً وبدون فراغ كبير */
+        /* الوصف تحت الصورة */
         .site-description {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #fff;
@@ -125,8 +162,25 @@
         .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: #212529; border-right: 5px solid #0d6efd; padding-right: 15px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
-        .news-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 3px 15px rgba(0,0,0,0.1); transition: all 0.3s ease; display: flex; flex-direction: column; }
-        .news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        /* بطاقة الخبر مع تأثير التحديد */
+        .news-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .news-card.selected {
+            box-shadow: 0 0 0 3px var(--primary), 0 8px 25px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
         .news-card img { width: 100%; height: 180px; object-fit: cover; }
         .news-card .card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
         .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
@@ -141,7 +195,6 @@
             margin-left: 5px; animation: blink 1s infinite;
         }
 
-        /* زر قراءة الخبر */
         .read-btn {
             display: inline-block;
             background: var(--primary);
@@ -163,7 +216,7 @@
             transform: translateY(-2px);
         }
 
-        /* اللوحة المنبثقة (Modal) */
+        /* اللوحة المنبثقة مع انزلاق من اليسار */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -172,13 +225,19 @@
             bottom: 0;
             background: rgba(0,0,0,0.75);
             z-index: 2000;
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
             overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
         .modal-content {
             background: #fff;
             border-radius: 20px;
@@ -189,6 +248,11 @@
             position: relative;
             padding: 30px 25px 25px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateX(0);
         }
         .modal-close {
             position: absolute;
@@ -210,7 +274,7 @@
             margin-bottom: 10px;
             line-height: 1.4;
             color: #212529;
-            padding-left: 30px; /* مساحة لعلامة الإغلاق */
+            padding-left: 30px;
         }
         .modal-content .modal-meta {
             display: flex;
@@ -253,11 +317,7 @@
             color: #666;
             font-size: 0.85rem;
         }
-        .share-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
         .share-btn {
             display: inline-flex;
             align-items: center;
@@ -275,11 +335,7 @@
             text-decoration: none;
         }
         .share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-        .share-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
+        .share-btn svg { width: 14px; height: 14px; fill: currentColor; }
         .share-btn.facebook { background: #1877f2; }
         .share-btn.twitter { background: #000000; }
         .share-btn.whatsapp { background: #25d366; }
@@ -290,8 +346,40 @@
         .footer-flex nav a { margin-left: 20px; color: #ccc; }
         .footer-flex nav a:hover { color: #fff; }
 
-        .back-to-top { position: fixed; bottom: 30px; right: 30px; background: #0d6efd; color: #fff; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; display: none; box-shadow: 0 3px 10px rgba(0,0,0,0.3); z-index: 999; }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0d6efd;
+            color: #fff;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            z-index: 999;
+            animation: pulse 2s infinite;
+        }
         .back-to-top.show { display: block; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(13, 110, 253, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+        }
+
+        /* تأثير الظهور عند التمرير */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 15px 0; flex-wrap: wrap; }
@@ -310,7 +398,7 @@
     </style>
 </head>
 <body>
-    <header class="top-header">
+    <header class="top-header" id="topHeader">
         <div class="container header-flex">
             <div class="logo">
                 <a href="https://iraqdot.github.io" title="العودة للرئيسية">
@@ -352,35 +440,35 @@
     </div>
 
     <main class="container">
-        <section class="news-section" id="politics">
+        <section class="news-section reveal" id="politics">
             <h3 class="section-title">📰 سياسة</h3>
             <div class="news-grid" id="politics-news"></div>
         </section>
-        <section class="news-section" id="society">
+        <section class="news-section reveal" id="society">
             <h3 class="section-title">👥 مجتمع</h3>
             <div class="news-grid" id="society-news"></div>
         </section>
-        <section class="news-section" id="economy">
+        <section class="news-section reveal" id="economy">
             <h3 class="section-title">💰 اقتصاد</h3>
             <div class="news-grid" id="economy-news"></div>
         </section>
-        <section class="news-section" id="literature">
+        <section class="news-section reveal" id="literature">
             <h3 class="section-title">📚 أدب</h3>
             <div class="news-grid" id="literature-news"></div>
         </section>
-        <section class="news-section" id="sports">
+        <section class="news-section reveal" id="sports">
             <h3 class="section-title">⚽ رياضة</h3>
             <div class="news-grid" id="sports-news"></div>
         </section>
-        <section class="news-section" id="tech">
+        <section class="news-section reveal" id="tech">
             <h3 class="section-title">💻 تكنولوجيا</h3>
             <div class="news-grid" id="tech-news"></div>
         </section>
-        <section class="news-section" id="health">
+        <section class="news-section reveal" id="health">
             <h3 class="section-title">🩺 صحة</h3>
             <div class="news-grid" id="health-news"></div>
         </section>
-        <section class="news-section" id="misc">
+        <section class="news-section reveal" id="misc">
             <h3 class="section-title">🎭 منوعات</h3>
             <div class="news-grid" id="misc-news"></div>
         </section>
@@ -519,7 +607,17 @@
             `;
             
             const readBtn = card.querySelector('.read-btn');
-            readBtn.addEventListener('click', () => openModal(article));
+            readBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // منع تفعيل التحديد عند الضغط على الزر
+                openModal(article);
+            });
+            
+            // إضافة تأثير التحديد عند النقر على البطاقة
+            card.addEventListener('click', () => {
+                // إلغاء تحديد أي بطاقة أخرى
+                document.querySelectorAll('.news-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+            });
             
             return card;
         }
@@ -590,8 +688,36 @@
             document.body.style.overflow = 'auto';
         }
 
+        // ===== تأثير الظهور عند التمرير =====
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            elements.forEach(el => observer.observe(el));
+        }
+
+        // ===== تغيير ظل الترويسة عند التمرير =====
+        function headerShadowOnScroll() {
+            const header = document.getElementById('topHeader');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             renderNews();
+            revealOnScroll();
+            headerShadowOnScroll();
             
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
