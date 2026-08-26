@@ -3,57 +3,56 @@ name: Build Android APK (IRAQdot)
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً بنقرة زر
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. جلب الكود من المستودع
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. إعداد بيئة Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
-      # 3. إعداد بيئة Java / JDK
       - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
+          distribution: 'temurin'
           java-version: '17'
 
-      # 4. إعداد أدوات Android SDK
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      # 5. تثبيت حزم Capacitor
-      - name: Install Dependencies
+      - name: Accept Android SDK Licenses
         run: |
-          npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          yes | sdkmanager --licenses || true
 
-      # 6. تهيئة منصة الأندرويد ومزامنة الملفات
-      - name: Build Android Project with Capacitor
+      - name: Initialize and Install Capacitor
         run: |
-          npx cap init "عراق دوت" "com.iraqdot.news" --web-dir "."
+          if [ ! -f package.json ]; then
+            npm init -y
+          fi
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npx cap init "IRAQdot" "com.iraqdot.news" --web-dir "."
           npx cap add android
+
+      - name: Sync Web Assets to Android
+        run: |
           npx cap sync android
 
-      # 7. بناء ملف الـ APK عبر Gradle
-      - name: Build APK
+      - name: Build Android APK via Gradle
         run: |
           cd android
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --stacktrace
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
-      # 8. رفع ملف الـ APK ليكون جاهزاً للتحميل المباشر
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: IRAQdot-News-App-Debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
