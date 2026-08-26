@@ -1,0 +1,59 @@
+name: Build Android APK (IRAQdot)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً بنقرة زر
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. جلب الكود من المستودع
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. إعداد بيئة Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. إعداد بيئة Java / JDK
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 4. إعداد أدوات Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 5. تثبيت حزم Capacitor
+      - name: Install Dependencies
+        run: |
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+
+      # 6. تهيئة منصة الأندرويد ومزامنة الملفات
+      - name: Build Android Project with Capacitor
+        run: |
+          npx cap init "عراق دوت" "com.iraqdot.news" --web-dir "."
+          npx cap add android
+          npx cap sync android
+
+      # 7. بناء ملف الـ APK عبر Gradle
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      # 8. رفع ملف الـ APK ليكون جاهزاً للتحميل المباشر
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: IRAQdot-News-App-Debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
