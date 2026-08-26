@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -22,24 +22,26 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
-      - name: Prepare Project and Capacitor
+      - name: Prepare Web Assets
+        run: |
+          mkdir -p www
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name '.github' ! -name 'node_modules' ! -name 'android' ! -name 'www' ! -name 'package*.json' -exec cp -r {} www/ \;
+
+      - name: Setup Capacitor and Android Platform
         run: |
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
-          npx cap init "IRAQdot" "com.iraqdot.news" --web-dir "."
+          npx cap init "IRAQdot" "com.iraqdot.news" --web-dir "www"
           npx cap add android
           npx cap sync android
 
-      - name: Setup Gradle Permission
-        run: |
-          chmod +x android/gradlew
-
-      - name: Build Debug APK
+      - name: Build Debug APK via Gradle
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
