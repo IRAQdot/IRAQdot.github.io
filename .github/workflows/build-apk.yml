@@ -24,16 +24,34 @@ jobs:
         with:
           node-version: 20
 
-      - name: Prepare Web Assets
+      - name: Setup Capacitor Configuration
         run: |
           mkdir -p www
-          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name '.github' ! -name 'node_modules' ! -name 'android' ! -name 'www' ! -name 'package*.json' -exec cp -r {} www/ \;
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name '.github' ! -name 'www' -exec cp -r {} www/ \;
+          cat << 'EOF' > package.json
+          {
+            "name": "iraqdot-news",
+            "version": "1.0.0",
+            "private": true,
+            "dependencies": {
+              "@capacitor/android": "^6.0.0",
+              "@capacitor/cli": "^6.0.0",
+              "@capacitor/core": "^6.0.0"
+            }
+          }
+          EOF
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.iraqdot.news",
+            "appName": "IRAQdot",
+            "webDir": "www",
+            "bundledWebRuntime": false
+          }
+          EOF
+          npm install
 
-      - name: Setup Capacitor and Android Platform
+      - name: Generate Android Project
         run: |
-          npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
-          npx cap init "IRAQdot" "com.iraqdot.news" --web-dir "www"
           npx cap add android
           npx cap sync android
 
