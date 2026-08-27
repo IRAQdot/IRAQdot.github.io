@@ -6,8 +6,8 @@
     
     <!-- SEO -->
     <title>Medridistas del Irak | أخبار ريال مدريد</title>
-    <meta name="description" content="Medridistas del Irak - مجتمع عشاق ريال مدريد في العراق. أخبار، تصريحات، الدوري الإسباني، دوري الأبطال، البطولات المحلية، التدريبات، وأخبار اللاعبين.">
-    <meta name="keywords" content="ريال مدريد, Medridistas, del Irak, الدوري الإسباني, دوري الأبطال, أخبار ريال مدريد">
+    <meta name="description" content="Medridistas del Irak - مجتمع عشاق ريال مدريد في العراق.">
+    <meta name="keywords" content="ريال مدريد, Medridistas, del Irak, الدوري الإسباني, دوري الأبطال">
     <meta name="author" content="Medridistas del Irak">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Arabic">
@@ -83,7 +83,7 @@
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
 
-        .container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .container { width: 92%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
 
         /* الترويسة */
         .top-header {
@@ -101,16 +101,11 @@
             gap: 15px;
         }
 
-        /* الشعار الجديد */
-        .logo {
-            text-align: center;
-            line-height: 1.2;
-        }
-        .logo a {
-            display: block;
-        }
+        /* الشعار */
+        .logo { text-align: center; line-height: 1.2; }
+        .logo a { display: block; }
         .logo .main-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 900;
             letter-spacing: 3px;
             color: var(--gold);
@@ -119,7 +114,7 @@
             display: block;
         }
         .logo .sub-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #000000;
             letter-spacing: 5px;
@@ -142,23 +137,18 @@
             transition: all 0.3s ease;
             font-size: 0.9rem;
         }
-        .main-nav ul li a:hover, .main-nav ul li a.active {
-            background: var(--gold);
-            color: #000;
-        }
+        .main-nav ul li a:hover, .main-nav ul li a.active { background: var(--gold); color: #000; }
         .nav-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text); }
 
         .dark-toggle {
             background: none; border: 1px solid var(--border); border-radius: 50%;
             width: 38px; height: 38px; cursor: pointer; font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text);
+            display: flex; align-items: center; justify-content: center; color: var(--text);
         }
         .dark-toggle:hover { background: var(--gold); color: #000; }
 
-        /* صورة الواجهة */
         .hero-image { width: 100%; margin-bottom: 0; position: relative; overflow: hidden; }
-        .hero-image img { width: 100%; height: auto; max-height: 500px; object-fit: cover; display: block; }
+        .hero-image img { width: 100%; height: auto; max-height: 450px; object-fit: cover; display: block; }
         .hero-image::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 50%; height: 100%;
@@ -171,15 +161,14 @@
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #fff; text-align: center; padding: 12px 20px;
         }
-        .site-description p { font-size: 1rem; font-weight: 700; max-width: 600px; margin: 0 auto; }
+        .site-description p { font-size: 1rem; font-weight: 700; }
 
-        /* شريط الوصول السريع */
         .quick-nav {
             display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap;
             overflow-x: auto; padding: 10px 15px; margin: 20px auto;
             background: var(--card-bg); border-radius: 12px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.08); scrollbar-width: none;
-            max-width: 1200px; width: 92%;
+            max-width: 1100px; width: 92%;
         }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a {
@@ -189,13 +178,12 @@
         }
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #000; }
 
-        /* البحث */
         .search-box {
             display: flex; align-items: center; gap: 8px;
             background: var(--card-bg); border-radius: 30px;
             padding: 5px 15px; margin: 0 auto 20px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.08); border: 1px solid var(--border);
-            max-width: 1200px; width: 92%;
+            max-width: 1100px; width: 92%;
         }
         .search-box input {
             flex: 1; border: none; outline: none; font-family: inherit;
@@ -216,7 +204,6 @@
             display: flex; flex-direction: column; cursor: pointer;
         }
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-        .news-card.selected { box-shadow: 0 0 0 3px var(--gold), 0 8px 25px rgba(0,0,0,0.2); transform: scale(1.02); }
         .news-card img { width: 100%; height: 180px; object-fit: cover; }
         .news-card .card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
         .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; }
@@ -251,24 +238,16 @@
             transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
         .modal-overlay.active .modal-content { transform: translateX(0); }
-        .modal-close {
-            position: absolute; top: 12px; left: 18px;
-            font-size: 2rem; background: none; border: none;
-            cursor: pointer; color: var(--text-muted);
-        }
+        .modal-close { position: absolute; top: 12px; left: 18px; font-size: 2rem; background: none; border: none; cursor: pointer; color: var(--text-muted); }
         .modal-close:hover { color: #dc3545; }
         .modal-content h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; padding-left: 30px; }
         .modal-content .modal-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted); }
         .modal-content .modal-image { width: 100%; border-radius: 12px; margin-bottom: 15px; max-height: 350px; object-fit: cover; }
         .modal-content .modal-body { font-size: 1rem; line-height: 1.8; }
 
-        /* أخبار ذات صلة داخل المقال */
         .inline-related {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 15px;
-            margin: 20px 0;
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 12px; padding: 15px; margin: 20px 0;
         }
         .inline-related h4 { font-size: 1rem; font-weight: 900; color: var(--gold-dark); margin-bottom: 10px; }
         .inline-related ul { list-style: none; }
@@ -276,7 +255,6 @@
         .inline-related a { color: var(--text); font-size: 0.9rem; font-weight: 600; }
         .inline-related a:hover { color: var(--gold-dark); }
 
-        /* أزرار المشاركة */
         .modal-share { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.85rem; }
         .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -293,37 +271,78 @@
         .share-btn.telegram { background: #0088cc; }
         .share-btn.copy { background: #6c757d; }
 
-        /* جدول ترتيب الدوري */
+        /* ترتيب الدوري - قسم قابل للطي */
+        .standings-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .standings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+        }
+        .standings-header:hover { background: rgba(255, 215, 0, 0.05); }
+        .standings-header h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--text);
+            margin: 0;
+        }
+        .standings-toggle-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            transition: transform 0.3s ease;
+        }
+        .standings-section.open .standings-toggle-icon {
+            transform: rotate(180deg);
+        }
+        .standings-content {
+            display: none;
+            padding: 0 25px 25px;
+        }
+        .standings-section.open .standings-content {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* جدول الترتيب */
         .standings-table {
             width: 100%;
             border-collapse: collapse;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            font-size: 0.9rem;
         }
         .standings-table th, .standings-table td {
-            padding: 12px 15px;
+            padding: 10px 12px;
             text-align: center;
-            font-size: 0.9rem;
             border-bottom: 1px solid var(--border);
         }
         .standings-table th {
             background: var(--gold);
             color: #000;
             font-weight: 900;
+            font-size: 0.85rem;
         }
-        .standings-table tr:hover { background: rgba(255, 215, 0, 0.1); }
-        .standings-table .position-1 { background: rgba(255, 215, 0, 0.15); }
-        .standings-table .position-2 { background: rgba(192, 192, 192, 0.15); }
-        .standings-table .position-3 { background: rgba(205, 127, 50, 0.15); }
+        .standings-table tr:hover { background: rgba(255, 215, 0, 0.08); }
         .standings-table .pos-badge {
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
             border-radius: 50%;
             font-weight: 900;
+            font-size: 0.85rem;
         }
         .position-1 .pos-badge { background: var(--gold); color: #000; }
         .position-2 .pos-badge { background: #C0C0C0; color: #000; }
@@ -338,8 +357,7 @@
             position: fixed; bottom: 30px; right: 30px;
             background: var(--gold); color: #000; border: none;
             width: 45px; height: 45px; border-radius: 50%;
-            font-size: 1.5rem; cursor: pointer; display: none;
-            z-index: 999;
+            font-size: 1.5rem; cursor: pointer; display: none; z-index: 999;
         }
         .back-to-top.show { display: block; }
 
@@ -348,14 +366,15 @@
 
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 12px 0; flex-wrap: wrap; }
-            .logo .main-title { font-size: 1.6rem; }
+            .logo .main-title { font-size: 1.5rem; }
             .logo .sub-title { font-size: 0.7rem; }
             .main-nav { display: none; width: 100%; order: 3; }
             .main-nav.open { display: block; }
             .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
             .nav-toggle { display: block; }
             .news-grid { grid-template-columns: 1fr; }
-            .modal-content { padding: 20px 15px 15px; }
+            .standings-table { font-size: 0.75rem; }
+            .standings-table th, .standings-table td { padding: 6px 8px; }
         }
     </style>
 </head>
@@ -377,7 +396,6 @@
                     <li><a href="#local">البطولات المحلية</a></li>
                     <li><a href="#training">التدريبات</a></li>
                     <li><a href="#players">أخبار اللاعبين</a></li>
-                    <li><a href="#standings">ترتيب الدوري</a></li>
                 </ul>
             </nav>
             <button class="dark-toggle" id="darkToggle">🌙</button>
@@ -401,7 +419,7 @@
         <a href="#local">البطولات المحلية</a>
         <a href="#training">التدريبات</a>
         <a href="#players">أخبار اللاعبين</a>
-        <a href="#standings">ترتيب الدوري</a>
+        <a href="#standingsToggle">ترتيب الدوري</a>
     </nav>
 
     <div class="search-box">
@@ -410,11 +428,16 @@
     </div>
 
     <main class="container">
-        <!-- ترتيب الدوري الإسباني -->
-        <section class="news-section reveal" id="standings">
-            <h3 class="section-title">🏆 ترتيب الدوري الإسباني</h3>
-            <div id="standingsContainer">
-                <p style="text-align:center; padding:20px; color:#999;">جاري تحميل الترتيب...</p>
+        <!-- قسم ترتيب الدوري الإسباني (قابل للطي) -->
+        <section class="standings-section reveal" id="standingsToggle">
+            <div class="standings-header" onclick="toggleStandings()">
+                <h3>🏆 ترتيب الدوري الإسباني — موسم 2026-2027</h3>
+                <span class="standings-toggle-icon">▼</span>
+            </div>
+            <div class="standings-content" id="standingsContent">
+                <div id="standingsContainer">
+                    <p style="text-align:center; padding:20px; color:#999;">جاري تحميل الترتيب...</p>
+                </div>
             </div>
         </section>
 
@@ -496,22 +519,21 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // الأقسام الجديدة
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
 
-        // ترتيب الدوري الإسباني (بيانات تجريبية - ستتحدث تلقائيًا كل دقيقة)
+        // ===== ترتيب الدوري الإسباني موسم 2026-2027 =====
         let laLigaStandings = [
-            { pos: 1, team: 'ريال مدريد', played: 25, won: 19, drawn: 4, lost: 2, gf: 55, ga: 18, gd: 37, points: 61 },
-            { pos: 2, team: 'برشلونة', played: 25, won: 18, drawn: 4, lost: 3, gf: 52, ga: 22, gd: 30, points: 58 },
-            { pos: 3, team: 'أتلتيكو مدريد', played: 25, won: 15, drawn: 6, lost: 4, gf: 45, ga: 25, gd: 20, points: 51 },
-            { pos: 4, team: 'أتلتيك بلباو', played: 25, won: 13, drawn: 8, lost: 4, gf: 40, ga: 24, gd: 16, points: 47 },
-            { pos: 5, team: 'فياريال', played: 25, won: 12, drawn: 7, lost: 6, gf: 38, ga: 30, gd: 8, points: 43 },
-            { pos: 6, team: 'ريال بيتيس', played: 25, won: 11, drawn: 8, lost: 6, gf: 35, ga: 28, gd: 7, points: 41 },
-            { pos: 7, team: 'ريال سوسيداد', played: 25, won: 10, drawn: 9, lost: 6, gf: 32, ga: 26, gd: 6, points: 39 },
-            { pos: 8, team: 'فالنسيا', played: 25, won: 9, drawn: 8, lost: 8, gf: 30, ga: 30, gd: 0, points: 35 },
-            { pos: 9, team: 'إشبيلية', played: 25, won: 8, drawn: 9, lost: 8, gf: 28, ga: 29, gd: -1, points: 33 },
-            { pos: 10, team: 'خيرونا', played: 25, won: 8, drawn: 7, lost: 10, gf: 30, ga: 35, gd: -5, points: 31 }
+            { pos: 1, team: 'ريال مدريد', played: 2, won: 2, drawn: 0, lost: 0, gf: 5, ga: 1, gd: 4, points: 6 },
+            { pos: 2, team: 'برشلونة', played: 2, won: 2, drawn: 0, lost: 0, gf: 4, ga: 1, gd: 3, points: 6 },
+            { pos: 3, team: 'أتلتيكو مدريد', played: 2, won: 1, drawn: 1, lost: 0, gf: 3, ga: 2, gd: 1, points: 4 },
+            { pos: 4, team: 'أتلتيك بلباو', played: 2, won: 1, drawn: 1, lost: 0, gf: 2, ga: 1, gd: 1, points: 4 },
+            { pos: 5, team: 'فياريال', played: 2, won: 1, drawn: 0, lost: 1, gf: 3, ga: 3, gd: 0, points: 3 },
+            { pos: 6, team: 'ريال بيتيس', played: 2, won: 1, drawn: 0, lost: 1, gf: 2, ga: 2, gd: 0, points: 3 },
+            { pos: 7, team: 'ريال سوسيداد', played: 2, won: 0, drawn: 2, lost: 0, gf: 2, ga: 2, gd: 0, points: 2 },
+            { pos: 8, team: 'فالنسيا', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 2, gd: -1, points: 1 },
+            { pos: 9, team: 'إشبيلية', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 3, gd: -2, points: 1 },
+            { pos: 10, team: 'خيرونا', played: 2, won: 0, drawn: 0, lost: 2, gf: 1, ga: 5, gd: -4, points: 0 }
         ];
 
         // ===== الوضع الداكن =====
@@ -528,7 +550,16 @@
             }
         }
 
-        // ===== عرض ترتيب الدوري =====
+        // ===== فتح/إغلاق قسم الترتيب =====
+        function toggleStandings() {
+            const section = document.getElementById('standingsToggle');
+            section.classList.toggle('open');
+            if (section.classList.contains('open')) {
+                renderStandings();
+            }
+        }
+
+        // ===== عرض الترتيب =====
         function renderStandings() {
             const container = document.getElementById('standingsContainer');
             let html = '<table class="standings-table"><thead><tr>';
@@ -546,43 +577,72 @@
                 html += '</tr>';
             });
             html += '</tbody></table>';
+            html += '<p style="text-align:center; margin-top:15px; font-size:0.8rem; color:#999;">🔄 يتم تحديث الترتيب تلقائيًا مع سير المباريات</p>';
             container.innerHTML = html;
         }
 
-        // ===== تحديث تلقائي للترتيب (محاكاة تحديث النتائج) =====
-        function updateStandings() {
-            // إضافة مباراة عشوائية للفريق (محاكاة لتحديث النقاط)
-            const randomTeam = laLigaStandings[Math.floor(Math.random() * laLigaStandings.length)];
-            const result = Math.random();
-            if (result < 0.4) { // فوز
-                randomTeam.played += 1;
-                randomTeam.won += 1;
-                randomTeam.gf += 2;
-                randomTeam.ga += 0;
-                randomTeam.points += 3;
-            } else if (result < 0.75) { // تعادل
-                randomTeam.played += 1;
-                randomTeam.drawn += 1;
-                randomTeam.gf += 1;
-                randomTeam.ga += 1;
-                randomTeam.points += 1;
-            } else { // خسارة
-                randomTeam.played += 1;
-                randomTeam.lost += 1;
-                randomTeam.gf += 0;
-                randomTeam.ga += 2;
+        // ===== محاكاة تحديث المباريات =====
+        function simulateMatch() {
+            // اختيار فريقين عشوائيين للعب مباراة
+            const team1Index = Math.floor(Math.random() * laLigaStandings.length);
+            let team2Index = Math.floor(Math.random() * laLigaStandings.length);
+            while (team2Index === team1Index) {
+                team2Index = Math.floor(Math.random() * laLigaStandings.length);
             }
-            randomTeam.gd = randomTeam.gf - randomTeam.ga;
             
-            // إعادة ترتيب الفرق حسب النقاط
-            laLigaStandings.sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
+            const team1 = laLigaStandings[team1Index];
+            const team2 = laLigaStandings[team2Index];
+            
+            // محاكاة نتيجة المباراة
+            const goals1 = Math.floor(Math.random() * 4); // 0-3 أهداف
+            const goals2 = Math.floor(Math.random() * 4);
+            
+            // تحديث بيانات الفريق الأول
+            team1.played += 1;
+            team1.gf += goals1;
+            team1.ga += goals2;
+            if (goals1 > goals2) {
+                team1.won += 1;
+                team1.points += 3;
+            } else if (goals1 === goals2) {
+                team1.drawn += 1;
+                team1.points += 1;
+            } else {
+                team1.lost += 1;
+            }
+            team1.gd = team1.gf - team1.ga;
+            
+            // تحديث بيانات الفريق الثاني
+            team2.played += 1;
+            team2.gf += goals2;
+            team2.ga += goals1;
+            if (goals2 > goals1) {
+                team2.won += 1;
+                team2.points += 3;
+            } else if (goals2 === goals1) {
+                team2.drawn += 1;
+                team2.points += 1;
+            } else {
+                team2.lost += 1;
+            }
+            team2.gd = team2.gf - team2.ga;
+            
+            // إعادة ترتيب الفرق
+            laLigaStandings.sort((a, b) => {
+                if (b.points !== a.points) return b.points - a.points;
+                return (b.gf - b.ga) - (a.gf - a.ga);
+            });
             laLigaStandings.forEach((team, index) => team.pos = index + 1);
             
-            renderStandings();
+            // تحديث العرض إذا كان القسم مفتوحًا
+            const section = document.getElementById('standingsToggle');
+            if (section.classList.contains('open')) {
+                renderStandings();
+            }
         }
 
-        // تحديث الترتيب كل 5 دقائق
-        setInterval(updateStandings, 300000);
+        // محاكاة مباراة كل 2 دقيقة
+        setInterval(simulateMatch, 120000);
 
         // ===== عرض الأخبار =====
         function renderNews() {
@@ -610,14 +670,9 @@
         function createNewsCard(article) {
             const card = document.createElement('article');
             card.className = 'news-card';
-            
-            const imageUrl = article.cover && article.cover.trim() !== '' 
-                ? article.cover 
-                : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
-            
+            const imageUrl = article.cover && article.cover.trim() !== '' ? article.cover : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
             const location = article.city ? `📍 ${article.city}` : '';
             const time = article.date ? `🕐 ${article.date} ${article.time || ''}` : '';
-
             card.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}" loading="lazy">
                 <div class="card-body">
@@ -630,18 +685,11 @@
                     <button class="read-btn">قراءة الخبر</button>
                 </div>
             `;
-            
             const readBtn = card.querySelector('.read-btn');
             readBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 openModal(article);
             });
-            
-            card.addEventListener('click', () => {
-                document.querySelectorAll('.news-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-            });
-            
             return card;
         }
 
@@ -649,10 +697,7 @@
         function searchNews(query) {
             const q = query.trim().toLowerCase();
             if (!q) { renderNews(); return; }
-            const results = allNewsData.filter(item => 
-                item.title.toLowerCase().includes(q) || 
-                (item.summary && item.summary.toLowerCase().includes(q))
-            );
+            const results = allNewsData.filter(item => item.title.toLowerCase().includes(q) || (item.summary && item.summary.toLowerCase().includes(q)));
             categories.forEach(cat => {
                 const grid = document.getElementById(cat + '-news');
                 if (grid) grid.innerHTML = '';
@@ -719,7 +764,6 @@
             if (article.date) metaHtml += `<span>📅 ${article.date}</span>`;
             if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
             document.getElementById('modalMeta').innerHTML = metaHtml;
-            
             const modalImage = document.getElementById('modalImage');
             if (article.cover && article.cover.trim() !== '') {
                 modalImage.src = article.cover;
@@ -727,16 +771,13 @@
             } else {
                 modalImage.style.display = 'none';
             }
-            
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             injectInlineRelatedNews(article);
-            
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
             document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
             document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
             document.getElementById('shareTg').onclick = () => shareOnTelegram(article);
             document.getElementById('shareCopy').onclick = copyLink;
-            
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -769,8 +810,10 @@
                     quickLinks.forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
                     const targetId = this.getAttribute('href').substring(1);
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) targetSection.scrollIntoView({ behavior: 'smooth' });
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 });
             });
         }
@@ -778,24 +821,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             initDarkMode();
             renderNews();
-            renderStandings();
             revealOnScroll();
             handleQuickNav();
-            
             document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
             document.getElementById('searchInput').addEventListener('input', function() { searchNews(this.value); });
-            
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
             navToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
-
             const backToTop = document.getElementById('backToTop');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 300) backToTop.classList.add('show');
                 else backToTop.classList.remove('show');
             });
             backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
             document.getElementById('modalClose').addEventListener('click', closeModal);
             document.getElementById('modalOverlay').addEventListener('click', function(e) {
                 if (e.target === this) closeModal();
