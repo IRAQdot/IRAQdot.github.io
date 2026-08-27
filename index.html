@@ -54,8 +54,36 @@
         @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
         .site-description { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; text-align: center; padding: 6px 15px; }
         .site-description p { font-size: 0.7rem; font-weight: 600; }
-        .quick-nav { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; padding: 6px 10px; margin: 8px auto; background: var(--card-bg); border-radius: 20px; max-width: 900px; width: 92%; }
-        .quick-nav a { padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; color: var(--text-muted); }
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding: 4px 8px;
+            margin: 5px auto;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            max-width: 850px;
+            width: 92%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .quick-nav::-webkit-scrollbar { display: none; }
+        .quick-nav a {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 2px 8px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #fff; }
         .search-box { display: flex; align-items: center; gap: 6px; background: var(--card-bg); border-radius: 20px; padding: 3px 12px; margin: 0 auto 15px; max-width: 700px; width: 92%; border: 1px solid var(--border); }
         .search-box input { flex: 1; border: none; outline: none; font-family: inherit; font-size: 0.8rem; background: transparent; color: var(--text); padding: 5px 0; }
