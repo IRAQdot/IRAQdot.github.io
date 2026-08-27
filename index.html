@@ -5,39 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO -->
-    <title>Madridistas de Irak | أخبار محلية وعالمية</title>
-    <meta name="description" content="Madridistas de Irak - نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية. أخبار سياسية، مجتمعية، اقتصادية، أدبية، رياضية، تكنولوجية وصحية.">
-    <meta name="keywords" content="Madridistas de Irak, أخبار العراق, أخبار محلية, أخبار عالمية, سياسة, مجتمع, اقتصاد, أدب, رياضة, تكنولوجيا, صحة, منوعات, أخبار عاجلة">
-    <meta name="author" content="Madridistas de Irak">
+    <title>Medridistas del Irak | أخبار ريال مدريد</title>
+    <meta name="description" content="Medridistas del Irak - مجتمع عشاق ريال مدريد في العراق. أخبار، تصريحات، الدوري الإسباني، دوري الأبطال، البطولات المحلية، التدريبات، وأخبار اللاعبين.">
+    <meta name="keywords" content="ريال مدريد, Medridistas, del Irak, الدوري الإسباني, دوري الأبطال, أخبار ريال مدريد">
+    <meta name="author" content="Medridistas del Irak">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Arabic">
-    <meta name="theme-color" content="#0d6efd">
-    <link rel="canonical" href="https://iraqdot.github.io/">
+    <meta name="theme-color" content="#FFD700">
+    <link rel="canonical" href="https://medridistas-del-irak.github.io/">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Madridistas de Irak | أخبار محلية وعالمية">
-    <meta property="og:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
-    <meta property="og:url" content="https://iraqdot.github.io">
-    <meta property="og:image" content="https://iraqdot.github.io/1787665502863.png">
+    <meta property="og:title" content="Medridistas del Irak | أخبار ريال مدريد">
+    <meta property="og:description" content="مجتمع عشاق ريال مدريد في العراق.">
+    <meta property="og:url" content="https://medridistas-del-irak.github.io">
+    <meta property="og:image" content="https://medridistas-del-irak.github.io/1787665502863.png">
     <meta property="og:locale" content="ar_AR">
-    <meta property="og:site_name" content="Madridistas de Irak">
+    <meta property="og:site_name" content="Medridistas del Irak">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Madridistas de Irak | أخبار محلية وعالمية">
-    <meta name="twitter:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
-    <meta name="twitter:image" content="https://iraqdot.github.io/1787665502863.png">
+    <meta name="twitter:title" content="Medridistas del Irak | أخبار ريال مدريد">
+    <meta name="twitter:description" content="مجتمع عشاق ريال مدريد في العراق.">
+    <meta name="twitter:image" content="https://medridistas-del-irak.github.io/1787665502863.png">
     
     <!-- Schema.org -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "NewsMediaOrganization",
-        "name": "Madridistas de Irak",
-        "url": "https://iraqdot.github.io",
-        "logo": "https://iraqdot.github.io/1787665502863.png",
-        "description": "موقع إخباري محلي وعالمي يغطي جميع الأحداث"
+        "name": "Medridistas del Irak",
+        "url": "https://medridistas-del-irak.github.io",
+        "description": "مجتمع عشاق ريال مدريد في العراق"
     }
     </script>
     
@@ -52,16 +51,10 @@
     
     <style>
         :root {
+            --gold: #FFD700;
+            --gold-dark: #DAA520;
             --primary: #0d6efd;
-            --primary-dark: #0a58ca;
-            --secondary: #6c757d;
             --dark: #212529;
-            --light: #f8f9fa;
-            --white: #ffffff;
-            --danger: #dc3545;
-            --success: #198754;
-            --font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-            --transition: all 0.3s ease;
             --bg: #f0f2f5;
             --card-bg: #ffffff;
             --text: #212529;
@@ -80,7 +73,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: var(--font-family);
+            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.7;
@@ -92,82 +85,101 @@
 
         .container { width: 92%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
 
+        /* الترويسة */
         .top-header {
             background: var(--card-bg);
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: box-shadow 0.3s ease, background-color 0.3s ease;
         }
-        .top-header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
-        .header-flex { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 15px; }
-
-        /* شعار جديد */
-        .logo a {
+        .header-flex {
             display: flex;
-            align-items: baseline;
-            gap: 6px;
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: var(--text);
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+            gap: 15px;
+        }
+
+        /* الشعار الجديد */
+        .logo {
+            text-align: center;
             line-height: 1.2;
         }
-        .logo .madridistas {
-            font-size: 1.8rem;
+        .logo a {
+            display: block;
+        }
+        .logo .main-title {
+            font-size: 2.2rem;
             font-weight: 900;
-            color: #0d6efd; /* أزرق مدريدي */
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3);
+            animation: goldGlow 3s ease-in-out infinite;
+            display: block;
         }
-        .logo .de-irak {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text);
+        .logo .sub-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #000000;
+            letter-spacing: 5px;
+            display: block;
+            margin-top: -5px;
         }
-        .logo a:hover { opacity: 0.85; }
+        body.dark-mode .logo .sub-title { color: #ffffff; }
+
+        @keyframes goldGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3); }
+            50% { text-shadow: 0 0 35px rgba(255, 215, 0, 0.9), 0 0 70px rgba(255, 215, 0, 0.5); }
+        }
 
         .main-nav ul { display: flex; list-style: none; gap: 5px; }
-        .main-nav ul li a { padding: 8px 12px; border-radius: 30px; font-weight: 700; color: var(--text-muted); transition: all 0.3s ease; font-size: 0.9rem; }
-        .main-nav ul li a:hover, .main-nav ul li a.active { background: #0d6efd; color: #fff; }
+        .main-nav ul li a {
+            padding: 8px 12px;
+            border-radius: 30px;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .main-nav ul li a:hover, .main-nav ul li a.active {
+            background: var(--gold);
+            color: #000;
+        }
         .nav-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text); }
 
         .dark-toggle {
             background: none; border: 1px solid var(--border); border-radius: 50%;
             width: 38px; height: 38px; cursor: pointer; font-size: 1.2rem;
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s; color: var(--text);
+            color: var(--text);
         }
-        .dark-toggle:hover { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+        .dark-toggle:hover { background: var(--gold); color: #000; }
 
-        .breaking-news { background: #212529; color: #fff; padding: 10px 0; overflow: hidden; }
-        .breaking-news .container { display: flex; align-items: center; gap: 15px; }
-        .breaking-label { background: #dc3545; padding: 4px 15px; border-radius: 30px; font-weight: 800; font-size: 0.85rem; white-space: nowrap; animation: blink 1s infinite; }
-        .breaking-ticker { flex: 1; overflow: hidden; white-space: nowrap; }
-        .breaking-ticker p { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; font-weight: 600; }
-        .breaking-ticker p:hover { animation-play-state: paused; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
+        /* صورة الواجهة */
         .hero-image { width: 100%; margin-bottom: 0; position: relative; overflow: hidden; }
         .hero-image img { width: 100%; height: auto; max-height: 500px; object-fit: cover; display: block; }
         .hero-image::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3), transparent);
             animation: shine 3s infinite;
         }
         @keyframes shine { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
 
         .site-description {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff; text-align: center; padding: 12px 20px; margin-bottom: 0;
+            color: #fff; text-align: center; padding: 12px 20px;
         }
-        .site-description p { font-size: 1rem; font-weight: 700; max-width: 600px; margin: 0 auto; line-height: 1.5; }
+        .site-description p { font-size: 1rem; font-weight: 700; max-width: 600px; margin: 0 auto; }
 
+        /* شريط الوصول السريع */
         .quick-nav {
             display: flex; justify-content: center; gap: 8px; flex-wrap: nowrap;
-            overflow-x: auto; padding: 10px 15px; margin-bottom: 20px;
+            overflow-x: auto; padding: 10px 15px; margin: 20px auto;
             background: var(--card-bg); border-radius: 12px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.08); scrollbar-width: none;
+            max-width: 1200px; width: 92%;
         }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a {
@@ -175,98 +187,27 @@
             font-weight: 700; font-size: 0.9rem; color: var(--text-muted);
             transition: all 0.3s ease; white-space: nowrap; border: 2px solid transparent;
         }
-        .quick-nav a:hover, .quick-nav a.active { background: #0d6efd; color: #fff; }
-        .quick-nav a:active { transform: scale(0.95); }
+        .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #000; }
 
+        /* البحث */
         .search-box {
             display: flex; align-items: center; gap: 8px;
             background: var(--card-bg); border-radius: 30px;
-            padding: 5px 15px; margin-bottom: 20px;
+            padding: 5px 15px; margin: 0 auto 20px;
             box-shadow: 0 3px 15px rgba(0,0,0,0.08); border: 1px solid var(--border);
+            max-width: 1200px; width: 92%;
         }
         .search-box input {
             flex: 1; border: none; outline: none; font-family: inherit;
             font-size: 0.95rem; background: transparent; color: var(--text); padding: 8px 0;
         }
-        .search-box .search-icon { color: var(--text-muted); }
 
-        .main-layout {
-            display: flex;
-            gap: 25px;
-            align-items: flex-start;
-        }
-        .main-content {
-            flex: 1;
-            min-width: 0;
-        }
-        .sidebar {
-            width: 300px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 100px;
-            max-height: calc(100vh - 120px);
-            overflow-y: auto;
-            background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            padding: 20px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-        .sidebar::-webkit-scrollbar { width: 5px; }
-        .sidebar::-webkit-scrollbar-thumb { background: #0d6efd; border-radius: 10px; }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #dc3545;
-        }
-        .sidebar-header .icon { font-size: 1.5rem; }
-        .sidebar-header h3 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: #dc3545;
-            animation: blink 2s infinite;
-        }
-        .sidebar-news-list { list-style: none; }
-        .sidebar-news-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            background: var(--bg);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-right: 3px solid #dc3545;
-        }
-        .sidebar-news-item:hover {
-            background: #dc3545;
-            color: #fff;
-            transform: translateX(-5px);
-        }
-        .sidebar-news-item .s-title {
-            font-size: 0.9rem;
-            font-weight: 700;
-            line-height: 1.5;
-            margin-bottom: 5px;
-        }
-        .sidebar-news-item .s-meta {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-        .sidebar-news-item:hover .s-meta {
-            color: rgba(255,255,255,0.8);
-        }
-        .sidebar-empty {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 30px 0;
-        }
-
+        /* الأقسام */
         .news-section { margin-bottom: 40px; }
-        .section-title { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; color: var(--text); border-right: 5px solid #0d6efd; padding-right: 15px; }
+        .section-title {
+            font-size: 1.7rem; font-weight: 900; margin-bottom: 25px;
+            color: var(--text); border-right: 5px solid var(--gold); padding-right: 15px;
+        }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
 
         .news-card {
@@ -275,30 +216,23 @@
             display: flex; flex-direction: column; cursor: pointer;
         }
         .news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-        .news-card.selected { box-shadow: 0 0 0 3px #0d6efd, 0 8px 25px rgba(0,0,0,0.2); transform: scale(1.02); }
+        .news-card.selected { box-shadow: 0 0 0 3px var(--gold), 0 8px 25px rgba(0,0,0,0.2); transform: scale(1.02); }
         .news-card img { width: 100%; height: 180px; object-fit: cover; }
         .news-card .card-body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
-        .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; line-height: 1.4; }
-        .news-card .card-body h4 a { color: var(--text); }
-        .news-card .card-body h4 a:hover { color: #0d6efd; }
+        .news-card .card-body h4 { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; }
         .news-card .card-body p { color: var(--text-muted); font-size: 0.95rem; flex: 1; }
         .news-card .card-body .meta { margin-top: 15px; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
 
-        .badge-urgent {
-            background: #dc3545; color: #fff; font-size: 0.7rem;
-            padding: 3px 10px; border-radius: 20px; display: inline-block;
-            margin-left: 5px; animation: blink 1s infinite;
-        }
-
         .read-btn {
-            display: inline-block; background: #0d6efd; color: #fff;
+            display: inline-block; background: var(--gold); color: #000;
             padding: 8px 18px; border: none; border-radius: 30px;
             font-family: inherit; font-weight: 700; font-size: 0.85rem;
             cursor: pointer; transition: all 0.3s ease;
             margin-top: 15px; text-align: center; align-self: flex-start;
         }
-        .read-btn:hover { background: #0a58ca; transform: translateY(-2px); }
+        .read-btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
 
+        /* اللوحة المنبثقة */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.75); z-index: 2000;
@@ -321,15 +255,14 @@
             position: absolute; top: 12px; left: 18px;
             font-size: 2rem; background: none; border: none;
             cursor: pointer; color: var(--text-muted);
-            font-family: inherit; line-height: 1; transition: all 0.3s;
         }
-        .modal-close:hover { color: #dc3545; transform: scale(1.2); }
-        .modal-content h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; line-height: 1.4; color: var(--text); padding-left: 30px; }
+        .modal-close:hover { color: #dc3545; }
+        .modal-content h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; padding-left: 30px; }
         .modal-content .modal-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted); }
         .modal-content .modal-image { width: 100%; border-radius: 12px; margin-bottom: 15px; max-height: 350px; object-fit: cover; }
-        .modal-content .modal-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
-        .modal-content .modal-body img { max-width: 100%; border-radius: 10px; margin: 12px 0; }
+        .modal-content .modal-body { font-size: 1rem; line-height: 1.8; }
 
+        /* أخبار ذات صلة داخل المقال */
         .inline-related {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -337,22 +270,13 @@
             padding: 15px;
             margin: 20px 0;
         }
-        .inline-related h4 {
-            font-size: 1rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
+        .inline-related h4 { font-size: 1rem; font-weight: 900; color: var(--gold-dark); margin-bottom: 10px; }
         .inline-related ul { list-style: none; }
         .inline-related li { margin-bottom: 8px; }
-        .inline-related a {
-            color: var(--text);
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-        .inline-related a:hover { color: var(--primary); }
+        .inline-related a { color: var(--text); font-size: 0.9rem; font-weight: 600; }
+        .inline-related a:hover { color: var(--gold-dark); }
 
+        /* أزرار المشاركة */
         .modal-share { margin-top: 20px; border-top: 1px solid var(--border); padding-top: 15px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.85rem; }
         .share-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -362,57 +286,76 @@
             font-family: inherit; font-weight: 700; font-size: 0.75rem;
             cursor: pointer; transition: all 0.2s ease; color: #fff;
         }
-        .share-btn:hover { opacity: 0.85; transform: translateY(-1px); }
-        .share-btn svg { width: 14px; height: 14px; fill: currentColor; }
+        .share-btn:hover { opacity: 0.85; }
         .share-btn.facebook { background: #1877f2; }
         .share-btn.twitter { background: #000000; }
         .share-btn.whatsapp { background: #25d366; }
         .share-btn.telegram { background: #0088cc; }
         .share-btn.copy { background: #6c757d; }
 
+        /* جدول ترتيب الدوري */
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+        .standings-table th, .standings-table td {
+            padding: 12px 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .standings-table th {
+            background: var(--gold);
+            color: #000;
+            font-weight: 900;
+        }
+        .standings-table tr:hover { background: rgba(255, 215, 0, 0.1); }
+        .standings-table .position-1 { background: rgba(255, 215, 0, 0.15); }
+        .standings-table .position-2 { background: rgba(192, 192, 192, 0.15); }
+        .standings-table .position-3 { background: rgba(205, 127, 50, 0.15); }
+        .standings-table .pos-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            font-weight: 900;
+        }
+        .position-1 .pos-badge { background: var(--gold); color: #000; }
+        .position-2 .pos-badge { background: #C0C0C0; color: #000; }
+        .position-3 .pos-badge { background: #CD7F32; color: #fff; }
+        .others .pos-badge { background: var(--bg); color: var(--text); }
+
         footer { background: #212529; color: #ccc; padding: 30px 0; margin-top: 40px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         .footer-flex nav a { margin-left: 20px; color: #ccc; }
-        .footer-flex nav a:hover { color: #fff; }
 
         .back-to-top {
             position: fixed; bottom: 30px; right: 30px;
-            background: #0d6efd; color: #fff; border: none;
+            background: var(--gold); color: #000; border: none;
             width: 45px; height: 45px; border-radius: 50%;
             font-size: 1.5rem; cursor: pointer; display: none;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.3); z-index: 999;
-            animation: pulse 2s infinite;
+            z-index: 999;
         }
         .back-to-top.show { display: block; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(13, 110, 253, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
-        }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 992px) {
-            .main-layout { flex-direction: column; }
-            .sidebar { width: 100%; position: static; max-height: none; margin-bottom: 30px; }
-        }
-
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 12px 0; flex-wrap: wrap; }
-            .logo .madridistas { font-size: 1.5rem; }
-            .logo .de-irak { font-size: 1rem; }
+            .logo .main-title { font-size: 1.6rem; }
+            .logo .sub-title { font-size: 0.7rem; }
             .main-nav { display: none; width: 100%; order: 3; }
             .main-nav.open { display: block; }
             .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
             .nav-toggle { display: block; }
-            .hero-image img { max-height: 300px; }
-            .site-description p { font-size: 0.9rem; }
-            .quick-nav { justify-content: flex-start; }
             .news-grid { grid-template-columns: 1fr; }
             .modal-content { padding: 20px 15px 15px; }
-            .modal-content h2 { font-size: 1.2rem; }
-            .share-btn { font-size: 0.7rem; padding: 4px 8px; }
         }
     </style>
 </head>
@@ -420,55 +363,45 @@
     <header class="top-header" id="topHeader">
         <div class="container header-flex">
             <div class="logo">
-                <a href="https://iraqdot.github.io" title="Madridistas de Irak">
-                    <span class="madridistas">Madridistas</span>
-                    <span class="de-irak">de Irak</span>
+                <a href="https://medridistas-del-irak.github.io" title="Medridistas del Irak">
+                    <span class="main-title">MEDRIDISTAS</span>
+                    <span class="sub-title">del irak</span>
                 </a>
             </div>
             <nav class="main-nav" id="mainNav">
                 <ul>
-                    <li><a href="#home" class="active">الرئيسية</a></li>
-                    <li><a href="#politics">سياسة</a></li>
-                    <li><a href="#society">مجتمع</a></li>
-                    <li><a href="#economy">اقتصاد</a></li>
-                    <li><a href="#literature">أدب</a></li>
-                    <li><a href="#sports">رياضة</a></li>
-                    <li><a href="#tech">تكنولوجيا</a></li>
-                    <li><a href="#health">صحة</a></li>
-                    <li><a href="#misc">منوعات</a></li>
+                    <li><a href="#news" class="active">أخبار</a></li>
+                    <li><a href="#statements">تصريحات</a></li>
+                    <li><a href="#laliga">الدوري الإسباني</a></li>
+                    <li><a href="#champions">دوري الأبطال</a></li>
+                    <li><a href="#local">البطولات المحلية</a></li>
+                    <li><a href="#training">التدريبات</a></li>
+                    <li><a href="#players">أخبار اللاعبين</a></li>
+                    <li><a href="#standings">ترتيب الدوري</a></li>
                 </ul>
             </nav>
-            <button class="dark-toggle" id="darkToggle" title="تبديل المظهر">🌙</button>
+            <button class="dark-toggle" id="darkToggle">🌙</button>
             <button class="nav-toggle" id="navToggle">☰</button>
         </div>
     </header>
 
-    <div class="breaking-news">
-        <div class="container">
-            <span class="breaking-label">عاجل</span>
-            <div class="breaking-ticker" id="breakingTicker">
-                <p id="tickerText">لا توجد أخبار عاجلة حاليًا.</p>
-            </div>
-        </div>
-    </div>
-
     <section class="hero-image" id="home">
-        <img src="1787665502863.png" alt="Madridistas de Irak - أخبار محلية وعالمية">
+        <img src="1787665502863.png" alt="Medridistas del Irak">
     </section>
 
     <div class="site-description">
-        <p>نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية</p>
+        <p>مجتمع عشاق ريال مدريد في العراق — نافذتك على كل ما يخص الملكي</p>
     </div>
 
     <nav class="quick-nav" id="quickNav">
-        <a href="#politics" class="active">سياسة</a>
-        <a href="#society">مجتمع</a>
-        <a href="#economy">اقتصاد</a>
-        <a href="#literature">أدب</a>
-        <a href="#sports">رياضة</a>
-        <a href="#tech">تكنولوجيا</a>
-        <a href="#health">صحة</a>
-        <a href="#misc">منوعات</a>
+        <a href="#news" class="active">أخبار</a>
+        <a href="#statements">تصريحات</a>
+        <a href="#laliga">الدوري الإسباني</a>
+        <a href="#champions">دوري الأبطال</a>
+        <a href="#local">البطولات المحلية</a>
+        <a href="#training">التدريبات</a>
+        <a href="#players">أخبار اللاعبين</a>
+        <a href="#standings">ترتيب الدوري</a>
     </nav>
 
     <div class="search-box">
@@ -476,58 +409,48 @@
         <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
     </div>
 
-    <div class="main-layout">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <span class="icon">🔴</span>
-                <h3>الأخبار العاجلة</h3>
+    <main class="container">
+        <!-- ترتيب الدوري الإسباني -->
+        <section class="news-section reveal" id="standings">
+            <h3 class="section-title">🏆 ترتيب الدوري الإسباني</h3>
+            <div id="standingsContainer">
+                <p style="text-align:center; padding:20px; color:#999;">جاري تحميل الترتيب...</p>
             </div>
-            <ul class="sidebar-news-list" id="sidebarNewsList">
-                <li class="sidebar-empty">لا توجد أخبار عاجلة حاليًا.</li>
-            </ul>
-        </aside>
+        </section>
 
-        <div class="main-content">
-            <main>
-                <section class="news-section reveal" id="politics">
-                    <h3 class="section-title">📰 سياسة</h3>
-                    <div class="news-grid" id="politics-news"></div>
-                </section>
-                <section class="news-section reveal" id="society">
-                    <h3 class="section-title">👥 مجتمع</h3>
-                    <div class="news-grid" id="society-news"></div>
-                </section>
-                <section class="news-section reveal" id="economy">
-                    <h3 class="section-title">💰 اقتصاد</h3>
-                    <div class="news-grid" id="economy-news"></div>
-                </section>
-                <section class="news-section reveal" id="literature">
-                    <h3 class="section-title">📚 أدب</h3>
-                    <div class="news-grid" id="literature-news"></div>
-                </section>
-                <section class="news-section reveal" id="sports">
-                    <h3 class="section-title">⚽ رياضة</h3>
-                    <div class="news-grid" id="sports-news"></div>
-                </section>
-                <section class="news-section reveal" id="tech">
-                    <h3 class="section-title">💻 تكنولوجيا</h3>
-                    <div class="news-grid" id="tech-news"></div>
-                </section>
-                <section class="news-section reveal" id="health">
-                    <h3 class="section-title">🩺 صحة</h3>
-                    <div class="news-grid" id="health-news"></div>
-                </section>
-                <section class="news-section reveal" id="misc">
-                    <h3 class="section-title">🎭 منوعات</h3>
-                    <div class="news-grid" id="misc-news"></div>
-                </section>
-            </main>
-        </div>
-    </div>
+        <section class="news-section reveal" id="news">
+            <h3 class="section-title">📰 أخبار</h3>
+            <div class="news-grid" id="news-news"></div>
+        </section>
+        <section class="news-section reveal" id="statements">
+            <h3 class="section-title">🎙️ تصريحات</h3>
+            <div class="news-grid" id="statements-news"></div>
+        </section>
+        <section class="news-section reveal" id="laliga">
+            <h3 class="section-title">⚽ الدوري الإسباني</h3>
+            <div class="news-grid" id="laliga-news"></div>
+        </section>
+        <section class="news-section reveal" id="champions">
+            <h3 class="section-title">🏅 دوري الأبطال</h3>
+            <div class="news-grid" id="champions-news"></div>
+        </section>
+        <section class="news-section reveal" id="local">
+            <h3 class="section-title">🏟️ البطولات المحلية</h3>
+            <div class="news-grid" id="local-news"></div>
+        </section>
+        <section class="news-section reveal" id="training">
+            <h3 class="section-title">🏋️ التدريبات</h3>
+            <div class="news-grid" id="training-news"></div>
+        </section>
+        <section class="news-section reveal" id="players">
+            <h3 class="section-title">👤 أخبار اللاعبين</h3>
+            <div class="news-grid" id="players-news"></div>
+        </section>
+    </main>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <button class="modal-close" id="modalClose" title="إغلاق">×</button>
+            <button class="modal-close" id="modalClose">×</button>
             <h2 id="modalTitle"></h2>
             <div class="modal-meta" id="modalMeta"></div>
             <img id="modalImage" class="modal-image" src="" alt="">
@@ -547,7 +470,7 @@
 
     <footer>
         <div class="container footer-flex">
-            <p>جميع الحقوق محفوظة &copy; 2025 Madridistas de Irak</p>
+            <p>جميع الحقوق محفوظة &copy; 2025 Medridistas del Irak</p>
             <nav>
                 <a href="#">من نحن</a>
                 <a href="#">اتصل بنا</a>
@@ -559,7 +482,7 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // ===== إعدادات Firebase (نفسها) =====
+        // ===== إعدادات Firebase =====
         const firebaseConfig = {
             apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
             authDomain: "iraqdot-news.firebaseapp.com",
@@ -570,35 +493,98 @@
             appId: "1:332644409269:web:a3d9ffd2c7044d6fb803fc",
             measurementId: "G-M236VH0P44"
         };
-
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        const categories = ['politics', 'society', 'economy', 'literature', 'sports', 'tech', 'health', 'misc'];
+        // الأقسام الجديدة
+        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
-        let currentArticle = null;
 
-        // الوضع الداكن
+        // ترتيب الدوري الإسباني (بيانات تجريبية - ستتحدث تلقائيًا كل دقيقة)
+        let laLigaStandings = [
+            { pos: 1, team: 'ريال مدريد', played: 25, won: 19, drawn: 4, lost: 2, gf: 55, ga: 18, gd: 37, points: 61 },
+            { pos: 2, team: 'برشلونة', played: 25, won: 18, drawn: 4, lost: 3, gf: 52, ga: 22, gd: 30, points: 58 },
+            { pos: 3, team: 'أتلتيكو مدريد', played: 25, won: 15, drawn: 6, lost: 4, gf: 45, ga: 25, gd: 20, points: 51 },
+            { pos: 4, team: 'أتلتيك بلباو', played: 25, won: 13, drawn: 8, lost: 4, gf: 40, ga: 24, gd: 16, points: 47 },
+            { pos: 5, team: 'فياريال', played: 25, won: 12, drawn: 7, lost: 6, gf: 38, ga: 30, gd: 8, points: 43 },
+            { pos: 6, team: 'ريال بيتيس', played: 25, won: 11, drawn: 8, lost: 6, gf: 35, ga: 28, gd: 7, points: 41 },
+            { pos: 7, team: 'ريال سوسيداد', played: 25, won: 10, drawn: 9, lost: 6, gf: 32, ga: 26, gd: 6, points: 39 },
+            { pos: 8, team: 'فالنسيا', played: 25, won: 9, drawn: 8, lost: 8, gf: 30, ga: 30, gd: 0, points: 35 },
+            { pos: 9, team: 'إشبيلية', played: 25, won: 8, drawn: 9, lost: 8, gf: 28, ga: 29, gd: -1, points: 33 },
+            { pos: 10, team: 'خيرونا', played: 25, won: 8, drawn: 7, lost: 10, gf: 30, ga: 35, gd: -5, points: 31 }
+        ];
+
+        // ===== الوضع الداكن =====
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('iraqdot_dark', isDark);
+            localStorage.setItem('medridistas_dark', isDark);
             document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
         }
         function initDarkMode() {
-            const saved = localStorage.getItem('iraqdot_dark') === 'true';
+            const saved = localStorage.getItem('medridistas_dark') === 'true';
             if (saved) {
                 document.body.classList.add('dark-mode');
                 document.getElementById('darkToggle').textContent = '☀️';
             }
         }
 
-        function incrementViews(articleId) {
-            if (!articleId) return;
-            database.ref('news/' + articleId + '/views').transaction(function(current) {
-                return (current || 0) + 1;
+        // ===== عرض ترتيب الدوري =====
+        function renderStandings() {
+            const container = document.getElementById('standingsContainer');
+            let html = '<table class="standings-table"><thead><tr>';
+            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>له</th><th>عليه</th><th>الفارق</th><th>النقاط</th>';
+            html += '</tr></thead><tbody>';
+            
+            laLigaStandings.forEach(team => {
+                const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
+                html += `<tr class="${posClass}">`;
+                html += `<td><span class="pos-badge">${team.pos}</span></td>`;
+                html += `<td><strong>${team.team}</strong></td>`;
+                html += `<td>${team.played}</td><td>${team.won}</td><td>${team.drawn}</td>`;
+                html += `<td>${team.lost}</td><td>${team.gf}</td><td>${team.ga}</td>`;
+                html += `<td>${team.gd > 0 ? '+' + team.gd : team.gd}</td><td><strong>${team.points}</strong></td>`;
+                html += '</tr>';
             });
+            html += '</tbody></table>';
+            container.innerHTML = html;
         }
 
+        // ===== تحديث تلقائي للترتيب (محاكاة تحديث النتائج) =====
+        function updateStandings() {
+            // إضافة مباراة عشوائية للفريق (محاكاة لتحديث النقاط)
+            const randomTeam = laLigaStandings[Math.floor(Math.random() * laLigaStandings.length)];
+            const result = Math.random();
+            if (result < 0.4) { // فوز
+                randomTeam.played += 1;
+                randomTeam.won += 1;
+                randomTeam.gf += 2;
+                randomTeam.ga += 0;
+                randomTeam.points += 3;
+            } else if (result < 0.75) { // تعادل
+                randomTeam.played += 1;
+                randomTeam.drawn += 1;
+                randomTeam.gf += 1;
+                randomTeam.ga += 1;
+                randomTeam.points += 1;
+            } else { // خسارة
+                randomTeam.played += 1;
+                randomTeam.lost += 1;
+                randomTeam.gf += 0;
+                randomTeam.ga += 2;
+            }
+            randomTeam.gd = randomTeam.gf - randomTeam.ga;
+            
+            // إعادة ترتيب الفرق حسب النقاط
+            laLigaStandings.sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
+            laLigaStandings.forEach((team, index) => team.pos = index + 1);
+            
+            renderStandings();
+        }
+
+        // تحديث الترتيب كل 5 دقائق
+        setInterval(updateStandings, 300000);
+
+        // ===== عرض الأخبار =====
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -608,9 +594,6 @@
                     const grid = document.getElementById(cat + '-news');
                     if (grid) grid.innerHTML = '';
                 });
-
-                updateTicker(allNewsData);
-                updateSidebar(allNewsData);
                 
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
@@ -624,46 +607,6 @@
             });
         }
 
-        function updateTicker(allNews) {
-            const breakingNews = allNews.filter(item => item.isBreaking && item.breakingText);
-            const tickerElement = document.getElementById('tickerText');
-            if (breakingNews.length > 0) {
-                const texts = breakingNews.map(item => item.breakingText).join('  •  ');
-                tickerElement.textContent = texts;
-            } else {
-                tickerElement.textContent = 'لا توجد أخبار عاجلة حاليًا.';
-            }
-        }
-
-        function updateSidebar(allNews) {
-            const breakingNews = allNews
-                .filter(item => item.isBreaking)
-                .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
-            
-            const list = document.getElementById('sidebarNewsList');
-            if (breakingNews.length === 0) {
-                list.innerHTML = '<li class="sidebar-empty">لا توجد أخبار عاجلة حاليًا.</li>';
-                return;
-            }
-            
-            list.innerHTML = '';
-            breakingNews.forEach(article => {
-                const li = document.createElement('li');
-                li.className = 'sidebar-news-item';
-                li.innerHTML = `
-                    <div class="s-title">${article.title}</div>
-                    <div class="s-meta">
-                        ${article.city ? '📍 ' + article.city + ' • ' : ''}${article.time || ''}
-                    </div>
-                `;
-                li.addEventListener('click', () => {
-                    openModal(article);
-                    incrementViews(article.id);
-                });
-                list.appendChild(li);
-            });
-        }
-
         function createNewsCard(article) {
             const card = document.createElement('article');
             card.className = 'news-card';
@@ -672,27 +615,17 @@
                 ? article.cover 
                 : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
             
-            const urgentBadge = article.isBreaking 
-                ? '<span class="badge-urgent">عاجل</span>' 
-                : '';
-            
-            const location = article.country || article.city 
-                ? `📍 ${article.country || ''} ${article.city ? '- ' + article.city : ''}` 
-                : '';
-            const time = article.date || article.time 
-                ? `🕐 ${article.date || ''} ${article.time || ''}` 
-                : '';
-            const views = article.views ? `👁️ ${article.views}` : '';
+            const location = article.city ? `📍 ${article.city}` : '';
+            const time = article.date ? `🕐 ${article.date} ${article.time || ''}` : '';
 
             card.innerHTML = `
                 <img src="${imageUrl}" alt="${article.title}" loading="lazy">
                 <div class="card-body">
-                    <h4>${urgentBadge} <a href="#">${article.title}</a></h4>
+                    <h4>${article.title}</h4>
                     <p>${article.summary || ''}</p>
                     <div class="meta">
                         <span>${location}</span>
                         <span>${time}</span>
-                        ${views ? `<span>${views}</span>` : ''}
                     </div>
                     <button class="read-btn">قراءة الخبر</button>
                 </div>
@@ -702,7 +635,6 @@
             readBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 openModal(article);
-                incrementViews(article.id);
             });
             
             card.addEventListener('click', () => {
@@ -713,67 +645,44 @@
             return card;
         }
 
+        // ===== البحث =====
         function searchNews(query) {
             const q = query.trim().toLowerCase();
             if (!q) { renderNews(); return; }
             const results = allNewsData.filter(item => 
                 item.title.toLowerCase().includes(q) || 
-                (item.summary && item.summary.toLowerCase().includes(q)) ||
-                (item.country && item.country.toLowerCase().includes(q)) ||
-                (item.city && item.city.toLowerCase().includes(q))
+                (item.summary && item.summary.toLowerCase().includes(q))
             );
-            
             categories.forEach(cat => {
                 const grid = document.getElementById(cat + '-news');
                 if (grid) grid.innerHTML = '';
             });
-            
             results.forEach(article => {
                 const grid = document.getElementById(article.category + '-news');
                 if (grid) grid.appendChild(createNewsCard(article));
             });
         }
 
-        function getShareText(article) {
-            return article.title + ' - Madridistas de Irak';
-        }
-        function getShareUrl() {
-            return 'https://iraqdot.github.io';
-        }
-        function shareOnFacebook(article) {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank', 'width=600,height=500');
-        }
-        function shareOnTwitter(article) {
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`, '_blank', 'width=600,height=500');
-        }
-        function shareOnWhatsApp(article) {
-            window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`, '_blank', 'width=600,height=500');
-        }
-        function shareOnTelegram(article) {
-            window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank', 'width=600,height=500');
-        }
-        function copyLink() {
-            navigator.clipboard.writeText(getShareUrl()).then(() => {
-                alert('✅ تم نسخ الرابط بنجاح!');
-            });
-        }
+        // ===== المشاركة =====
+        function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
+        function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
+        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`, '_blank'); }
+        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`, '_blank'); }
+        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
 
+        // ===== أخبار ذات صلة =====
         function injectInlineRelatedNews(article) {
-            const related = allNewsData.filter(item => 
-                item.category === article.category && item.id !== article.id
-            ).slice(0, 3);
-            
+            const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
-            
             const modalBody = document.getElementById('modalBody');
             let contentHtml = modalBody.innerHTML;
-            
             let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
             related.forEach(item => {
                 relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`;
             });
             relatedHtml += '</ul></div>';
-            
             const paragraphs = contentHtml.split(/<\/p>/i);
             if (paragraphs.length > 2) {
                 let insertIndex = contentHtml.indexOf('</p>');
@@ -781,9 +690,6 @@
                     insertIndex = contentHtml.indexOf('</p>', insertIndex + 1);
                     if (insertIndex !== -1) {
                         insertIndex += 4;
-                        contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
-                    } else {
-                        insertIndex = contentHtml.indexOf('</p>') + 4;
                         contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
                     }
                 }
@@ -793,32 +699,25 @@
                 if (cutIndex === -1) cutIndex = half;
                 contentHtml = contentHtml.slice(0, cutIndex) + relatedHtml + contentHtml.slice(cutIndex);
             }
-            
             modalBody.innerHTML = contentHtml;
-            
             modalBody.querySelectorAll('.related-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const id = this.dataset.id;
-                    const foundArticle = allNewsData.find(n => n.id === id);
-                    if (foundArticle) {
-                        closeModal();
-                        setTimeout(() => openModal(foundArticle), 300);
-                    }
+                    const found = allNewsData.find(n => n.id === id);
+                    if (found) { closeModal(); setTimeout(() => openModal(found), 300); }
                 });
             });
         }
 
+        // ===== اللوحة المنبثقة =====
         function openModal(article) {
-            currentArticle = article;
             document.getElementById('modalTitle').textContent = article.title;
-            
             let metaHtml = '';
             if (article.country) metaHtml += `<span>📍 ${article.country}</span>`;
             if (article.city) metaHtml += `<span>🏙️ ${article.city}</span>`;
             if (article.date) metaHtml += `<span>📅 ${article.date}</span>`;
             if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
-            if (article.views) metaHtml += `<span>👁️ ${article.views} مشاهدة</span>`;
             document.getElementById('modalMeta').innerHTML = metaHtml;
             
             const modalImage = document.getElementById('modalImage');
@@ -830,7 +729,6 @@
             }
             
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
-            
             injectInlineRelatedNews(article);
             
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
@@ -848,6 +746,7 @@
             document.body.style.overflow = 'auto';
         }
 
+        // ===== تأثير الظهور =====
         function revealOnScroll() {
             const elements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -861,14 +760,7 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        function headerShadowOnScroll() {
-            const header = document.getElementById('topHeader');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) header.classList.add('scrolled');
-                else header.classList.remove('scrolled');
-            });
-        }
-
+        // ===== شريط الوصول السريع =====
         function handleQuickNav() {
             const quickLinks = document.querySelectorAll('.quick-nav a');
             quickLinks.forEach(link => {
@@ -886,8 +778,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             initDarkMode();
             renderNews();
+            renderStandings();
             revealOnScroll();
-            headerShadowOnScroll();
             handleQuickNav();
             
             document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
@@ -903,10 +795,6 @@
                 else backToTop.classList.remove('show');
             });
             backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-            document.querySelectorAll('.main-nav a').forEach(link => {
-                link.addEventListener('click', () => mainNav.classList.remove('open'));
-            });
 
             document.getElementById('modalClose').addEventListener('click', closeModal);
             document.getElementById('modalOverlay').addEventListener('click', function(e) {
