@@ -3,402 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO -->
     <title>Medridistas del Irak | أخبار ريال مدريد</title>
     <meta name="description" content="Medridistas del Irak - مجتمع عشاق ريال مدريد في العراق.">
-    <meta name="keywords" content="ريال مدريد, Medridistas, del Irak, الدوري الإسباني, دوري الأبطال">
-    <meta name="author" content="Medridistas del Irak">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="Arabic">
     <meta name="theme-color" content="#B8860B">
     <link rel="canonical" href="https://medridistas-del-irak.github.io/">
-    
-    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Medridistas del Irak | أخبار ريال مدريد">
     <meta property="og:description" content="مجتمع عشاق ريال مدريد في العراق.">
-    <meta property="og:url" content="https://medridistas-del-irak.github.io">
     <meta property="og:image" content="https://medridistas-del-irak.github.io/MEDRIDISTAS DEL IRAQ.png">
-    <meta property="og:locale" content="ar_AR">
-    <meta property="og:site_name" content="Medridistas del Irak">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Medridistas del Irak | أخبار ريال مدريد">
-    <meta name="twitter:description" content="مجتمع عشاق ريال مدريد في العراق.">
-    <meta name="twitter:image" content="https://medridistas-del-irak.github.io/MEDRIDISTAS DEL IRAQ.png">
-    
-    <!-- Schema.org -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "NewsMediaOrganization",
-        "name": "Medridistas del Irak",
-        "url": "https://medridistas-del-irak.github.io",
-        "description": "مجتمع عشاق ريال مدريد في العراق"
-    }
-    </script>
-    
-    <!-- خط Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    
     <style>
         :root {
             --gold: #B8860B;
             --gold-dark: #8B6508;
-            --primary: #0d6efd;
-            --dark: #212529;
             --bg: #f0f2f5;
             --card-bg: #ffffff;
             --text: #212529;
             --text-muted: #666;
             --border: #ddd;
         }
-
-        body.dark-mode {
-            --bg: #1a1a2e;
-            --card-bg: #16213e;
-            --text: #e8e8e8;
-            --text-muted: #aaa;
-            --border: #2a3a5a;
-        }
-
+        body.dark-mode { --bg: #1a1a2e; --card-bg: #16213e; --text: #e8e8e8; --text-muted: #aaa; --border: #2a3a5a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.7;
-            font-size: 16px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; transition: background 0.3s, color 0.3s; }
         a { text-decoration: none; color: inherit; }
         img { max-width: 100%; display: block; }
-
         .container { width: 92%; max-width: 1100px; margin: 0 auto; padding: 0 15px; }
-
-        .top-header {
-            background: var(--card-bg);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .top-header { background: var(--card-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .header-flex { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 15px; }
-
-        .logo { text-align: center; line-height: 1.2; }
-        .logo a { display: block; }
-        .logo .main-title {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-shadow: 0 0 20px rgba(184, 134, 11, 0.6), 0 0 40px rgba(184, 134, 11, 0.3);
-            animation: goldGlow 3s ease-in-out infinite;
-            display: block;
-        }
-        .logo .sub-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #000000;
-            letter-spacing: 5px;
-            display: block;
-            margin-top: -4px;
-        }
-        body.dark-mode .logo .sub-title { color: #ffffff; }
-
-        @keyframes goldGlow {
-            0%, 100% { text-shadow: 0 0 20px rgba(184, 134, 11, 0.6), 0 0 40px rgba(184, 134, 11, 0.3); }
-            50% { text-shadow: 0 0 30px rgba(184, 134, 11, 0.9), 0 0 60px rgba(184, 134, 11, 0.5); }
-        }
-
+        .logo .main-title { font-size: 1.8rem; font-weight: 900; letter-spacing: 3px; color: var(--gold); text-shadow: 0 0 20px rgba(184,134,11,0.6); animation: glow 3s infinite; display: block; }
+        .logo .sub-title { font-size: 0.75rem; font-weight: 600; color: #000; letter-spacing: 5px; display: block; }
+        body.dark-mode .logo .sub-title { color: #fff; }
+        @keyframes glow { 0%,100%{text-shadow:0 0 20px rgba(184,134,11,0.6)} 50%{text-shadow:0 0 35px rgba(184,134,11,0.9)} }
         .main-nav ul { display: flex; list-style: none; gap: 5px; flex-wrap: wrap; }
-        .main-nav ul li a {
-            padding: 6px 10px;
-            border-radius: 30px;
-            font-weight: 700;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-            font-size: 0.8rem;
-            white-space: nowrap;
-        }
-        .main-nav ul li a:hover, .main-nav ul li a.active { background: var(--gold); color: #fff; }
-        .nav-toggle { display: none; font-size: 1.5rem; background: none; border: none; cursor: pointer; color: var(--text); }
-
-        .dark-toggle {
-            background: none; border: 1px solid var(--border); border-radius: 50%;
-            width: 35px; height: 35px; cursor: pointer; font-size: 1rem;
-            display: flex; align-items: center; justify-content: center; color: var(--text);
-        }
+        .main-nav a { padding: 6px 10px; border-radius: 30px; font-weight: 700; font-size: 0.8rem; color: var(--text-muted); }
+        .main-nav a:hover, .main-nav a.active { background: var(--gold); color: #fff; }
+        .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text); }
+        .dark-toggle { background: none; border: 1px solid var(--border); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
         .dark-toggle:hover { background: var(--gold); color: #fff; }
-
-        /* ===== صورة الواجهة مع الأزرار فوقها ===== */
-        .hero-image {
-            width: 100%;
-            margin-bottom: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: cover;
-            display: block;
-        }
-        .hero-image::after {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.3), transparent);
-            animation: shine 3s infinite;
-        }
-        @keyframes shine { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
-
-        /* طبقة الأزرار فوق صورة الواجهة */
-        .hero-overlay {
-            position: absolute;
-            bottom: 10px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            z-index: 5;
-            pointer-events: none; /* السماح بالنقر خلال الطبقة للصورة */
-        }
-        .trophy-btn {
-            pointer-events: auto; /* السماح بالنقر على الأزرار */
-            display: block;
-            width: 80px;
-            height: 80px;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 2px solid var(--gold);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            animation: pulse 2s infinite;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background-size: cover;
-            background-position: center;
-        }
-        .trophy-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.5);
-            animation-play-state: paused;
-        }
-        .trophy-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .site-description {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff;
-            text-align: center;
-            padding: 6px 15px;
-        }
-        .site-description p {
-            font-size: 0.7rem;
-            font-weight: 600;
-            max-width: 500px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        .quick-nav {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-            flex-wrap: wrap;
-            padding: 6px 10px;
-            margin: 8px auto;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            max-width: 900px;
-            width: 92%;
-        }
-        .quick-nav a {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border: 1px solid transparent;
-        }
+        .hero-image { position: relative; overflow: hidden; }
+        .hero-image img { width: 100%; max-height: 400px; object-fit: cover; }
+        .hero-overlay { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 15px; z-index: 5; }
+        .trophy-btn { display: block; width: 80px; height: 80px; border-radius: 18px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 2px 10px rgba(0,0,0,0.3); animation: pulse 2s infinite; pointer-events: auto; }
+        .trophy-btn img { width: 100%; height: 100%; object-fit: cover; }
+        .trophy-btn:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(184,134,11,0.5); animation-play-state: paused; }
+        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
+        .site-description { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; text-align: center; padding: 6px 15px; }
+        .site-description p { font-size: 0.7rem; font-weight: 600; }
+        .quick-nav { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; padding: 6px 10px; margin: 8px auto; background: var(--card-bg); border-radius: 20px; max-width: 900px; width: 92%; }
+        .quick-nav a { padding: 3px 10px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; color: var(--text-muted); }
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #fff; }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 3px 12px;
-            margin: 0 auto 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border: 1px solid var(--border);
-            max-width: 700px;
-            width: 92%;
-        }
-        .search-box input {
-            flex: 1; border: none; outline: none; font-family: inherit;
-            font-size: 0.8rem; background: transparent; color: var(--text); padding: 5px 0;
-        }
-
+        .search-box { display: flex; align-items: center; gap: 6px; background: var(--card-bg); border-radius: 20px; padding: 3px 12px; margin: 0 auto 15px; max-width: 700px; width: 92%; border: 1px solid var(--border); }
+        .search-box input { flex: 1; border: none; outline: none; font-family: inherit; font-size: 0.8rem; background: transparent; color: var(--text); padding: 5px 0; }
         .news-section { margin-bottom: 35px; }
-        .section-title {
-            font-size: 1.5rem; font-weight: 900; margin-bottom: 20px;
-            color: var(--text); border-right: 4px solid var(--gold); padding-right: 12px;
-        }
+        .section-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 20px; border-right: 4px solid var(--gold); padding-right: 12px; }
         .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-
-        .news-card {
-            background: var(--card-bg); border-radius: 10px; overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: all 0.3s ease;
-            display: flex; flex-direction: column; cursor: pointer;
-        }
-        .news-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
-        .news-card.selected { box-shadow: 0 0 0 3px var(--gold), 0 6px 20px rgba(0,0,0,0.15); transform: scale(1.01); }
+        .news-card { background: var(--card-bg); border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.08); display: flex; flex-direction: column; cursor: pointer; }
+        .news-card:hover { transform: translateY(-4px); }
         .news-card img { width: 100%; height: 160px; object-fit: cover; }
-        .news-card .card-body { padding: 15px; display: flex; flex-direction: column; flex: 1; }
-        .news-card .card-body h4 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
-        .news-card .card-body p { color: var(--text-muted); font-size: 0.85rem; flex: 1; }
-        .news-card .card-body .meta { margin-top: 10px; font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
-
-        .read-btn {
-            display: inline-block; background: var(--gold); color: #fff;
-            padding: 6px 14px; border: none; border-radius: 20px;
-            font-family: inherit; font-weight: 700; font-size: 0.75rem;
-            cursor: pointer; transition: all 0.3s ease;
-            margin-top: 10px; text-align: center; align-self: flex-start;
-        }
-        .read-btn:hover { background: var(--gold-dark); transform: translateY(-2px); }
-
-        .standings-float-btn {
-            position: fixed; bottom: 80px; left: 15px;
-            background: var(--gold); color: #fff; border: none; border-radius: 30px;
-            padding: 8px 15px; font-family: inherit; font-weight: 800; font-size: 0.8rem;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
-            z-index: 1500; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px;
-        }
-        .standings-float-btn:hover { background: var(--gold-dark); transform: translateY(-3px); box-shadow: 0 6px 25px rgba(184, 134, 11, 0.6); }
-
-        .standings-modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.8); z-index: 3000;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-            opacity: 0; visibility: hidden; transition: all 0.3s ease;
-        }
+        .card-body { padding: 15px; display: flex; flex-direction: column; flex: 1; }
+        .card-body h4 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+        .card-body p { color: var(--text-muted); font-size: 0.85rem; flex: 1; }
+        .meta { margin-top: 10px; font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; }
+        .read-btn { background: var(--gold); color: #fff; padding: 6px 14px; border: none; border-radius: 20px; font-weight: 700; font-size: 0.75rem; cursor: pointer; margin-top: 10px; align-self: flex-start; }
+        .read-btn:hover { background: var(--gold-dark); }
+        .standings-float-btn { position: fixed; bottom: 80px; left: 15px; background: var(--gold); color: #fff; border: none; border-radius: 30px; padding: 8px 15px; font-weight: 800; font-size: 0.8rem; cursor: pointer; box-shadow: 0 4px 15px rgba(184,134,11,0.4); z-index: 1500; display: flex; align-items: center; gap: 6px; }
+        .standings-float-btn:hover { background: var(--gold-dark); transform: translateY(-3px); }
+        .standings-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
         .standings-modal-overlay.active { opacity: 1; visibility: visible; }
-        .standings-modal-content {
-            background: var(--card-bg); border-radius: 15px; max-width: 700px; width: 100%;
-            max-height: 85vh; overflow-y: auto; padding: 25px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5); position: relative;
-            transform: scale(0.85); transition: transform 0.3s ease;
-        }
+        .standings-modal-content { background: var(--card-bg); border-radius: 15px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 25px 20px; position: relative; transform: scale(0.85); transition: 0.3s; }
         .standings-modal-overlay.active .standings-modal-content { transform: scale(1); }
-        .standings-modal-close {
-            position: absolute; top: 10px; left: 15px; font-size: 1.8rem;
-            background: none; border: none; cursor: pointer; color: var(--text-muted);
-        }
-        .standings-modal-close:hover { color: #dc3545; }
-
+        .standings-modal-close { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: var(--text-muted); }
         .standings-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        .standings-table th, .standings-table td {
-            padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--border);
-        }
+        .standings-table th, .standings-table td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--border); }
         .standings-table th { background: var(--gold); color: #fff; font-weight: 900; font-size: 0.8rem; }
-        .standings-table tr:hover { background: rgba(184, 134, 11, 0.1); cursor: pointer; }
-        .standings-table .pos-badge {
-            display: inline-block; width: 24px; height: 24px; line-height: 24px;
-            border-radius: 50%; font-weight: 900; font-size: 0.8rem;
-        }
+        .standings-table tr:hover { background: rgba(184,134,11,0.1); cursor: pointer; }
+        .pos-badge { display: inline-block; width: 24px; height: 24px; line-height: 24px; border-radius: 50%; font-weight: 900; font-size: 0.8rem; }
         .position-1 .pos-badge { background: var(--gold); color: #fff; }
         .position-2 .pos-badge { background: #C0C0C0; color: #000; }
         .position-3 .pos-badge { background: #CD7F32; color: #fff; }
         .others .pos-badge { background: var(--bg); color: var(--text); }
-
         .detail-row { display: none; background: var(--bg); }
         .detail-row.active { display: table-row; }
-        .detail-row td { padding: 8px; font-size: 0.8rem; color: var(--text-muted); border-bottom: 1px solid var(--border); text-align: center; }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.75); z-index: 2000;
-            display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;
-            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+        .detail-row td { padding: 8px; font-size: 0.8rem; color: var(--text-muted); text-align: center; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: var(--card-bg); border-radius: 15px; max-width: 700px; width: 100%;
-            max-height: 85vh; overflow-y: auto; position: relative; padding: 25px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
+        .modal-content { background: var(--card-bg); border-radius: 15px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 25px 20px; position: relative; transform: translateX(-100%); transition: 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); }
         .modal-overlay.active .modal-content { transform: translateX(0); }
         .modal-close { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: var(--text-muted); }
-        .modal-close:hover { color: #dc3545; }
         .modal-content h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; padding-left: 25px; }
-        .modal-content .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-muted); }
-        .modal-content .modal-image { width: 100%; border-radius: 10px; margin-bottom: 12px; max-height: 300px; object-fit: cover; }
-        .modal-content .modal-body { font-size: 0.95rem; line-height: 1.7; }
-
+        .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-muted); }
+        .modal-image { width: 100%; border-radius: 10px; margin-bottom: 12px; max-height: 300px; object-fit: cover; }
+        .modal-body { font-size: 0.95rem; line-height: 1.7; }
         .inline-related { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin: 15px 0; }
         .inline-related h4 { font-size: 0.9rem; font-weight: 900; color: var(--gold-dark); margin-bottom: 8px; }
         .inline-related ul { list-style: none; }
         .inline-related li { margin-bottom: 6px; }
         .inline-related a { color: var(--text); font-size: 0.85rem; font-weight: 600; }
-        .inline-related a:hover { color: var(--gold-dark); }
-
         .modal-share { margin-top: 15px; border-top: 1px solid var(--border); padding-top: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .modal-share .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.8rem; }
+        .share-label { font-weight: 700; color: var(--text-muted); font-size: 0.8rem; }
         .share-buttons { display: flex; gap: 6px; flex-wrap: wrap; }
-        .share-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            gap: 3px; padding: 4px 8px; border: none; border-radius: 15px;
-            font-family: inherit; font-weight: 700; font-size: 0.7rem;
-            cursor: pointer; transition: all 0.2s ease; color: #fff;
-        }
+        .share-btn { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border: none; border-radius: 15px; font-weight: 700; font-size: 0.7rem; cursor: pointer; color: #fff; }
         .share-btn:hover { opacity: 0.85; }
-        .share-btn.facebook { background: #1877f2; }
-        .share-btn.twitter { background: #000000; }
-        .share-btn.whatsapp { background: #25d366; }
-        .share-btn.telegram { background: #0088cc; }
-        .share-btn.copy { background: #6c757d; }
-
+        .facebook { background: #1877f2; } .twitter { background: #000; } .whatsapp { background: #25d366; } .telegram { background: #0088cc; } .copy { background: #6c757d; }
         footer { background: #212529; color: #ccc; padding: 20px 0; margin-top: 30px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .footer-flex nav a { margin-left: 15px; color: #ccc; font-size: 0.8rem; }
-
-        .back-to-top {
-            position: fixed; bottom: 25px; right: 25px; background: var(--gold); color: #fff;
-            border: none; width: 40px; height: 40px; border-radius: 50%;
-            font-size: 1.2rem; cursor: pointer; display: none; z-index: 999;
-        }
+        .back-to-top { position: fixed; bottom: 25px; right: 25px; background: var(--gold); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none; z-index: 999; }
         .back-to-top.show { display: block; }
-
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.5s; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .logo .main-title { font-size: 1.4rem; }
@@ -441,20 +159,12 @@
         </div>
     </header>
 
-    <!-- صورة الواجهة مع الأزرار فوقها -->
     <section class="hero-image" id="home">
         <img src="MEDRIDISTAS DEL IRAQ.png" alt="Medridistas del Irak">
-        <!-- أزرار الكؤوس فوق الصورة -->
         <div class="hero-overlay">
-            <a href="#laliga" class="trophy-btn" title="الدوري الإسباني">
-                <img src="3.png" alt="الدوري الإسباني">
-            </a>
-            <a href="#champions" class="trophy-btn" title="دوري أبطال أوروبا">
-                <img src="2.png" alt="دوري أبطال أوروبا">
-            </a>
-            <a href="#local" class="trophy-btn" title="كأس الملك">
-                <img src="1.png" alt="كأس الملك">
-            </a>
+            <a href="#laliga" class="trophy-btn"><img src="3.png" alt="الدوري الإسباني"></a>
+            <a href="#champions" class="trophy-btn"><img src="2.png" alt="دوري أبطال أوروبا"></a>
+            <a href="#local" class="trophy-btn"><img src="1.png" alt="كأس الملك"></a>
         </div>
     </section>
 
@@ -553,7 +263,244 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // نفس JavaScript السابق
+        const firebaseConfig = {
+            apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
+            authDomain: "iraqdot-news.firebaseapp.com",
+            databaseURL: "https://iraqdot-news-default-rtdb.firebaseio.com",
+            projectId: "iraqdot-news",
+            storageBucket: "iraqdot-news.firebasestorage.app",
+            messagingSenderId: "332644409269",
+            appId: "1:332644409269:web:a3d9ffd2c7044d6fb803fc",
+            measurementId: "G-M236VH0P44"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
+        let allNewsData = [];
+        let laLigaStandings = [
+            { pos: 1, team: 'ريال مدريد', played: 2, won: 2, drawn: 0, lost: 0, gf: 5, ga: 1, gd: 4, points: 6 },
+            { pos: 2, team: 'برشلونة', played: 2, won: 2, drawn: 0, lost: 0, gf: 4, ga: 1, gd: 3, points: 6 },
+            { pos: 3, team: 'أتلتيكو مدريد', played: 2, won: 1, drawn: 1, lost: 0, gf: 3, ga: 2, gd: 1, points: 4 },
+            { pos: 4, team: 'أتلتيك بلباو', played: 2, won: 1, drawn: 1, lost: 0, gf: 2, ga: 1, gd: 1, points: 4 },
+            { pos: 5, team: 'فياريال', played: 2, won: 1, drawn: 0, lost: 1, gf: 3, ga: 3, gd: 0, points: 3 },
+            { pos: 6, team: 'ريال بيتيس', played: 2, won: 1, drawn: 0, lost: 1, gf: 2, ga: 2, gd: 0, points: 3 },
+            { pos: 7, team: 'ريال سوسيداد', played: 2, won: 0, drawn: 2, lost: 0, gf: 2, ga: 2, gd: 0, points: 2 },
+            { pos: 8, team: 'فالنسيا', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 2, gd: -1, points: 1 },
+            { pos: 9, team: 'إشبيلية', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 3, gd: -2, points: 1 },
+            { pos: 10, team: 'خيرونا', played: 2, won: 0, drawn: 0, lost: 2, gf: 1, ga: 5, gd: -4, points: 0 }
+        ];
+
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('medridistas_dark', isDark);
+            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+        }
+        function initDarkMode() {
+            if (localStorage.getItem('medridistas_dark') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkToggle').textContent = '☀️';
+            }
+        }
+
+        function openStandingsModal() {
+            document.getElementById('standingsModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderStandings();
+        }
+        function closeStandingsModal() {
+            document.getElementById('standingsModalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderStandings() {
+            const container = document.getElementById('standingsContainer');
+            let html = '<table class="standings-table"><thead><tr>';
+            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>النقاط</th></tr></thead><tbody>';
+            laLigaStandings.forEach((team, index) => {
+                const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
+                html += `<tr class="${posClass}" onclick="toggleTeamDetail(${index})">`;
+                html += `<td><span class="pos-badge">${team.pos}</span></td><td><strong>${team.team}</strong></td>`;
+                html += `<td>${team.played}</td><td>${team.won}</td><td>${team.drawn}</td><td>${team.lost}</td><td><strong>${team.points}</strong></td></tr>`;
+                html += `<tr class="detail-row" id="detail-${index}"><td colspan="7">له: ${team.gf} | عليه: ${team.ga} | الفارق: ${team.gd > 0 ? '+' + team.gd : team.gd}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function toggleTeamDetail(index) {
+            const detail = document.getElementById(`detail-${index}`);
+            if (detail) detail.classList.toggle('active');
+        }
+
+        function simulateMatch() {
+            const team1Index = Math.floor(Math.random() * laLigaStandings.length);
+            let team2Index = Math.floor(Math.random() * laLigaStandings.length);
+            while (team2Index === team1Index) team2Index = Math.floor(Math.random() * laLigaStandings.length);
+            const team1 = laLigaStandings[team1Index], team2 = laLigaStandings[team2Index];
+            const goals1 = Math.floor(Math.random() * 4), goals2 = Math.floor(Math.random() * 4);
+            team1.played++; team1.gf += goals1; team1.ga += goals2;
+            if (goals1 > goals2) { team1.won++; team1.points += 3; } else if (goals1 === goals2) { team1.drawn++; team1.points += 1; } else { team1.lost++; }
+            team1.gd = team1.gf - team1.ga;
+            team2.played++; team2.gf += goals2; team2.ga += goals1;
+            if (goals2 > goals1) { team2.won++; team2.points += 3; } else if (goals2 === goals1) { team2.drawn++; team2.points += 1; } else { team2.lost++; }
+            team2.gd = team2.gf - team2.ga;
+            laLigaStandings.sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
+            laLigaStandings.forEach((team, index) => team.pos = index + 1);
+            if (document.getElementById('standingsModalOverlay').classList.contains('active')) renderStandings();
+        }
+        setInterval(simulateMatch, 120000);
+
+        function renderNews() {
+            database.ref('news').on('value', function(snapshot) {
+                const data = snapshot.val();
+                allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                categories.forEach(cat => {
+                    const grid = document.getElementById(cat + '-news');
+                    if (grid) grid.innerHTML = '';
+                });
+                categories.forEach(cat => {
+                    const filtered = allNewsData.filter(item => item.category === cat);
+                    const grid = document.getElementById(cat + '-news');
+                    if (grid && filtered.length > 0) {
+                        filtered.forEach(article => grid.appendChild(createNewsCard(article)));
+                    } else if (grid) {
+                        grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
+                    }
+                });
+            });
+        }
+
+        function createNewsCard(article) {
+            const card = document.createElement('article');
+            card.className = 'news-card';
+            const imageUrl = article.cover && article.cover.trim() !== '' ? article.cover : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
+            const location = article.city ? `📍 ${article.city}` : '';
+            const time = article.date ? `🕐 ${article.date} ${article.time || ''}` : '';
+            card.innerHTML = `
+                <img src="${imageUrl}" alt="${article.title}" loading="lazy">
+                <div class="card-body">
+                    <h4>${article.title}</h4>
+                    <p>${article.summary || ''}</p>
+                    <div class="meta"><span>${location}</span><span>${time}</span></div>
+                    <button class="read-btn">قراءة الخبر</button>
+                </div>`;
+            card.querySelector('.read-btn').addEventListener('click', (e) => { e.stopPropagation(); openModal(article); });
+            return card;
+        }
+
+        function searchNews(query) {
+            const q = query.trim().toLowerCase();
+            if (!q) { renderNews(); return; }
+            const results = allNewsData.filter(item => item.title.toLowerCase().includes(q) || (item.summary && item.summary.toLowerCase().includes(q)));
+            categories.forEach(cat => {
+                const grid = document.getElementById(cat + '-news');
+                if (grid) grid.innerHTML = '';
+            });
+            results.forEach(article => {
+                const grid = document.getElementById(article.category + '-news');
+                if (grid) grid.appendChild(createNewsCard(article));
+            });
+        }
+
+        function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
+        function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
+        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`, '_blank'); }
+        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`, '_blank'); }
+        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
+
+        function injectInlineRelatedNews(article) {
+            const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
+            if (related.length === 0) return;
+            const modalBody = document.getElementById('modalBody');
+            let contentHtml = modalBody.innerHTML;
+            let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
+            related.forEach(item => { relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`; });
+            relatedHtml += '</ul></div>';
+            const paragraphs = contentHtml.split(/<\/p>/i);
+            if (paragraphs.length > 2) {
+                let insertIndex = contentHtml.indexOf('</p>');
+                if (insertIndex !== -1) {
+                    insertIndex = contentHtml.indexOf('</p>', insertIndex + 1);
+                    if (insertIndex !== -1) { insertIndex += 4; contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex); }
+                }
+            } else {
+                const half = Math.floor(contentHtml.length / 2);
+                let cutIndex = contentHtml.indexOf(' ', half);
+                if (cutIndex === -1) cutIndex = half;
+                contentHtml = contentHtml.slice(0, cutIndex) + relatedHtml + contentHtml.slice(cutIndex);
+            }
+            modalBody.innerHTML = contentHtml;
+            modalBody.querySelectorAll('.related-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const found = allNewsData.find(n => n.id === this.dataset.id);
+                    if (found) { closeModal(); setTimeout(() => openModal(found), 300); }
+                });
+            });
+        }
+
+        function openModal(article) {
+            document.getElementById('modalTitle').textContent = article.title;
+            let metaHtml = '';
+            if (article.country) metaHtml += `<span>📍 ${article.country}</span>`;
+            if (article.city) metaHtml += `<span>🏙️ ${article.city}</span>`;
+            if (article.date) metaHtml += `<span>📅 ${article.date}</span>`;
+            if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
+            document.getElementById('modalMeta').innerHTML = metaHtml;
+            const modalImage = document.getElementById('modalImage');
+            if (article.cover && article.cover.trim() !== '') { modalImage.src = article.cover; modalImage.style.display = 'block'; } else { modalImage.style.display = 'none'; }
+            document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
+            injectInlineRelatedNews(article);
+            document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
+            document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
+            document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
+            document.getElementById('shareTg').onclick = () => shareOnTelegram(article);
+            document.getElementById('shareCopy').onclick = copyLink;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+        function revealOnScroll() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        function handleQuickNav() {
+            document.querySelectorAll('.quick-nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.quick-nav a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    const target = document.getElementById(this.getAttribute('href').substring(1));
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initDarkMode();
+            renderNews();
+            revealOnScroll();
+            handleQuickNav();
+            document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
+            document.getElementById('searchInput').addEventListener('input', function() { searchNews(this.value); });
+            document.getElementById('navToggle').addEventListener('click', () => document.getElementById('mainNav').classList.toggle('open'));
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => { if (window.scrollY > 300) backToTop.classList.add('show'); else backToTop.classList.remove('show'); });
+            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            document.getElementById('modalClose').addEventListener('click', closeModal);
+            document.getElementById('modalOverlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+            document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+            document.getElementById('standingsFloatBtn').addEventListener('click', openStandingsModal);
+            document.getElementById('standingsModalClose').addEventListener('click', closeStandingsModal);
+            document.getElementById('standingsModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeStandingsModal(); });
+        });
     </script>
 </body>
 </html>
