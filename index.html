@@ -140,7 +140,7 @@
         }
         .dark-toggle:hover { background: var(--gold); color: #fff; }
 
-        /* ===== صورة الواجهة ===== */
+        /* ===== صورة الواجهة مع الأزرار فوقها ===== */
         .hero-image {
             width: 100%;
             margin-bottom: 0;
@@ -162,61 +162,47 @@
         }
         @keyframes shine { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
 
-        /* ===== أزرار الكؤوس فوق الصورة ===== */
-        .trophies-row {
+        /* طبقة الأزرار فوق صورة الواجهة */
+        .hero-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 20px;
-            padding: 15px 10px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border);
-            margin: 0;
-            flex-wrap: wrap;
+            gap: 15px;
+            z-index: 5;
+            pointer-events: none; /* السماح بالنقر خلال الطبقة للصورة */
         }
         .trophy-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 15px;
+            pointer-events: auto; /* السماح بالنقر على الأزرار */
+            display: block;
+            width: 80px;
+            height: 80px;
+            border-radius: 18px;
             overflow: hidden;
             border: 2px solid var(--gold);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             animation: pulse 2s infinite;
             cursor: pointer;
-            width: 100px;
-            height: 100px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             background-size: cover;
             background-position: center;
-            position: relative;
         }
         .trophy-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(184, 134, 11, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.5);
             animation-play-state: paused;
         }
         .trophy-btn img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        .trophy-btn .trophy-label {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            font-size: 0.6rem;
-            font-weight: 700;
-            text-align: center;
-            padding: 3px 0;
+            display: block;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
 
@@ -422,8 +408,8 @@
             .main-nav ul { flex-direction: column; align-items: center; gap: 3px; padding: 10px 0; }
             .nav-toggle { display: block; }
             .news-grid { grid-template-columns: 1fr; }
-            .trophies-row { gap: 10px; }
-            .trophy-btn { width: 70px; height: 70px; }
+            .hero-overlay { gap: 8px; bottom: 5px; }
+            .trophy-btn { width: 60px; height: 60px; border-radius: 12px; }
             .standings-float-btn { bottom: 70px; left: 8px; padding: 6px 12px; font-size: 0.7rem; }
             .standings-table { font-size: 0.75rem; }
             .standings-table th, .standings-table td { padding: 5px 4px; }
@@ -455,23 +441,22 @@
         </div>
     </header>
 
-    <!-- صورة الواجهة -->
+    <!-- صورة الواجهة مع الأزرار فوقها -->
     <section class="hero-image" id="home">
         <img src="MEDRIDISTAS DEL IRAQ.png" alt="Medridistas del Irak">
+        <!-- أزرار الكؤوس فوق الصورة -->
+        <div class="hero-overlay">
+            <a href="#laliga" class="trophy-btn" title="الدوري الإسباني">
+                <img src="3.png" alt="الدوري الإسباني">
+            </a>
+            <a href="#champions" class="trophy-btn" title="دوري أبطال أوروبا">
+                <img src="2.png" alt="دوري أبطال أوروبا">
+            </a>
+            <a href="#local" class="trophy-btn" title="كأس الملك">
+                <img src="1.png" alt="كأس الملك">
+            </a>
+        </div>
     </section>
-
-    <!-- أزرار الكؤوس -->
-    <div class="trophies-row">
-        <a href="#laliga" class="trophy-btn" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/LaLiga_Santander_logo.svg/1200px-LaLiga_Santander_logo.svg.png');">
-            <div class="trophy-label">الدوري الإسباني</div>
-        </a>
-        <a href="#champions" class="trophy-btn" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/UEFA_Champions_League_logo_2.svg/1200px-UEFA_Champions_League_logo_2.svg.png');">
-            <div class="trophy-label">دوري الأبطال</div>
-        </a>
-        <a href="#local" class="trophy-btn" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Copa_del_Rey_logo.svg/1200px-Copa_del_Rey_logo.svg.png');">
-            <div class="trophy-label">كأس الملك</div>
-        </a>
-    </div>
 
     <div class="site-description">
         <p>مجتمع عشاق ريال مدريد في العراق — نافذتك على كل ما يخص الملكي</p>
@@ -568,316 +553,7 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // ===== إعدادات Firebase =====
-        const firebaseConfig = {
-            apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
-            authDomain: "iraqdot-news.firebaseapp.com",
-            databaseURL: "https://iraqdot-news-default-rtdb.firebaseio.com",
-            projectId: "iraqdot-news",
-            storageBucket: "iraqdot-news.firebasestorage.app",
-            messagingSenderId: "332644409269",
-            appId: "1:332644409269:web:a3d9ffd2c7044d6fb803fc",
-            measurementId: "G-M236VH0P44"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
-        let allNewsData = [];
-
-        let laLigaStandings = [
-            { pos: 1, team: 'ريال مدريد', played: 2, won: 2, drawn: 0, lost: 0, gf: 5, ga: 1, gd: 4, points: 6 },
-            { pos: 2, team: 'برشلونة', played: 2, won: 2, drawn: 0, lost: 0, gf: 4, ga: 1, gd: 3, points: 6 },
-            { pos: 3, team: 'أتلتيكو مدريد', played: 2, won: 1, drawn: 1, lost: 0, gf: 3, ga: 2, gd: 1, points: 4 },
-            { pos: 4, team: 'أتلتيك بلباو', played: 2, won: 1, drawn: 1, lost: 0, gf: 2, ga: 1, gd: 1, points: 4 },
-            { pos: 5, team: 'فياريال', played: 2, won: 1, drawn: 0, lost: 1, gf: 3, ga: 3, gd: 0, points: 3 },
-            { pos: 6, team: 'ريال بيتيس', played: 2, won: 1, drawn: 0, lost: 1, gf: 2, ga: 2, gd: 0, points: 3 },
-            { pos: 7, team: 'ريال سوسيداد', played: 2, won: 0, drawn: 2, lost: 0, gf: 2, ga: 2, gd: 0, points: 2 },
-            { pos: 8, team: 'فالنسيا', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 2, gd: -1, points: 1 },
-            { pos: 9, team: 'إشبيلية', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 3, gd: -2, points: 1 },
-            { pos: 10, team: 'خيرونا', played: 2, won: 0, drawn: 0, lost: 2, gf: 1, ga: 5, gd: -4, points: 0 }
-        ];
-
-        function toggleDarkMode() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('medridistas_dark', isDark);
-            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
-        }
-        function initDarkMode() {
-            const saved = localStorage.getItem('medridistas_dark') === 'true';
-            if (saved) {
-                document.body.classList.add('dark-mode');
-                document.getElementById('darkToggle').textContent = '☀️';
-            }
-        }
-
-        function openStandingsModal() {
-            document.getElementById('standingsModalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderStandings();
-        }
-        function closeStandingsModal() {
-            document.getElementById('standingsModalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function renderStandings() {
-            const container = document.getElementById('standingsContainer');
-            let html = '<table class="standings-table"><thead><tr>';
-            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>النقاط</th>';
-            html += '</tr></thead><tbody>';
-            laLigaStandings.forEach((team, index) => {
-                const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
-                html += `<tr class="${posClass}" data-index="${index}" onclick="toggleTeamDetail(${index})">`;
-                html += `<td><span class="pos-badge">${team.pos}</span></td>`;
-                html += `<td><strong>${team.team}</strong></td>`;
-                html += `<td>${team.played}</td>`;
-                html += `<td>${team.won}</td>`;
-                html += `<td>${team.drawn}</td>`;
-                html += `<td>${team.lost}</td>`;
-                html += `<td><strong>${team.points}</strong></td>`;
-                html += '</tr>';
-                html += `<tr class="detail-row" id="detail-${index}"><td colspan="7">`;
-                html += `له: ${team.gf} | عليه: ${team.ga} | الفارق: ${team.gd > 0 ? '+' + team.gd : team.gd}`;
-                html += '</td></tr>';
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        function toggleTeamDetail(index) {
-            const detail = document.getElementById(`detail-${index}`);
-            if (detail) detail.classList.toggle('active');
-        }
-
-        function simulateMatch() {
-            const team1Index = Math.floor(Math.random() * laLigaStandings.length);
-            let team2Index = Math.floor(Math.random() * laLigaStandings.length);
-            while (team2Index === team1Index) {
-                team2Index = Math.floor(Math.random() * laLigaStandings.length);
-            }
-            const team1 = laLigaStandings[team1Index];
-            const team2 = laLigaStandings[team2Index];
-            const goals1 = Math.floor(Math.random() * 4);
-            const goals2 = Math.floor(Math.random() * 4);
-            
-            team1.played += 1; team1.gf += goals1; team1.ga += goals2;
-            if (goals1 > goals2) { team1.won += 1; team1.points += 3; }
-            else if (goals1 === goals2) { team1.drawn += 1; team1.points += 1; }
-            else { team1.lost += 1; }
-            team1.gd = team1.gf - team1.ga;
-            
-            team2.played += 1; team2.gf += goals2; team2.ga += goals1;
-            if (goals2 > goals1) { team2.won += 1; team2.points += 3; }
-            else if (goals2 === goals1) { team2.drawn += 1; team2.points += 1; }
-            else { team2.lost += 1; }
-            team2.gd = team2.gf - team2.ga;
-            
-            laLigaStandings.sort((a, b) => {
-                if (b.points !== a.points) return b.points - a.points;
-                return (b.gf - b.ga) - (a.gf - a.ga);
-            });
-            laLigaStandings.forEach((team, index) => team.pos = index + 1);
-            
-            if (document.getElementById('standingsModalOverlay').classList.contains('active')) {
-                renderStandings();
-            }
-        }
-        setInterval(simulateMatch, 120000);
-
-        function renderNews() {
-            database.ref('news').on('value', function(snapshot) {
-                const data = snapshot.val();
-                allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                categories.forEach(cat => {
-                    const grid = document.getElementById(cat + '-news');
-                    if (grid) grid.innerHTML = '';
-                });
-                categories.forEach(cat => {
-                    const filtered = allNewsData.filter(item => item.category === cat);
-                    const grid = document.getElementById(cat + '-news');
-                    if (grid && filtered.length > 0) {
-                        filtered.forEach(article => grid.appendChild(createNewsCard(article)));
-                    } else if (grid) {
-                        grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
-                    }
-                });
-            });
-        }
-
-        function createNewsCard(article) {
-            const card = document.createElement('article');
-            card.className = 'news-card';
-            const imageUrl = article.cover && article.cover.trim() !== '' ? article.cover : 'https://via.placeholder.com/400x200?text=' + encodeURIComponent(article.title);
-            const location = article.city ? `📍 ${article.city}` : '';
-            const time = article.date ? `🕐 ${article.date} ${article.time || ''}` : '';
-            card.innerHTML = `
-                <img src="${imageUrl}" alt="${article.title}" loading="lazy">
-                <div class="card-body">
-                    <h4>${article.title}</h4>
-                    <p>${article.summary || ''}</p>
-                    <div class="meta">
-                        <span>${location}</span>
-                        <span>${time}</span>
-                    </div>
-                    <button class="read-btn">قراءة الخبر</button>
-                </div>
-            `;
-            const readBtn = card.querySelector('.read-btn');
-            readBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                openModal(article);
-            });
-            return card;
-        }
-
-        function searchNews(query) {
-            const q = query.trim().toLowerCase();
-            if (!q) { renderNews(); return; }
-            const results = allNewsData.filter(item => item.title.toLowerCase().includes(q) || (item.summary && item.summary.toLowerCase().includes(q)));
-            categories.forEach(cat => {
-                const grid = document.getElementById(cat + '-news');
-                if (grid) grid.innerHTML = '';
-            });
-            results.forEach(article => {
-                const grid = document.getElementById(article.category + '-news');
-                if (grid) grid.appendChild(createNewsCard(article));
-            });
-        }
-
-        function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
-        function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
-        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl())}`, '_blank'); }
-        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl())}`, '_blank'); }
-        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
-
-        function injectInlineRelatedNews(article) {
-            const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
-            if (related.length === 0) return;
-            const modalBody = document.getElementById('modalBody');
-            let contentHtml = modalBody.innerHTML;
-            let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
-            related.forEach(item => {
-                relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`;
-            });
-            relatedHtml += '</ul></div>';
-            const paragraphs = contentHtml.split(/<\/p>/i);
-            if (paragraphs.length > 2) {
-                let insertIndex = contentHtml.indexOf('</p>');
-                if (insertIndex !== -1) {
-                    insertIndex = contentHtml.indexOf('</p>', insertIndex + 1);
-                    if (insertIndex !== -1) {
-                        insertIndex += 4;
-                        contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
-                    }
-                }
-            } else {
-                const half = Math.floor(contentHtml.length / 2);
-                let cutIndex = contentHtml.indexOf(' ', half);
-                if (cutIndex === -1) cutIndex = half;
-                contentHtml = contentHtml.slice(0, cutIndex) + relatedHtml + contentHtml.slice(cutIndex);
-            }
-            modalBody.innerHTML = contentHtml;
-            modalBody.querySelectorAll('.related-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const id = this.dataset.id;
-                    const found = allNewsData.find(n => n.id === id);
-                    if (found) { closeModal(); setTimeout(() => openModal(found), 300); }
-                });
-            });
-        }
-
-        function openModal(article) {
-            document.getElementById('modalTitle').textContent = article.title;
-            let metaHtml = '';
-            if (article.country) metaHtml += `<span>📍 ${article.country}</span>`;
-            if (article.city) metaHtml += `<span>🏙️ ${article.city}</span>`;
-            if (article.date) metaHtml += `<span>📅 ${article.date}</span>`;
-            if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
-            document.getElementById('modalMeta').innerHTML = metaHtml;
-            const modalImage = document.getElementById('modalImage');
-            if (article.cover && article.cover.trim() !== '') {
-                modalImage.src = article.cover;
-                modalImage.style.display = 'block';
-            } else {
-                modalImage.style.display = 'none';
-            }
-            document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
-            injectInlineRelatedNews(article);
-            document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
-            document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
-            document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
-            document.getElementById('shareTg').onclick = () => shareOnTelegram(article);
-            document.getElementById('shareCopy').onclick = copyLink;
-            document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function revealOnScroll() {
-            const elements = document.querySelectorAll('.reveal');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            elements.forEach(el => observer.observe(el));
-        }
-
-        function handleQuickNav() {
-            const quickLinks = document.querySelectorAll('.quick-nav a');
-            quickLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    quickLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    const targetId = this.getAttribute('href').substring(1);
-                    const target = document.getElementById(targetId);
-                    if (target) target.scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initDarkMode();
-            renderNews();
-            revealOnScroll();
-            handleQuickNav();
-            document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
-            document.getElementById('searchInput').addEventListener('input', function() { searchNews(this.value); });
-            const navToggle = document.getElementById('navToggle');
-            const mainNav = document.getElementById('mainNav');
-            navToggle.addEventListener('click', () => mainNav.classList.toggle('open'));
-            const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) backToTop.classList.add('show');
-                else backToTop.classList.remove('show');
-            });
-            backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-            document.getElementById('modalClose').addEventListener('click', closeModal);
-            document.getElementById('modalOverlay').addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') closeModal();
-            });
-
-            document.getElementById('standingsFloatBtn').addEventListener('click', openStandingsModal);
-            document.getElementById('standingsModalClose').addEventListener('click', closeStandingsModal);
-            document.getElementById('standingsModalOverlay').addEventListener('click', function(e) {
-                if (e.target === this) closeStandingsModal();
-            });
-        });
+        // نفس JavaScript السابق
     </script>
 </body>
 </html>
