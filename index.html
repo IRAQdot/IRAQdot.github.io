@@ -190,7 +190,6 @@
             font-size: 0.95rem; background: transparent; color: var(--text); padding: 8px 0;
         }
 
-        /* الأقسام */
         .news-section { margin-bottom: 40px; }
         .section-title {
             font-size: 1.7rem; font-weight: 900; margin-bottom: 25px;
@@ -271,7 +270,7 @@
         .share-btn.telegram { background: #0088cc; }
         .share-btn.copy { background: #6c757d; }
 
-        /* ترتيب الدوري - قسم قابل للطي */
+        /* ترتيب الدوري */
         .standings-section {
             background: var(--card-bg);
             border-radius: 15px;
@@ -317,14 +316,14 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* جدول الترتيب */
+        /* الجدول الأساسي */
         .standings-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
         }
         .standings-table th, .standings-table td {
-            padding: 10px 12px;
+            padding: 10px 8px;
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
@@ -334,7 +333,7 @@
             font-weight: 900;
             font-size: 0.85rem;
         }
-        .standings-table tr:hover { background: rgba(255, 215, 0, 0.08); }
+        .standings-table tr:hover { background: rgba(255, 215, 0, 0.08); cursor: pointer; }
         .standings-table .pos-badge {
             display: inline-block;
             width: 28px;
@@ -348,6 +347,22 @@
         .position-2 .pos-badge { background: #C0C0C0; color: #000; }
         .position-3 .pos-badge { background: #CD7F32; color: #fff; }
         .others .pos-badge { background: var(--bg); color: var(--text); }
+
+        /* صف التفاصيل الإضافية */
+        .detail-row {
+            display: none;
+            background: var(--bg);
+        }
+        .detail-row.active {
+            display: table-row;
+        }
+        .detail-row td {
+            padding: 10px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
 
         footer { background: #212529; color: #ccc; padding: 30px 0; margin-top: 40px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
@@ -373,8 +388,8 @@
             .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
             .nav-toggle { display: block; }
             .news-grid { grid-template-columns: 1fr; }
-            .standings-table { font-size: 0.75rem; }
-            .standings-table th, .standings-table td { padding: 6px 8px; }
+            .standings-table { font-size: 0.8rem; }
+            .standings-table th, .standings-table td { padding: 6px 5px; }
         }
     </style>
 </head>
@@ -428,7 +443,7 @@
     </div>
 
     <main class="container">
-        <!-- قسم ترتيب الدوري الإسباني (قابل للطي) -->
+        <!-- قسم ترتيب الدوري الإسباني -->
         <section class="standings-section reveal" id="standingsToggle">
             <div class="standings-header" onclick="toggleStandings()">
                 <h3>🏆 ترتيب الدوري الإسباني — موسم 2026-2027</h3>
@@ -563,98 +578,91 @@
         function renderStandings() {
             const container = document.getElementById('standingsContainer');
             let html = '<table class="standings-table"><thead><tr>';
-            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>له</th><th>عليه</th><th>الفارق</th><th>النقاط</th>';
+            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>النقاط</th>';
             html += '</tr></thead><tbody>';
             
-            laLigaStandings.forEach(team => {
+            laLigaStandings.forEach((team, index) => {
                 const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
-                html += `<tr class="${posClass}">`;
+                const rowId = `team-row-${index}`;
+                const detailId = `team-detail-${index}`;
+                html += `<tr class="${posClass}" data-index="${index}" onclick="toggleTeamDetail(${index})">`;
                 html += `<td><span class="pos-badge">${team.pos}</span></td>`;
                 html += `<td><strong>${team.team}</strong></td>`;
-                html += `<td>${team.played}</td><td>${team.won}</td><td>${team.drawn}</td>`;
-                html += `<td>${team.lost}</td><td>${team.gf}</td><td>${team.ga}</td>`;
-                html += `<td>${team.gd > 0 ? '+' + team.gd : team.gd}</td><td><strong>${team.points}</strong></td>`;
+                html += `<td>${team.played}</td>`;
+                html += `<td>${team.won}</td>`;
+                html += `<td>${team.drawn}</td>`;
+                html += `<td>${team.lost}</td>`;
+                html += `<td><strong>${team.points}</strong></td>`;
                 html += '</tr>';
+                // صف التفاصيل المخفي
+                html += `<tr class="detail-row" id="${detailId}"><td colspan="7">`;
+                html += `له: ${team.gf} | عليه: ${team.ga} | الفارق: ${team.gd > 0 ? '+' + team.gd : team.gd}`;
+                html += '</td></tr>';
             });
             html += '</tbody></table>';
-            html += '<p style="text-align:center; margin-top:15px; font-size:0.8rem; color:#999;">🔄 يتم تحديث الترتيب تلقائيًا مع سير المباريات</p>';
+            html += '<p style="text-align:center; margin-top:15px; font-size:0.8rem; color:#999;">🔄 اضغط على أي فريق لعرض تفاصيل الأهداف</p>';
             container.innerHTML = html;
+        }
+
+        // ===== عرض/إخفاء تفاصيل الفريق =====
+        function toggleTeamDetail(index) {
+            const detailRow = document.getElementById(`team-detail-${index}`);
+            if (detailRow) {
+                detailRow.classList.toggle('active');
+            }
         }
 
         // ===== محاكاة تحديث المباريات =====
         function simulateMatch() {
-            // اختيار فريقين عشوائيين للعب مباراة
             const team1Index = Math.floor(Math.random() * laLigaStandings.length);
             let team2Index = Math.floor(Math.random() * laLigaStandings.length);
             while (team2Index === team1Index) {
                 team2Index = Math.floor(Math.random() * laLigaStandings.length);
             }
-            
             const team1 = laLigaStandings[team1Index];
             const team2 = laLigaStandings[team2Index];
-            
-            // محاكاة نتيجة المباراة
-            const goals1 = Math.floor(Math.random() * 4); // 0-3 أهداف
+            const goals1 = Math.floor(Math.random() * 4);
             const goals2 = Math.floor(Math.random() * 4);
             
-            // تحديث بيانات الفريق الأول
             team1.played += 1;
             team1.gf += goals1;
             team1.ga += goals2;
-            if (goals1 > goals2) {
-                team1.won += 1;
-                team1.points += 3;
-            } else if (goals1 === goals2) {
-                team1.drawn += 1;
-                team1.points += 1;
-            } else {
-                team1.lost += 1;
-            }
+            if (goals1 > goals2) { team1.won += 1; team1.points += 3; }
+            else if (goals1 === goals2) { team1.drawn += 1; team1.points += 1; }
+            else { team1.lost += 1; }
             team1.gd = team1.gf - team1.ga;
             
-            // تحديث بيانات الفريق الثاني
             team2.played += 1;
             team2.gf += goals2;
             team2.ga += goals1;
-            if (goals2 > goals1) {
-                team2.won += 1;
-                team2.points += 3;
-            } else if (goals2 === goals1) {
-                team2.drawn += 1;
-                team2.points += 1;
-            } else {
-                team2.lost += 1;
-            }
+            if (goals2 > goals1) { team2.won += 1; team2.points += 3; }
+            else if (goals2 === goals1) { team2.drawn += 1; team2.points += 1; }
+            else { team2.lost += 1; }
             team2.gd = team2.gf - team2.ga;
             
-            // إعادة ترتيب الفرق
             laLigaStandings.sort((a, b) => {
                 if (b.points !== a.points) return b.points - a.points;
                 return (b.gf - b.ga) - (a.gf - a.ga);
             });
             laLigaStandings.forEach((team, index) => team.pos = index + 1);
             
-            // تحديث العرض إذا كان القسم مفتوحًا
             const section = document.getElementById('standingsToggle');
             if (section.classList.contains('open')) {
                 renderStandings();
             }
         }
 
-        // محاكاة مباراة كل 2 دقيقة
-        setInterval(simulateMatch, 120000);
+        setInterval(simulateMatch, 120000); // تحديث كل دقيقتين
 
         // ===== عرض الأخبار =====
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                
                 categories.forEach(cat => {
                     const grid = document.getElementById(cat + '-news');
                     if (grid) grid.innerHTML = '';
                 });
-                
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
                     const grid = document.getElementById(cat + '-news');
@@ -693,7 +701,6 @@
             return card;
         }
 
-        // ===== البحث =====
         function searchNews(query) {
             const q = query.trim().toLowerCase();
             if (!q) { renderNews(); return; }
@@ -708,7 +715,6 @@
             });
         }
 
-        // ===== المشاركة =====
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
         function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
         function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
@@ -717,7 +723,6 @@
         function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
         function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
 
-        // ===== أخبار ذات صلة =====
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
@@ -755,7 +760,6 @@
             });
         }
 
-        // ===== اللوحة المنبثقة =====
         function openModal(article) {
             document.getElementById('modalTitle').textContent = article.title;
             let metaHtml = '';
@@ -787,7 +791,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // ===== تأثير الظهور =====
         function revealOnScroll() {
             const elements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -801,7 +804,6 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        // ===== شريط الوصول السريع =====
         function handleQuickNav() {
             const quickLinks = document.querySelectorAll('.quick-nav a');
             quickLinks.forEach(link => {
