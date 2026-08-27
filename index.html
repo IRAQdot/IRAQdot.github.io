@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO -->
-    <title>عراق دوت IRAQdot | أخبار محلية وعالمية</title>
-    <meta name="description" content="عراق دوت - نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية. أخبار سياسية، مجتمعية، اقتصادية، أدبية، رياضية، تكنولوجية وصحية.">
-    <meta name="keywords" content="عراق دوت, IRAQdot, أخبار العراق, أخبار محلية, أخبار عالمية, سياسة, مجتمع, اقتصاد, أدب, رياضة, تكنولوجيا, صحة, منوعات, أخبار عاجلة">
-    <meta name="author" content="عراق دوت IRAQdot">
+    <title>Madridistas de Irak | أخبار محلية وعالمية</title>
+    <meta name="description" content="Madridistas de Irak - نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية. أخبار سياسية، مجتمعية، اقتصادية، أدبية، رياضية، تكنولوجية وصحية.">
+    <meta name="keywords" content="Madridistas de Irak, أخبار العراق, أخبار محلية, أخبار عالمية, سياسة, مجتمع, اقتصاد, أدب, رياضة, تكنولوجيا, صحة, منوعات, أخبار عاجلة">
+    <meta name="author" content="Madridistas de Irak">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Arabic">
     <meta name="theme-color" content="#0d6efd">
@@ -16,16 +16,16 @@
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="عراق دوت IRAQdot | أخبار محلية وعالمية">
+    <meta property="og:title" content="Madridistas de Irak | أخبار محلية وعالمية">
     <meta property="og:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
     <meta property="og:url" content="https://iraqdot.github.io">
     <meta property="og:image" content="https://iraqdot.github.io/1787665502863.png">
     <meta property="og:locale" content="ar_AR">
-    <meta property="og:site_name" content="عراق دوت IRAQdot">
+    <meta property="og:site_name" content="Madridistas de Irak">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="عراق دوت IRAQdot | أخبار محلية وعالمية">
+    <meta name="twitter:title" content="Madridistas de Irak | أخبار محلية وعالمية">
     <meta name="twitter:description" content="نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية.">
     <meta name="twitter:image" content="https://iraqdot.github.io/1787665502863.png">
     
@@ -34,7 +34,7 @@
     {
         "@context": "https://schema.org",
         "@type": "NewsMediaOrganization",
-        "name": "عراق دوت IRAQdot",
+        "name": "Madridistas de Irak",
         "url": "https://iraqdot.github.io",
         "logo": "https://iraqdot.github.io/1787665502863.png",
         "description": "موقع إخباري محلي وعالمي يغطي جميع الأحداث"
@@ -102,9 +102,27 @@
         }
         .top-header.scrolled { box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
         .header-flex { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 15px; }
-        .logo a { display: flex; align-items: center; gap: 8px; font-size: 1.6rem; font-weight: 900; color: var(--text); }
-        .logo a .dot-word { color: #0d6efd; font-size: 1.2rem; }
-        .logo a .english-name { font-size: 0.65rem; font-weight: 600; color: #0d6efd; letter-spacing: 2px; margin-top: 8px; display: block; }
+
+        /* شعار جديد */
+        .logo a {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--text);
+            line-height: 1.2;
+        }
+        .logo .madridistas {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #0d6efd; /* أزرق مدريدي */
+        }
+        .logo .de-irak {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
         .logo a:hover { opacity: 0.85; }
 
         .main-nav ul { display: flex; list-style: none; gap: 5px; }
@@ -172,7 +190,6 @@
         }
         .search-box .search-icon { color: var(--text-muted); }
 
-        /* ===== التخطيط الرئيسي مع الشريط الجانبي ===== */
         .main-layout {
             display: flex;
             gap: 25px;
@@ -313,7 +330,6 @@
         .modal-content .modal-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
         .modal-content .modal-body img { max-width: 100%; border-radius: 10px; margin: 12px 0; }
 
-        /* قسم الأخبار ذات الصلة داخل المقال */
         .inline-related {
             background: var(--bg);
             border: 1px solid var(--border);
@@ -378,20 +394,14 @@
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 992px) {
-            .main-layout {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                position: static;
-                max-height: none;
-                margin-bottom: 30px;
-            }
+            .main-layout { flex-direction: column; }
+            .sidebar { width: 100%; position: static; max-height: none; margin-bottom: 30px; }
         }
 
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 12px 0; flex-wrap: wrap; }
-            .logo a { font-size: 1.4rem; }
+            .logo .madridistas { font-size: 1.5rem; }
+            .logo .de-irak { font-size: 1rem; }
             .main-nav { display: none; width: 100%; order: 3; }
             .main-nav.open { display: block; }
             .main-nav ul { flex-direction: column; align-items: center; gap: 5px; padding: 15px 0; }
@@ -410,8 +420,9 @@
     <header class="top-header" id="topHeader">
         <div class="container header-flex">
             <div class="logo">
-                <a href="https://iraqdot.github.io" title="العودة للرئيسية">
-                    عراق<span class="dot-word">دوت</span><span class="english-name">IRAQdot</span>
+                <a href="https://iraqdot.github.io" title="Madridistas de Irak">
+                    <span class="madridistas">Madridistas</span>
+                    <span class="de-irak">de Irak</span>
                 </a>
             </div>
             <nav class="main-nav" id="mainNav">
@@ -442,14 +453,13 @@
     </div>
 
     <section class="hero-image" id="home">
-        <img src="1787665502863.png" alt="عراق دوت IRAQdot - أخبار محلية وعالمية">
+        <img src="1787665502863.png" alt="Madridistas de Irak - أخبار محلية وعالمية">
     </section>
 
     <div class="site-description">
         <p>نافذتك الإلكترونية على جميع الأحداث المحلية والعالمية</p>
     </div>
 
-    <!-- شريط الوصول السريع -->
     <nav class="quick-nav" id="quickNav">
         <a href="#politics" class="active">سياسة</a>
         <a href="#society">مجتمع</a>
@@ -461,15 +471,12 @@
         <a href="#misc">منوعات</a>
     </nav>
 
-    <!-- مربع البحث -->
     <div class="search-box">
         <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="ابحث في الأخبار...">
     </div>
 
-    <!-- التخطيط الرئيسي مع الشريط الجانبي -->
     <div class="main-layout">
-        <!-- الشريط الجانبي الأيسر للأخبار العاجلة -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="icon">🔴</span>
@@ -480,7 +487,6 @@
             </ul>
         </aside>
 
-        <!-- المحتوى الرئيسي -->
         <div class="main-content">
             <main>
                 <section class="news-section reveal" id="politics">
@@ -519,7 +525,6 @@
         </div>
     </div>
 
-    <!-- اللوحة المنبثقة -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <button class="modal-close" id="modalClose" title="إغلاق">×</button>
@@ -537,13 +542,12 @@
                     <button class="share-btn copy" id="shareCopy">نسخ الرابط</button>
                 </div>
             </div>
-            <!-- تمت إزالة قسم "أخبار ذات صلة" من هنا لأنه سيتم حقنه داخل المحتوى -->
         </div>
     </div>
 
     <footer>
         <div class="container footer-flex">
-            <p>جميع الحقوق محفوظة &copy; 2025 عراق دوت IRAQdot</p>
+            <p>جميع الحقوق محفوظة &copy; 2025 Madridistas de Irak</p>
             <nav>
                 <a href="#">من نحن</a>
                 <a href="#">اتصل بنا</a>
@@ -555,7 +559,7 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // ===== إعدادات Firebase =====
+        // ===== إعدادات Firebase (نفسها) =====
         const firebaseConfig = {
             apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
             authDomain: "iraqdot-news.firebaseapp.com",
@@ -574,7 +578,7 @@
         let allNewsData = [];
         let currentArticle = null;
 
-        // ===== الوضع الداكن =====
+        // الوضع الداكن
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('iraqdot_dark', isDark);
@@ -588,7 +592,6 @@
             }
         }
 
-        // ===== عدّاد المشاهدات =====
         function incrementViews(articleId) {
             if (!articleId) return;
             database.ref('news/' + articleId + '/views').transaction(function(current) {
@@ -632,7 +635,6 @@
             }
         }
 
-        // ===== تحديث الشريط الجانبي للأخبار العاجلة =====
         function updateSidebar(allNews) {
             const breakingNews = allNews
                 .filter(item => item.isBreaking)
@@ -711,13 +713,9 @@
             return card;
         }
 
-        // ===== البحث الفوري =====
         function searchNews(query) {
             const q = query.trim().toLowerCase();
-            if (!q) {
-                renderNews();
-                return;
-            }
+            if (!q) { renderNews(); return; }
             const results = allNewsData.filter(item => 
                 item.title.toLowerCase().includes(q) || 
                 (item.summary && item.summary.toLowerCase().includes(q)) ||
@@ -736,9 +734,8 @@
             });
         }
 
-        // ===== دوال المشاركة =====
         function getShareText(article) {
-            return article.title + ' - عراق دوت IRAQdot';
+            return article.title + ' - Madridistas de Irak';
         }
         function getShareUrl() {
             return 'https://iraqdot.github.io';
@@ -761,7 +758,6 @@
             });
         }
 
-        // ===== حقن الأخبار ذات الصلة داخل محتوى المقال =====
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => 
                 item.category === article.category && item.id !== article.id
@@ -772,34 +768,27 @@
             const modalBody = document.getElementById('modalBody');
             let contentHtml = modalBody.innerHTML;
             
-            // بناء HTML لقسم الأخبار ذات الصلة
             let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
             related.forEach(item => {
                 relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`;
             });
             relatedHtml += '</ul></div>';
             
-            // تحديد موضع الإدراج: بعد الفقرة الثانية أو الثالثة إذا وجدت
             const paragraphs = contentHtml.split(/<\/p>/i);
             if (paragraphs.length > 2) {
-                // إدراج بعد الفقرة الثانية (الفهرس 1)
                 let insertIndex = contentHtml.indexOf('</p>');
                 if (insertIndex !== -1) {
-                    // البحث عن ثاني </p>
                     insertIndex = contentHtml.indexOf('</p>', insertIndex + 1);
                     if (insertIndex !== -1) {
-                        insertIndex += 4; // طول </p>
+                        insertIndex += 4;
                         contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
                     } else {
-                        // فقرة واحدة فقط - ندرج بعدها
                         insertIndex = contentHtml.indexOf('</p>') + 4;
                         contentHtml = contentHtml.slice(0, insertIndex) + relatedHtml + contentHtml.slice(insertIndex);
                     }
                 }
             } else {
-                // لا توجد وسوم فقرات، ندرج في منتصف النص
                 const half = Math.floor(contentHtml.length / 2);
-                // نتأكد أن القطع ليس في منتصف وسم
                 let cutIndex = contentHtml.indexOf(' ', half);
                 if (cutIndex === -1) cutIndex = half;
                 contentHtml = contentHtml.slice(0, cutIndex) + relatedHtml + contentHtml.slice(cutIndex);
@@ -807,7 +796,6 @@
             
             modalBody.innerHTML = contentHtml;
             
-            // ربط الأحداث للروابط المحقونة
             modalBody.querySelectorAll('.related-link').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -821,7 +809,6 @@
             });
         }
 
-        // ===== اللوحة المنبثقة =====
         function openModal(article) {
             currentArticle = article;
             document.getElementById('modalTitle').textContent = article.title;
@@ -844,7 +831,6 @@
             
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             
-            // حقن الأخبار ذات الصلة داخل المحتوى
             injectInlineRelatedNews(article);
             
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
@@ -862,7 +848,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // ===== تأثير الظهور عند التمرير =====
         function revealOnScroll() {
             const elements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -876,7 +861,6 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        // ===== تغيير ظل الترويسة =====
         function headerShadowOnScroll() {
             const header = document.getElementById('topHeader');
             window.addEventListener('scroll', () => {
@@ -885,7 +869,6 @@
             });
         }
 
-        // ===== شريط الوصول السريع =====
         function handleQuickNav() {
             const quickLinks = document.querySelectorAll('.quick-nav a');
             quickLinks.forEach(link => {
@@ -908,10 +891,7 @@
             handleQuickNav();
             
             document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
-            
-            document.getElementById('searchInput').addEventListener('input', function() {
-                searchNews(this.value);
-            });
+            document.getElementById('searchInput').addEventListener('input', function() { searchNews(this.value); });
             
             const navToggle = document.getElementById('navToggle');
             const mainNav = document.getElementById('mainNav');
