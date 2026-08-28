@@ -55,34 +55,16 @@
         .site-description { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; text-align: center; padding: 6px 15px; }
         .site-description p { font-size: 0.7rem; font-weight: 600; }
         .quick-nav {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2px;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 4px 8px;
-            margin: 5px auto;
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-            max-width: 850px;
-            width: 92%;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            display: flex; justify-content: center; align-items: center; gap: 2px;
+            flex-wrap: nowrap; overflow-x: auto; padding: 4px 8px; margin: 5px auto;
+            background: var(--card-bg); border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            max-width: 850px; width: 92%; scrollbar-width: none; -ms-overflow-style: none;
         }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a {
-            display: inline-block;
-            flex-shrink: 0;
-            padding: 2px 8px;
-            border-radius: 15px;
-            font-weight: 700;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            border: 1px solid transparent;
+            display: inline-block; flex-shrink: 0; padding: 2px 8px; border-radius: 15px;
+            font-weight: 700; font-size: 0.65rem; color: var(--text-muted);
+            transition: all 0.3s ease; white-space: nowrap; border: 1px solid transparent;
         }
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #fff; }
         .search-box { display: flex; align-items: center; gap: 6px; background: var(--card-bg); border-radius: 20px; padding: 3px 12px; margin: 0 auto 15px; max-width: 700px; width: 92%; border: 1px solid var(--border); }
@@ -305,19 +287,67 @@
         const database = firebase.database();
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
-        let laLigaStandings = [
-            { pos: 1, team: 'ريال مدريد', played: 2, won: 2, drawn: 0, lost: 0, gf: 5, ga: 1, gd: 4, points: 6 },
-            { pos: 2, team: 'برشلونة', played: 2, won: 2, drawn: 0, lost: 0, gf: 4, ga: 1, gd: 3, points: 6 },
-            { pos: 3, team: 'أتلتيكو مدريد', played: 2, won: 1, drawn: 1, lost: 0, gf: 3, ga: 2, gd: 1, points: 4 },
-            { pos: 4, team: 'أتلتيك بلباو', played: 2, won: 1, drawn: 1, lost: 0, gf: 2, ga: 1, gd: 1, points: 4 },
-            { pos: 5, team: 'فياريال', played: 2, won: 1, drawn: 0, lost: 1, gf: 3, ga: 3, gd: 0, points: 3 },
-            { pos: 6, team: 'ريال بيتيس', played: 2, won: 1, drawn: 0, lost: 1, gf: 2, ga: 2, gd: 0, points: 3 },
-            { pos: 7, team: 'ريال سوسيداد', played: 2, won: 0, drawn: 2, lost: 0, gf: 2, ga: 2, gd: 0, points: 2 },
-            { pos: 8, team: 'فالنسيا', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 2, gd: -1, points: 1 },
-            { pos: 9, team: 'إشبيلية', played: 2, won: 0, drawn: 1, lost: 1, gf: 1, ga: 3, gd: -2, points: 1 },
-            { pos: 10, team: 'خيرونا', played: 2, won: 0, drawn: 0, lost: 2, gf: 1, ga: 5, gd: -4, points: 0 }
-        ];
+        let laLigaStandings = [];
 
+        // تحميل الترتيب من Firebase
+        function loadStandingsFromFirebase() {
+            database.ref('standings').on('value', function(snapshot) {
+                const data = snapshot.val();
+                if (data) {
+                    laLigaStandings = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    }));
+                    // ترتيب حسب النقاط ثم فارق الأهداف
+                    laLigaStandings.sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
+                    laLigaStandings.forEach((team, index) => team.pos = index + 1);
+                    renderStandings();
+                } else {
+                    // إذا لا توجد بيانات بعد
+                    document.getElementById('standingsContainer').innerHTML = '<p style="text-align:center; padding:20px; color:#999;">لا توجد بيانات للترتيب بعد. أضف النتائج من لوحة التحكم.</p>';
+                }
+            }, function(error) {
+                document.getElementById('standingsContainer').innerHTML = '<p style="text-align:center; padding:20px; color:#999;">تعذر تحميل الترتيب.</p>';
+            });
+        }
+
+        // عرض الترتيب في المودال
+        function renderStandings() {
+            const container = document.getElementById('standingsContainer');
+            if (laLigaStandings.length === 0) {
+                container.innerHTML = '<p style="text-align:center; padding:20px; color:#999;">لا توجد بيانات للترتيب بعد.</p>';
+                return;
+            }
+            let html = '<table class="standings-table"><thead><tr>';
+            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>النقاط</th></tr></thead><tbody>';
+            laLigaStandings.forEach((team, index) => {
+                const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
+                html += `<tr class="${posClass}" onclick="toggleTeamDetail(${index})">`;
+                html += `<td><span class="pos-badge">${team.pos}</span></td><td><strong>${team.name}</strong></td>`;
+                html += `<td>${team.played || 0}</td><td>${team.won || 0}</td><td>${team.drawn || 0}</td><td>${team.lost || 0}</td><td><strong>${team.points || 0}</strong></td></tr>`;
+                html += `<tr class="detail-row" id="detail-${index}"><td colspan="7">له: ${team.gf || 0} | عليه: ${team.ga || 0} | الفارق: ${(team.gf || 0) - (team.ga || 0) > 0 ? '+' + ((team.gf || 0) - (team.ga || 0)) : (team.gf || 0) - (team.ga || 0)}</td></tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function toggleTeamDetail(index) {
+            const detail = document.getElementById(`detail-${index}`);
+            if (detail) detail.classList.toggle('active');
+        }
+
+        // فتح/إغلاق مودال الترتيب
+        function openStandingsModal() {
+            document.getElementById('standingsModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            loadStandingsFromFirebase(); // تحديث عند الفتح
+        }
+        function closeStandingsModal() {
+            document.getElementById('standingsModalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // بقية الدوال: الوضع الداكن، الأخبار، البحث، المشاركة، إلخ.
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('medridistas_dark', isDark);
@@ -329,54 +359,6 @@
                 document.getElementById('darkToggle').textContent = '☀️';
             }
         }
-
-        function openStandingsModal() {
-            document.getElementById('standingsModalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            renderStandings();
-        }
-        function closeStandingsModal() {
-            document.getElementById('standingsModalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        function renderStandings() {
-            const container = document.getElementById('standingsContainer');
-            let html = '<table class="standings-table"><thead><tr>';
-            html += '<th>#</th><th>الفريق</th><th>لعب</th><th>فاز</th><th>تعادل</th><th>خسر</th><th>النقاط</th></tr></thead><tbody>';
-            laLigaStandings.forEach((team, index) => {
-                const posClass = team.pos <= 3 ? `position-${team.pos}` : 'others';
-                html += `<tr class="${posClass}" onclick="toggleTeamDetail(${index})">`;
-                html += `<td><span class="pos-badge">${team.pos}</span></td><td><strong>${team.team}</strong></td>`;
-                html += `<td>${team.played}</td><td>${team.won}</td><td>${team.drawn}</td><td>${team.lost}</td><td><strong>${team.points}</strong></td></tr>`;
-                html += `<tr class="detail-row" id="detail-${index}"><td colspan="7">له: ${team.gf} | عليه: ${team.ga} | الفارق: ${team.gd > 0 ? '+' + team.gd : team.gd}</td></tr>`;
-            });
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        function toggleTeamDetail(index) {
-            const detail = document.getElementById(`detail-${index}`);
-            if (detail) detail.classList.toggle('active');
-        }
-
-        function simulateMatch() {
-            const team1Index = Math.floor(Math.random() * laLigaStandings.length);
-            let team2Index = Math.floor(Math.random() * laLigaStandings.length);
-            while (team2Index === team1Index) team2Index = Math.floor(Math.random() * laLigaStandings.length);
-            const team1 = laLigaStandings[team1Index], team2 = laLigaStandings[team2Index];
-            const goals1 = Math.floor(Math.random() * 4), goals2 = Math.floor(Math.random() * 4);
-            team1.played++; team1.gf += goals1; team1.ga += goals2;
-            if (goals1 > goals2) { team1.won++; team1.points += 3; } else if (goals1 === goals2) { team1.drawn++; team1.points += 1; } else { team1.lost++; }
-            team1.gd = team1.gf - team1.ga;
-            team2.played++; team2.gf += goals2; team2.ga += goals1;
-            if (goals2 > goals1) { team2.won++; team2.points += 3; } else if (goals2 === goals1) { team2.drawn++; team2.points += 1; } else { team2.lost++; }
-            team2.gd = team2.gf - team2.ga;
-            laLigaStandings.sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
-            laLigaStandings.forEach((team, index) => team.pos = index + 1);
-            if (document.getElementById('standingsModalOverlay').classList.contains('active')) renderStandings();
-        }
-        setInterval(simulateMatch, 120000);
 
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
@@ -528,6 +510,7 @@
             document.getElementById('standingsFloatBtn').addEventListener('click', openStandingsModal);
             document.getElementById('standingsModalClose').addEventListener('click', closeStandingsModal);
             document.getElementById('standingsModalOverlay').addEventListener('click', function(e) { if (e.target === this) closeStandingsModal(); });
+            loadStandingsFromFirebase(); // تحميل الترتيب عند البداية
         });
     </script>
 </body>
