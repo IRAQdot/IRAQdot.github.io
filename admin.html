@@ -9,6 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
+        /* نفس التنسيقات السابقة */
         :root { --primary: #B8860B; --primary-dark: #8B6508; --danger: #dc3545; --success: #198754; --warning: #ffc107; --font: 'Cairo', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font); background: #f0f2f5; min-height: 100vh; padding: 20px; }
@@ -28,7 +29,7 @@
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; font-weight: 700; margin-bottom: 6px; }
         .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; }
-        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.3s; }
+        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
         .upload-area:hover { border-color: var(--primary); }
         .toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 8px; }
         .toolbar button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; }
@@ -83,7 +84,7 @@
                 <div class="form-group"><label>وقت المباراة:</label><input type="time" id="matchTime"></div>
                 <div class="form-group"><label>رقم الجولة:</label><input type="number" id="matchRound" min="1" placeholder="مثال: 3"></div>
                 <div class="form-group"><label>الملعب:</label><input type="text" id="matchStadium" placeholder="مثال: سانتياغو برنابيو"></div>
-                <div class="form-group"><label>اسم البطولة:</label><input type="text" id="matchTournament" placeholder="مثال: الدوري الإسباني، دوري الأبطال، كأس الملك"></div>
+                <div class="form-group"><label>اسم البطولة:</label><input type="text" id="matchTournament" placeholder="مثال: الدوري الإسباني"></div>
                 <button class="btn-save-match" onclick="saveMatchResult()">💾 حفظ النتيجة</button>
                 <button class="btn-save-match" style="background:#6c757d; margin-top:8px; display:none;" id="cancelMatchEditBtn" onclick="cancelMatchEdit()">إلغاء التعديل</button>
                 <hr style="margin:20px 0; border-color:#eee;">
@@ -122,7 +123,6 @@
                     </div>
                     <div class="editor" id="editor" contenteditable="true"></div>
                 </div>
-                <!-- رفع صورة الغلاف -->
                 <div class="form-group">
                     <label>صورة الغلاف:</label>
                     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
@@ -134,7 +134,6 @@
                         <img id="previewImg" src="" alt="معاينة" style="max-width:100%; border-radius:8px;">
                     </div>
                 </div>
-                <!-- حقل رابط الفيديو -->
                 <div class="form-group">
                     <label>رابط الفيديو (YouTube أو MP4):</label>
                     <input type="text" id="videoUrl" placeholder="الصق الرابط هنا...">
@@ -157,14 +156,14 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
-            authDomain: "iraqdot-news.firebaseapp.com",
-            databaseURL: "https://iraqdot-news-default-rtdb.firebaseio.com",
-            projectId: "iraqdot-news",
-            storageBucket: "iraqdot-news.firebasestorage.app",
-            messagingSenderId: "332644409269",
-            appId: "1:332644409269:web:a3d9ffd2c7044d6fb803fc",
-            measurementId: "G-M236VH0P44"
+            apiKey: "AIzaSyAtVGc_KsfJKlr_4UbuuWaoi4QaFUtcjw0",
+            authDomain: "iraqdot-news-72f58.firebaseapp.com",
+            databaseURL: "https://iraqdot-news-72f58-default-rtdb.firebaseio.com",
+            projectId: "iraqdot-news-72f58",
+            storageBucket: "iraqdot-news-72f58.firebasestorage.app",
+            messagingSenderId: "950984312832",
+            appId: "1:950984312832:web:0e91c9e8e5ef6e901330e5",
+            measurementId: "G-1M5VSH55ZN"
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
