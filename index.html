@@ -16,16 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
-        :root {
-            --gold: #B8860B;
-            --gold-dark: #8B6508;
-            --bg: #f0f2f5;
-            --card-bg: #ffffff;
-            --text: #212529;
-            --text-muted: #666;
-            --border: #ddd;
-        }
+        :root { --gold: #B8860B; --gold-dark: #8B6508; --bg: #f0f2f5; --card-bg: #ffffff; --text: #212529; --text-muted: #666; --border: #ddd; }
         body.dark-mode { --bg: #1a1a2e; --card-bg: #16213e; --text: #e8e8e8; --text-muted: #aaa; --border: #2a3a5a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -45,6 +38,9 @@
         .nav-toggle { display: none; background: none; border: none; font-size: 1.5rem; color: var(--text); }
         .dark-toggle { background: none; border: 1px solid var(--border); border-radius: 50%; width: 35px; height: 35px; cursor: pointer; }
         .dark-toggle:hover { background: var(--gold); color: #fff; }
+        .auth-btn { background: var(--gold); color: #fff; border: none; padding: 8px 15px; border-radius: 30px; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: all 0.3s; }
+        .auth-btn:hover { background: var(--gold-dark); }
+        .auth-btn.logged-in { background: #198754; }
         .hero-image { position: relative; overflow: hidden; }
         .hero-image img { width: 100%; max-height: 400px; object-fit: cover; }
         .hero-overlay { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; gap: 15px; z-index: 5; }
@@ -54,14 +50,12 @@
         @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.05)} 100%{transform:scale(1)} }
         .site-description { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; text-align: center; padding: 6px 15px; }
         .site-description p { font-size: 0.7rem; font-weight: 600; }
-        .quick-nav { display: flex; justify-content: center; align-items: center; gap: 2px; flex-wrap: nowrap; overflow-x: auto; padding: 4px 8px; margin: 5px auto; background: var(--card-bg); border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); max-width: 850px; width: 92%; scrollbar-width: none; -ms-overflow-style: none; }
+        .quick-nav { display: flex; justify-content: center; align-items: center; gap: 2px; flex-wrap: nowrap; overflow-x: auto; padding: 4px 8px; margin: 5px auto; background: var(--card-bg); border-radius: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); max-width: 850px; width: 92%; scrollbar-width: none; }
         .quick-nav::-webkit-scrollbar { display: none; }
         .quick-nav a { display: inline-block; flex-shrink: 0; padding: 2px 8px; border-radius: 15px; font-weight: 700; font-size: 0.65rem; color: var(--text-muted); transition: all 0.3s ease; white-space: nowrap; border: 1px solid transparent; }
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #fff; }
         .search-box { display: flex; align-items: center; gap: 6px; background: var(--card-bg); border-radius: 20px; padding: 3px 12px; margin: 0 auto 15px; max-width: 700px; width: 92%; border: 1px solid var(--border); }
         .search-box input { flex: 1; border: none; outline: none; font-family: inherit; font-size: 0.8rem; background: transparent; color: var(--text); padding: 5px 0; }
-
-        /* قسم نتائج المباريات */
         .match-results { background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 15px; margin: 10px auto 20px; max-width: 850px; width: 92%; }
         .match-results h3 { font-size: 1rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; text-align: center; }
         .match-result-item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
@@ -69,8 +63,6 @@
         .match-result-item .teams { font-weight: 700; }
         .match-result-item .score { background: var(--gold); color: #fff; padding: 2px 12px; border-radius: 15px; font-weight: 900; }
         .match-result-item .info { color: var(--text-muted); font-size: 0.75rem; text-align: center; width: 100%; margin-top: 3px; }
-
-        /* الأقسام الأفقية */
         .news-section { margin-bottom: 35px; position: relative; }
         .section-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 15px; border-right: 4px solid var(--gold); padding-right: 12px; display: inline-block; }
         .scroll-controls { display: flex; gap: 5px; }
@@ -88,7 +80,6 @@
         .meta { margin-top: 8px; font-size: 0.7rem; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; }
         .read-btn { background: var(--gold); color: #fff; padding: 5px 10px; border: none; border-radius: 15px; font-weight: 700; font-size: 0.7rem; cursor: pointer; margin-top: 8px; align-self: flex-start; }
         .read-btn:hover { background: var(--gold-dark); }
-
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-content { background: var(--card-bg); border-radius: 15px; max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 25px 20px; position: relative; transform: translateX(-100%); transition: 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); }
@@ -119,6 +110,20 @@
         .back-to-top.show { display: block; }
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.5s; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+        .auth-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 4000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .auth-modal-overlay.active { opacity: 1; visibility: visible; }
+        .auth-modal { background: var(--card-bg); border-radius: 15px; max-width: 400px; width: 100%; padding: 30px 25px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .auth-modal-close { position: absolute; top: 10px; left: 15px; font-size: 1.8rem; background: none; border: none; cursor: pointer; color: var(--text-muted); }
+        .auth-modal h2 { text-align: center; margin-bottom: 20px; color: var(--gold); font-weight: 900; }
+        .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .auth-tab { flex: 1; padding: 8px; border: 2px solid var(--border); border-radius: 25px; background: none; cursor: pointer; font-family: inherit; font-weight: 700; color: var(--text-muted); transition: all 0.3s; }
+        .auth-tab.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .auth-input { width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 8px; margin-bottom: 12px; font-family: inherit; font-size: 0.9rem; }
+        .auth-submit { width: 100%; padding: 12px; background: var(--gold); color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-family: inherit; }
+        .auth-error { color: #dc3545; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
+        .auth-success { color: #198754; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .logo .main-title { font-size: 1.4rem; }
@@ -157,6 +162,7 @@
             </nav>
             <button class="dark-toggle" id="darkToggle">🌙</button>
             <button class="nav-toggle" id="navToggle">☰</button>
+            <button class="auth-btn" id="authBtn">تسجيل الدخول</button>
         </div>
     </header>
 
@@ -196,6 +202,7 @@
     </div>
 
     <main class="container">
+        <!-- الأقسام الأفقية -->
         <section class="news-section reveal" id="news">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 class="section-title">📰 أخبار</h3>
@@ -295,6 +302,30 @@
         </div>
     </div>
 
+    <!-- مودال التسجيل -->
+    <div class="auth-modal-overlay" id="authModalOverlay">
+        <div class="auth-modal">
+            <button class="auth-modal-close" id="authModalClose">×</button>
+            <h2>🔐 حسابك</h2>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="loginTab" onclick="showAuthTab('login')">تسجيل الدخول</button>
+                <button class="auth-tab" id="signupTab" onclick="showAuthTab('signup')">تسجيل جديد</button>
+            </div>
+            <div class="auth-form active" id="loginForm">
+                <input type="email" id="loginEmail" class="auth-input" placeholder="البريد الإلكتروني">
+                <input type="password" id="loginPassword" class="auth-input" placeholder="كلمة المرور">
+                <button class="auth-submit" onclick="loginUser()">دخول</button>
+            </div>
+            <div class="auth-form" id="signupForm">
+                <input type="email" id="signupEmail" class="auth-input" placeholder="البريد الإلكتروني">
+                <input type="password" id="signupPassword" class="auth-input" placeholder="كلمة المرور (6 أحرف على الأقل)">
+                <button class="auth-submit" onclick="signupUser()">إنشاء حساب</button>
+            </div>
+            <p class="auth-error" id="authError"></p>
+            <p class="auth-success" id="authSuccess"></p>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-flex">
             <p>جميع الحقوق محفوظة &copy; 2025 Medridistas del Irak</p>
@@ -309,31 +340,136 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
+        // تكوين Firebase الجديد
         const firebaseConfig = {
-            apiKey: "AIzaSyAAp0nW8yCcI9hflpdZiLLiJkCS773qtog",
-            authDomain: "iraqdot-news.firebaseapp.com",
-            databaseURL: "https://iraqdot-news-default-rtdb.firebaseio.com",
-            projectId: "iraqdot-news",
-            storageBucket: "iraqdot-news.firebasestorage.app",
-            messagingSenderId: "332644409269",
-            appId: "1:332644409269:web:a3d9ffd2c7044d6fb803fc",
-            measurementId: "G-M236VH0P44"
+            apiKey: "AIzaSyAtVGc_KsfJKlr_4UbuuWaoi4QaFUtcjw0",
+            authDomain: "iraqdot-news-72f58.firebaseapp.com",
+            databaseURL: "https://iraqdot-news-72f58-default-rtdb.firebaseio.com",
+            projectId: "iraqdot-news-72f58",
+            storageBucket: "iraqdot-news-72f58.firebasestorage.app",
+            messagingSenderId: "950984312832",
+            appId: "1:950984312832:web:0e91c9e8e5ef6e901330e5",
+            measurementId: "G-1M5VSH55ZN"
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
-        let allNewsData = [];
+        const auth = firebase.auth();
 
-        // تمرير قسم معين
-        function scrollSection(containerId, direction) {
-            const container = document.getElementById(containerId);
-            if (container) {
-                const scrollAmount = 260; // عرض البطاقة تقريبًا
-                container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        // حالة المستخدم
+        let currentUser = null;
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            updateAuthUI();
+        });
+
+        function updateAuthUI() {
+            const btn = document.getElementById('authBtn');
+            if (currentUser) {
+                btn.textContent = '👤 ' + (currentUser.email || 'حساب');
+                btn.classList.add('logged-in');
+            } else {
+                btn.textContent = 'تسجيل الدخول';
+                btn.classList.remove('logged-in');
             }
         }
 
-        // تحميل نتائج المباريات
+        document.getElementById('authBtn').addEventListener('click', () => {
+            if (currentUser) {
+                if (confirm('تسجيل الخروج؟')) {
+                    auth.signOut().then(() => {
+                        alert('تم تسجيل الخروج');
+                    });
+                }
+            } else {
+                document.getElementById('authModalOverlay').classList.add('active');
+            }
+        });
+        document.getElementById('authModalClose').addEventListener('click', () => {
+            document.getElementById('authModalOverlay').classList.remove('active');
+            clearAuthMessages();
+        });
+        document.getElementById('authModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                clearAuthMessages();
+            }
+        });
+
+        function showAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.getElementById('loginTab').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.getElementById('signupTab').classList.add('active');
+                document.getElementById('signupForm').classList.add('active');
+            }
+            clearAuthMessages();
+        }
+
+        function clearAuthMessages() {
+            document.getElementById('authError').style.display = 'none';
+            document.getElementById('authSuccess').style.display = 'none';
+        }
+
+        function showAuthError(msg) {
+            document.getElementById('authError').textContent = msg;
+            document.getElementById('authError').style.display = 'block';
+            document.getElementById('authSuccess').style.display = 'none';
+        }
+        function showAuthSuccess(msg) {
+            document.getElementById('authSuccess').textContent = msg;
+            document.getElementById('authSuccess').style.display = 'block';
+            document.getElementById('authError').style.display = 'none';
+        }
+
+        function loginUser() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            if (!email || !password) { showAuthError('يرجى إدخال البريد وكلمة المرور'); return; }
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    showAuthSuccess('تم تسجيل الدخول بنجاح');
+                    setTimeout(() => {
+                        document.getElementById('authModalOverlay').classList.remove('active');
+                        clearAuthMessages();
+                    }, 1000);
+                })
+                .catch(error => {
+                    showAuthError('خطأ: ' + error.message);
+                });
+        }
+
+        function signupUser() {
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            if (!email || !password) { showAuthError('يرجى إدخال البريد وكلمة المرور'); return; }
+            if (password.length < 6) { showAuthError('كلمة المرور يجب أن تكون 6 أحرف على الأقل'); return; }
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    showAuthSuccess('تم إنشاء الحساب بنجاح');
+                    setTimeout(() => {
+                        document.getElementById('authModalOverlay').classList.remove('active');
+                        clearAuthMessages();
+                    }, 1000);
+                })
+                .catch(error => {
+                    showAuthError('خطأ: ' + error.message);
+                });
+        }
+
+        // بقية الوظائف
+        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
+        let allNewsData = [];
+
+        function scrollSection(containerId, direction) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.scrollBy({ left: direction * 260, behavior: 'smooth' });
+            }
+        }
+
         function loadMatches() {
             database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -353,18 +489,6 @@
                 });
                 container.innerHTML = html;
             });
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('medridistas_dark', isDark);
-            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
-        }
-        function initDarkMode() {
-            if (localStorage.getItem('medridistas_dark') === 'true') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('darkToggle').textContent = '☀️';
-            }
         }
 
         function renderNews() {
@@ -531,6 +655,18 @@
                     if (target) target.scrollIntoView({ behavior: 'smooth' });
                 });
             });
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('medridistas_dark', isDark);
+            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+        }
+        function initDarkMode() {
+            if (localStorage.getItem('medridistas_dark') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkToggle').textContent = '☀️';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
