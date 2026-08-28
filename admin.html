@@ -22,44 +22,20 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font); background: #f0f2f5; min-height: 100vh; padding: 20px; }
-        .login-box {
-            background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 50px 40px; text-align: center; max-width: 450px; margin: 80px auto;
-        }
+        .login-box { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 50px 40px; text-align: center; max-width: 450px; margin: 80px auto; }
         .login-box h2 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
         .login-box .sub { color: #666; margin-bottom: 30px; }
-        .login-box input {
-            width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px;
-            font-size: 1.1rem; text-align: center; font-family: inherit;
-            margin-bottom: 20px; direction: ltr; transition: all 0.3s;
-        }
+        .login-box input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; text-align: center; font-family: inherit; margin-bottom: 20px; direction: ltr; }
         .login-box input:focus { border-color: var(--primary); outline: none; }
-        .login-box button {
-            width: 100%; padding: 15px; background: var(--primary); color: #fff;
-            border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 800;
-            cursor: pointer; font-family: inherit; transition: all 0.3s;
-        }
+        .login-box button { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 800; cursor: pointer; font-family: inherit; }
         .login-box button:hover { background: var(--primary-dark); }
         .error { color: var(--danger); margin-top: 15px; display: none; font-weight: 700; }
         .dashboard { display: none; max-width: 1200px; margin: 0 auto; }
-        .dash-header {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #fff; border-radius: 20px; padding: 25px 30px;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 15px; margin-bottom: 25px;
-        }
+        .dash-header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; border-radius: 20px; padding: 25px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; }
         .dash-header h1 { font-size: 1.5rem; font-weight: 900; }
-        .logout-btn {
-            background: rgba(255,255,255,0.15); color: #fff;
-            border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px;
-            border-radius: 30px; cursor: pointer; font-family: inherit;
-            font-weight: 700; font-size: 0.95rem; transition: all 0.3s;
-        }
+        .logout-btn { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.95rem; }
         .logout-btn:hover { background: rgba(255,255,255,0.3); }
-        .stats-row {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px; margin-bottom: 25px;
-        }
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: #fff; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
         .stat-card .num { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
         .stat-card .lbl { color: #666; font-weight: 600; font-size: 0.85rem; }
@@ -67,42 +43,21 @@
         .panel { background: #fff; border-radius: 20px; padding: 25px; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
         .panel h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 20px; color: var(--primary); }
         .cat-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-        .cat-btn {
-            padding: 8px 15px; border: 2px solid #ddd; border-radius: 25px;
-            background: #fff; cursor: pointer; font-family: inherit;
-            font-weight: 700; font-size: 0.85rem; transition: all 0.3s;
-        }
+        .cat-btn { padding: 8px 15px; border: 2px solid #ddd; border-radius: 25px; background: #fff; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; transition: all 0.3s; }
         .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
         .cat-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; font-weight: 700; margin-bottom: 6px; color: #333; }
-        .form-group input[type="text"],
-        .form-group input[type="date"],
-        .form-group input[type="time"],
-        .form-group input[type="number"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%; padding: 10px 12px; border: 2px solid #ddd;
-            border-radius: 8px; font-size: 0.95rem; font-family: inherit;
-            transition: all 0.3s; background: #fff;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus { border-color: var(--primary); outline: none; }
+        .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: all 0.3s; background: #fff; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; }
         .form-group textarea { min-height: 100px; resize: vertical; }
-        .checkbox-group { display: flex; align-items: center; gap: 10px; background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
-        .checkbox-group input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
         .toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 8px; }
-        .toolbar button {
-            padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px;
-            background: #fff; cursor: pointer; font-family: inherit;
-            font-size: 0.8rem; font-weight: 600; transition: all 0.2s;
-        }
+        .toolbar button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; }
         .toolbar button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
         .editor { min-height: 180px; border: 2px solid #ddd; border-radius: 8px; padding: 12px; font-size: 0.95rem; line-height: 1.7; outline: none; overflow-y: auto; }
         .editor:focus { border-color: var(--primary); }
-        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s; }
-        .upload-area:hover { border-color: var(--primary); background: rgba(184,134,11,0.03); }
+        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
+        .upload-area:hover { border-color: var(--primary); }
         .news-list { list-style: none; max-height: 500px; overflow-y: auto; }
         .news-item { background: #f8f9fa; border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
         .news-item .info { flex: 1; }
@@ -112,19 +67,18 @@
         .news-item .actions button { border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.75rem; }
         .btn-edit { background: var(--warning); color: #212529; }
         .btn-del { background: var(--danger); color: #fff; }
-        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.3s; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer; font-family: inherit; }
         .btn-submit:hover { background: var(--primary-dark); }
         .loading { text-align: center; padding: 20px; color: #666; font-weight: 700; }
         .match-row { display: grid; grid-template-columns: 1fr 0.5fr 0.5fr 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
         .match-row select, .match-row input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.85rem; }
-        .btn-save-match { padding: 8px 15px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; transition: all 0.3s; }
+        .btn-save-match { padding: 8px 15px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; }
         .btn-save-match:hover { background: var(--primary-dark); }
         @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .match-row { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول -->
     <div class="login-box" id="loginBox">
         <h2>🔐 لوحة التحكم</h2>
         <p class="sub">أدخل التوكن للوصول إلى الإدارة</p>
@@ -133,7 +87,6 @@
         <p class="error" id="errorMsg">❌ التوكن غير صحيح</p>
     </div>
 
-    <!-- لوحة التحكم -->
     <div class="dashboard" id="dashboard">
         <div class="dash-header">
             <h1>📊 لوحة تحكم Medridistas del Irak</h1>
@@ -148,7 +101,7 @@
         </div>
 
         <div class="content-grid">
-            <!-- نموذج تحديث نتائج المباريات -->
+            <!-- قسم نتائج المباريات والترتيب -->
             <div class="panel">
                 <h3>⚽ تحديث نتائج الدوري الإسباني</h3>
                 <div class="match-row">
@@ -159,6 +112,7 @@
                 </div>
                 <button class="btn-save-match" onclick="saveMatchResult()">💾 حفظ النتيجة</button>
                 <hr style="margin:15px 0; border-color:#eee;">
+                <h4 style="margin-bottom:10px;">📋 ترتيب الفرق الحالي</h4>
                 <div id="standingsPreview"></div>
             </div>
 
@@ -258,7 +212,7 @@
             { id: 'leg', name: 'ليغانيس', played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, points: 0 }
         ];
 
-        // تحميل الفرق
+        // تعبئة القوائم المنسدلة
         function populateTeamSelects() {
             const homeSelect = document.getElementById('homeTeam');
             const awaySelect = document.getElementById('awayTeam');
@@ -277,7 +231,7 @@
                 if (data) {
                     teamsList = Object.keys(data).map(key => ({ id: key, ...data[key] }));
                 } else {
-                    // إذا لا توجد بيانات، نحفظ القائمة الافتراضية
+                    // حفظ البيانات الافتراضية إذا لا توجد
                     teamsList.forEach(team => {
                         database.ref('standings/' + team.id).set({
                             name: team.name,
@@ -292,7 +246,7 @@
                     });
                 }
                 updateStats();
-                populateTeamSelects();
+                populateTeamSelects(); // تعبئة القوائم دائماً بعد تحميل البيانات
                 renderStandingsPreview();
             });
         }
@@ -312,6 +266,11 @@
             const homeTeam = teamsList.find(t => t.id === homeId);
             const awayTeam = teamsList.find(t => t.id === awayId);
 
+            if (!homeTeam || !awayTeam) {
+                alert('❌ الفريق غير موجود');
+                return;
+            }
+
             // تحديث بيانات المضيف
             homeTeam.played += 1;
             homeTeam.gf += homeGoals;
@@ -329,18 +288,26 @@
             else { awayTeam.lost += 1; }
 
             // حفظ في Firebase
-            database.ref('standings/' + homeId).update(homeTeam)
-                .then(() => database.ref('standings/' + awayId).update(awayTeam))
-                .then(() => {
-                    alert('✅ تم حفظ النتيجة بنجاح!');
-                    document.getElementById('homeGoals').value = '';
-                    document.getElementById('awayGoals').value = '';
-                    renderStandingsPreview();
+            Promise.all([
+                database.ref('standings/' + homeId).update(homeTeam),
+                database.ref('standings/' + awayId).update(awayTeam),
+                database.ref('matches').push({
+                    homeTeam: homeTeam.name,
+                    awayTeam: awayTeam.name,
+                    homeGoals: homeGoals,
+                    awayGoals: awayGoals,
+                    date: new Date().toISOString().split('T')[0],
+                    time: new Date().toTimeString().slice(0,5)
                 })
-                .catch(error => alert('❌ خطأ: ' + error.message));
+            ]).then(() => {
+                alert('✅ تم حفظ النتيجة بنجاح!');
+                document.getElementById('homeGoals').value = '';
+                document.getElementById('awayGoals').value = '';
+                renderStandingsPreview();
+            }).catch(error => alert('❌ خطأ: ' + error.message));
         }
 
-        // عرض الترتيب في اللوحة
+        // عرض الترتيب
         function renderStandingsPreview() {
             const sorted = [...teamsList].sort((a, b) => b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga));
             let html = '<table style="width:100%; font-size:0.85rem; border-collapse:collapse;">';
@@ -352,7 +319,7 @@
             document.getElementById('standingsPreview').innerHTML = html;
         }
 
-        // تسجيل الدخول
+        // بقية الدوال كما في النسخة السابقة...
         function login() {
             const t = document.getElementById('tokenInput').value.trim();
             if (t === VALID_TOKEN) {
@@ -363,6 +330,7 @@
                 document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
                 loadStandings();
                 loadNews();
+                populateTeamSelects(); // تعبئة فورية
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
@@ -530,7 +498,6 @@
             document.getElementById('dbStatus').style.color = '#198754';
         }
 
-        // عند تحميل الصفحة
         if (sessionStorage.getItem('med_admin') === 'yes') {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
@@ -538,6 +505,7 @@
             document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
             loadStandings();
             loadNews();
+            populateTeamSelects();
         }
     </script>
 </body>
