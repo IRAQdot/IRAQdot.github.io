@@ -120,7 +120,6 @@
         .auth-submit { width: 100%; padding: 12px; background: var(--gold); color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-family: inherit; }
         .auth-error { color: #dc3545; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
         .auth-success { color: #198754; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
-        /* مودال الصورة المكبرة */
         .image-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
         .image-modal-overlay.active { opacity: 1; visibility: visible; }
         .image-modal-content { max-width: 90vw; max-height: 90vh; position: relative; }
@@ -447,6 +446,14 @@
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                
+                // ترتيب الأخبار من الأحدث إلى الأقدم
+                allNewsData.sort((a, b) => {
+                    const dateA = new Date(a.createdAt || (a.date + 'T' + (a.time || '00:00')));
+                    const dateB = new Date(b.createdAt || (b.date + 'T' + (b.time || '00:00')));
+                    return dateB - dateA;
+                });
+
                 categories.forEach(cat => { const grid = document.getElementById(cat + '-news'); if (grid) grid.innerHTML = ''; });
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
@@ -556,7 +563,7 @@
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             injectInlineRelatedNews(article);
 
-            // عرض الصور المتعددة في نهاية الخبر (بعد المحتوى)
+            // عرض الصور المتعددة في نهاية الخبر
             const existingMulti = document.querySelector('.multi-images-container');
             if (existingMulti) existingMulti.remove();
             if (article.multiImages && article.multiImages.length > 0) {
