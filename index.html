@@ -88,6 +88,9 @@
         .modal-content h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; padding-left: 25px; }
         .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-muted); }
         .modal-image { width: 100%; border-radius: 10px; margin-bottom: 12px; max-height: 300px; object-fit: cover; }
+        .multi-images-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .multi-images-container img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform 0.3s; }
+        .multi-images-container img:hover { transform: scale(1.05); }
         .modal-body { font-size: 0.95rem; line-height: 1.7; }
         .video-container { margin-bottom: 15px; border-radius: 10px; overflow: hidden; }
         .video-container iframe { width: 100%; height: 315px; border: none; }
@@ -103,13 +106,6 @@
         .share-btn { display: inline-flex; align-items: center; gap: 3px; padding: 4px 8px; border: none; border-radius: 15px; font-weight: 700; font-size: 0.7rem; cursor: pointer; color: #fff; }
         .share-btn:hover { opacity: 0.85; }
         .facebook { background: #1877f2; } .twitter { background: #000; } .whatsapp { background: #25d366; } .telegram { background: #0088cc; } .copy { background: #6c757d; }
-        footer { background: #212529; color: #ccc; padding: 20px 0; margin-top: 30px; }
-        .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .footer-flex nav a { margin-left: 15px; color: #ccc; font-size: 0.8rem; }
-        .back-to-top { position: fixed; bottom: 25px; right: 25px; background: var(--gold); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none; z-index: 999; }
-        .back-to-top.show { display: block; }
-        .reveal { opacity: 0; transform: translateY(20px); transition: 0.5s; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
         .auth-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 4000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
         .auth-modal-overlay.active { opacity: 1; visibility: visible; }
         .auth-modal { background: var(--card-bg); border-radius: 15px; max-width: 400px; width: 100%; padding: 30px 25px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
@@ -124,6 +120,13 @@
         .auth-submit { width: 100%; padding: 12px; background: var(--gold); color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-family: inherit; }
         .auth-error { color: #dc3545; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
         .auth-success { color: #198754; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
+        footer { background: #212529; color: #ccc; padding: 20px 0; margin-top: 30px; }
+        .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .footer-flex nav a { margin-left: 15px; color: #ccc; font-size: 0.8rem; }
+        .back-to-top { position: fixed; bottom: 25px; right: 25px; background: var(--gold); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none; z-index: 999; }
+        .back-to-top.show { display: block; }
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.5s; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .logo .main-title { font-size: 1.4rem; }
@@ -202,7 +205,6 @@
     </div>
 
     <main class="container">
-        <!-- الأقسام الأفقية -->
         <section class="news-section reveal" id="news">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 class="section-title">📰 أخبار</h3>
@@ -340,7 +342,6 @@
     <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        // تكوين Firebase الجديد
         const firebaseConfig = {
             apiKey: "AIzaSyAtVGc_KsfJKlr_4UbuuWaoi4QaFUtcjw0",
             authDomain: "iraqdot-news-72f58.firebaseapp.com",
@@ -354,130 +355,66 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         const auth = firebase.auth();
+        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
+        let allNewsData = [];
 
-        // حالة المستخدم
+        // --- Authentication ---
         let currentUser = null;
-        auth.onAuthStateChanged(user => {
-            currentUser = user;
-            updateAuthUI();
-        });
-
+        auth.onAuthStateChanged(user => { currentUser = user; updateAuthUI(); });
         function updateAuthUI() {
             const btn = document.getElementById('authBtn');
-            if (currentUser) {
-                btn.textContent = '👤 ' + (currentUser.email || 'حساب');
-                btn.classList.add('logged-in');
-            } else {
-                btn.textContent = 'تسجيل الدخول';
-                btn.classList.remove('logged-in');
-            }
+            if (currentUser) { btn.textContent = '👤 ' + (currentUser.email || 'حساب'); btn.classList.add('logged-in'); }
+            else { btn.textContent = 'تسجيل الدخول'; btn.classList.remove('logged-in'); }
         }
-
         document.getElementById('authBtn').addEventListener('click', () => {
             if (currentUser) {
-                if (confirm('تسجيل الخروج؟')) {
-                    auth.signOut().then(() => {
-                        alert('تم تسجيل الخروج');
-                    });
-                }
+                if (confirm('تسجيل الخروج؟')) auth.signOut().then(() => alert('تم تسجيل الخروج'));
             } else {
                 document.getElementById('authModalOverlay').classList.add('active');
             }
         });
-        document.getElementById('authModalClose').addEventListener('click', () => {
-            document.getElementById('authModalOverlay').classList.remove('active');
-            clearAuthMessages();
-        });
-        document.getElementById('authModalOverlay').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                clearAuthMessages();
-            }
-        });
-
+        document.getElementById('authModalClose').addEventListener('click', () => { document.getElementById('authModalOverlay').classList.remove('active'); clearAuthMessages(); });
+        document.getElementById('authModalOverlay').addEventListener('click', function(e) { if (e.target === this) { this.classList.remove('active'); clearAuthMessages(); } });
         function showAuthTab(tab) {
             document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-            if (tab === 'login') {
-                document.getElementById('loginTab').classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-            } else {
-                document.getElementById('signupTab').classList.add('active');
-                document.getElementById('signupForm').classList.add('active');
-            }
+            if (tab === 'login') { document.getElementById('loginTab').classList.add('active'); document.getElementById('loginForm').classList.add('active'); }
+            else { document.getElementById('signupTab').classList.add('active'); document.getElementById('signupForm').classList.add('active'); }
             clearAuthMessages();
         }
-
-        function clearAuthMessages() {
-            document.getElementById('authError').style.display = 'none';
-            document.getElementById('authSuccess').style.display = 'none';
-        }
-
-        function showAuthError(msg) {
-            document.getElementById('authError').textContent = msg;
-            document.getElementById('authError').style.display = 'block';
-            document.getElementById('authSuccess').style.display = 'none';
-        }
-        function showAuthSuccess(msg) {
-            document.getElementById('authSuccess').textContent = msg;
-            document.getElementById('authSuccess').style.display = 'block';
-            document.getElementById('authError').style.display = 'none';
-        }
-
+        function clearAuthMessages() { document.getElementById('authError').style.display = 'none'; document.getElementById('authSuccess').style.display = 'none'; }
+        function showAuthError(msg) { document.getElementById('authError').textContent = msg; document.getElementById('authError').style.display = 'block'; document.getElementById('authSuccess').style.display = 'none'; }
+        function showAuthSuccess(msg) { document.getElementById('authSuccess').textContent = msg; document.getElementById('authSuccess').style.display = 'block'; document.getElementById('authError').style.display = 'none'; }
         function loginUser() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             if (!email || !password) { showAuthError('يرجى إدخال البريد وكلمة المرور'); return; }
             auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    showAuthSuccess('تم تسجيل الدخول بنجاح');
-                    setTimeout(() => {
-                        document.getElementById('authModalOverlay').classList.remove('active');
-                        clearAuthMessages();
-                    }, 1000);
-                })
-                .catch(error => {
-                    showAuthError('خطأ: ' + error.message);
-                });
+                .then(() => { showAuthSuccess('تم تسجيل الدخول بنجاح'); setTimeout(() => { document.getElementById('authModalOverlay').classList.remove('active'); clearAuthMessages(); }, 1000); })
+                .catch(error => showAuthError('خطأ: ' + error.message));
         }
-
         function signupUser() {
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value;
             if (!email || !password) { showAuthError('يرجى إدخال البريد وكلمة المرور'); return; }
             if (password.length < 6) { showAuthError('كلمة المرور يجب أن تكون 6 أحرف على الأقل'); return; }
             auth.createUserWithEmailAndPassword(email, password)
-                .then(() => {
-                    showAuthSuccess('تم إنشاء الحساب بنجاح');
-                    setTimeout(() => {
-                        document.getElementById('authModalOverlay').classList.remove('active');
-                        clearAuthMessages();
-                    }, 1000);
-                })
-                .catch(error => {
-                    showAuthError('خطأ: ' + error.message);
-                });
+                .then(() => { showAuthSuccess('تم إنشاء الحساب بنجاح'); setTimeout(() => { document.getElementById('authModalOverlay').classList.remove('active'); clearAuthMessages(); }, 1000); })
+                .catch(error => showAuthError('خطأ: ' + error.message));
         }
 
-        // بقية الوظائف
-        const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
-        let allNewsData = [];
-
+        // --- التمرير ---
         function scrollSection(containerId, direction) {
             const container = document.getElementById(containerId);
-            if (container) {
-                container.scrollBy({ left: direction * 260, behavior: 'smooth' });
-            }
+            if (container) container.scrollBy({ left: direction * 260, behavior: 'smooth' });
         }
 
+        // --- نتائج المباريات ---
         function loadMatches() {
             database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
                 const data = snapshot.val();
                 const container = document.getElementById('matchResultsContainer');
-                if (!data) {
-                    container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نتائج بعد.</p>';
-                    return;
-                }
+                if (!data) { container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نتائج بعد.</p>'; return; }
                 const matches = Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse();
                 let html = '';
                 matches.forEach(match => {
@@ -491,22 +428,17 @@
             });
         }
 
+        // --- الأخبار ---
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                categories.forEach(cat => {
-                    const grid = document.getElementById(cat + '-news');
-                    if (grid) grid.innerHTML = '';
-                });
+                categories.forEach(cat => { const grid = document.getElementById(cat + '-news'); if (grid) grid.innerHTML = ''; });
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
                     const grid = document.getElementById(cat + '-news');
-                    if (grid && filtered.length > 0) {
-                        filtered.forEach(article => grid.appendChild(createNewsCard(article)));
-                    } else if (grid) {
-                        grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
-                    }
+                    if (grid && filtered.length > 0) filtered.forEach(article => grid.appendChild(createNewsCard(article)));
+                    else if (grid) grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
                 });
             });
         }
@@ -533,16 +465,11 @@
             const q = query.trim().toLowerCase();
             if (!q) { renderNews(); return; }
             const results = allNewsData.filter(item => item.title.toLowerCase().includes(q) || (item.summary && item.summary.toLowerCase().includes(q)));
-            categories.forEach(cat => {
-                const grid = document.getElementById(cat + '-news');
-                if (grid) grid.innerHTML = '';
-            });
-            results.forEach(article => {
-                const grid = document.getElementById(article.category + '-news');
-                if (grid) grid.appendChild(createNewsCard(article));
-            });
+            categories.forEach(cat => { const grid = document.getElementById(cat + '-news'); if (grid) grid.innerHTML = ''; });
+            results.forEach(article => { const grid = document.getElementById(article.category + '-news'); if (grid) grid.appendChild(createNewsCard(article)); });
         }
 
+        // --- المشاركة ---
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
         function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
         function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
@@ -551,13 +478,14 @@
         function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
         function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
 
+        // --- أخبار ذات صلة ---
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
             const modalBody = document.getElementById('modalBody');
             let contentHtml = modalBody.innerHTML;
             let relatedHtml = '<div class="inline-related"><h4>🔗 أخبار ذات صلة</h4><ul>';
-            related.forEach(item => { relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`; });
+            related.forEach(item => relatedHtml += `<li><a href="#" class="related-link" data-id="${item.id}">${item.title}</a></li>`);
             relatedHtml += '</ul></div>';
             const paragraphs = contentHtml.split(/<\/p>/i);
             if (paragraphs.length > 2) {
@@ -582,6 +510,7 @@
             });
         }
 
+        // --- مودال الخبر ---
         function openModal(article) {
             document.getElementById('modalTitle').textContent = article.title;
             let metaHtml = '';
@@ -591,33 +520,40 @@
             if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
             document.getElementById('modalMeta').innerHTML = metaHtml;
             const modalImage = document.getElementById('modalImage');
-            if (article.cover && article.cover.trim() !== '') {
-                modalImage.src = article.cover;
-                modalImage.style.display = 'block';
-            } else {
-                modalImage.style.display = 'none';
+            if (article.cover && article.cover.trim() !== '') { modalImage.src = article.cover; modalImage.style.display = 'block'; }
+            else modalImage.style.display = 'none';
+
+            // عرض الصور المتعددة
+            const existingMulti = document.querySelector('.multi-images-container');
+            if (existingMulti) existingMulti.remove();
+            if (article.multiImages && article.multiImages.length > 0) {
+                const multiContainer = document.createElement('div');
+                multiContainer.className = 'multi-images-container';
+                article.multiImages.forEach(img => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = img;
+                    imgElement.alt = 'صورة إضافية';
+                    imgElement.loading = 'lazy';
+                    imgElement.addEventListener('click', () => window.open(img, '_blank'));
+                    multiContainer.appendChild(imgElement);
+                });
+                modalImage.after(multiContainer);
             }
 
+            // عرض الفيديو
             const existingVideo = document.querySelector('.video-container');
             if (existingVideo) existingVideo.remove();
-
             if (article.videoUrl && article.videoUrl.trim() !== '') {
                 const url = article.videoUrl.trim();
                 const videoContainer = document.createElement('div');
                 videoContainer.className = 'video-container';
                 if (url.includes('youtube.com') || url.includes('youtu.be')) {
-                    const videoId = url.includes('youtu.be') 
-                        ? url.split('/').pop() 
-                        : url.split('v=')[1]?.split('&')[0];
-                    if (videoId) {
-                        videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
-                    }
+                    const videoId = url.includes('youtu.be') ? url.split('/').pop() : url.split('v=')[1]?.split('&')[0];
+                    if (videoId) videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
                 } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
                     videoContainer.innerHTML = `<video controls><source src="${url}" type="video/mp4"></video>`;
                 }
-                if (videoContainer.innerHTML) {
-                    modalImage.after(videoContainer);
-                }
+                if (videoContainer.innerHTML) modalImage.after(videoContainer);
             }
 
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
@@ -636,15 +572,28 @@
             document.body.style.overflow = 'auto';
             const existingVideo = document.querySelector('.video-container');
             if (existingVideo) existingVideo.remove();
+            const existingMulti = document.querySelector('.multi-images-container');
+            if (existingMulti) existingMulti.remove();
         }
 
+        // --- الوضع الداكن والتمرير ---
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('medridistas_dark', isDark);
+            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
+        }
+        function initDarkMode() {
+            if (localStorage.getItem('medridistas_dark') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkToggle').textContent = '☀️';
+            }
+        }
         function revealOnScroll() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
-
         function handleQuickNav() {
             document.querySelectorAll('.quick-nav a').forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -657,18 +606,7 @@
             });
         }
 
-        function toggleDarkMode() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('medridistas_dark', isDark);
-            document.getElementById('darkToggle').textContent = isDark ? '☀️' : '🌙';
-        }
-        function initDarkMode() {
-            if (localStorage.getItem('medridistas_dark') === 'true') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('darkToggle').textContent = '☀️';
-            }
-        }
-
+        // --- التحميل ---
         document.addEventListener('DOMContentLoaded', function() {
             initDarkMode();
             renderNews();
