@@ -9,76 +9,45 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <style>
-        :root {
-            --primary: #B8860B;
-            --primary-dark: #8B6508;
-            --dark: #212529;
-            --light: #f8f9fa;
-            --white: #fff;
-            --danger: #dc3545;
-            --success: #198754;
-            --warning: #ffc107;
-            --font: 'Cairo', sans-serif;
-        }
+        :root { --primary: #B8860B; --primary-dark: #8B6508; --danger: #dc3545; --success: #198754; --warning: #ffc107; --font: 'Cairo', sans-serif; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: var(--font); background: #f0f2f5; min-height: 100vh; padding: 20px; }
         .login-box { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); padding: 50px 40px; text-align: center; max-width: 450px; margin: 80px auto; }
         .login-box h2 { font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
-        .login-box .sub { color: #666; margin-bottom: 30px; }
         .login-box input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 12px; font-size: 1.1rem; text-align: center; font-family: inherit; margin-bottom: 20px; direction: ltr; }
-        .login-box input:focus { border-color: var(--primary); outline: none; }
         .login-box button { width: 100%; padding: 15px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 800; cursor: pointer; font-family: inherit; }
-        .login-box button:hover { background: var(--primary-dark); }
-        .error { color: var(--danger); margin-top: 15px; display: none; font-weight: 700; }
         .dashboard { display: none; max-width: 1200px; margin: 0 auto; }
         .dash-header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: #fff; border-radius: 20px; padding: 25px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; }
-        .dash-header h1 { font-size: 1.5rem; font-weight: 900; }
-        .logout-btn { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.95rem; }
-        .logout-btn:hover { background: rgba(255,255,255,0.3); }
+        .logout-btn { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 25px; border-radius: 30px; cursor: pointer; font-family: inherit; font-weight: 700; }
         .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: #fff; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
         .stat-card .num { font-size: 1.8rem; font-weight: 900; color: var(--primary); }
         .stat-card .lbl { color: #666; font-weight: 600; font-size: 0.85rem; }
         .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
         .panel { background: #fff; border-radius: 20px; padding: 25px; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
-        .panel h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 20px; color: var(--primary); }
         .form-group { margin-bottom: 18px; }
-        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; color: #333; }
-        .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: all 0.3s; background: #fff; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; }
-        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; }
+        .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; }
+        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.3s; }
+        .upload-area:hover { border-color: var(--primary); }
         .toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 8px; }
         .toolbar button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; }
-        .toolbar button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
         .editor { min-height: 180px; border: 2px solid #ddd; border-radius: 8px; padding: 12px; font-size: 0.95rem; line-height: 1.7; outline: none; overflow-y: auto; }
-        .editor:focus { border-color: var(--primary); }
-        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
-        .upload-area:hover { border-color: var(--primary); }
-        .match-row { display: grid; grid-template-columns: 1fr 0.5fr 0.5fr 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
-        .match-row select, .match-row input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.85rem; }
+        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer; font-family: inherit; }
         .btn-save-match { padding: 8px 15px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; }
-        .btn-save-match:hover { background: var(--primary-dark); }
-        .btn-edit, .btn-del { border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.75rem; }
-        .btn-edit { background: var(--warning); color: #212529; }
-        .btn-del { background: var(--danger); color: #fff; }
+        .match-row { display: grid; grid-template-columns: 1fr 0.5fr 0.5fr 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
         .match-list { list-style: none; max-height: 400px; overflow-y: auto; }
-        .match-item { background: #f8f9fa; border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .match-item .info { flex: 1; }
-        .match-item .info h4 { font-weight: 800; margin-bottom: 4px; font-size: 0.9rem; }
-        .match-item .info small { color: #666; }
-        .match-item .actions { display: flex; gap: 6px; }
+        .match-item, .news-item { background: #f8f9fa; border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .btn-edit { background: var(--warning); color: #212529; border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; }
+        .btn-del { background: var(--danger); color: #fff; border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; }
+        .loading { text-align: center; padding: 20px; color: #666; font-weight: 700; }
         .cat-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .cat-btn { padding: 8px 15px; border: 2px solid #ddd; border-radius: 25px; background: #fff; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; transition: all 0.3s; }
-        .cat-btn:hover { border-color: var(--primary); color: var(--primary); }
         .cat-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .btn-submit { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 800; cursor: pointer; font-family: inherit; }
-        .btn-submit:hover { background: var(--primary-dark); }
-        .loading { text-align: center; padding: 20px; color: #666; font-weight: 700; }
         @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .match-row { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
 <body>
-
     <div class="login-box" id="loginBox">
         <h2>🔐 لوحة التحكم</h2>
         <p class="sub">أدخل التوكن للوصول إلى الإدارة</p>
@@ -110,25 +79,12 @@
                     <input type="number" id="awayGoals" min="0" max="20" placeholder="أهداف الضيف">
                     <select id="awayTeam"></select>
                 </div>
-                <div class="form-group">
-                    <label>تاريخ المباراة:</label>
-                    <input type="date" id="matchDate">
-                </div>
-                <div class="form-group">
-                    <label>وقت المباراة:</label>
-                    <input type="time" id="matchTime">
-                </div>
-                <div class="form-group">
-                    <label>رقم الجولة:</label>
-                    <input type="number" id="matchRound" min="1" placeholder="مثال: 3">
-                </div>
-                <div class="form-group">
-                    <label>الملعب:</label>
-                    <input type="text" id="matchStadium" placeholder="مثال: سانتياغو برنابيو">
-                </div>
+                <div class="form-group"><label>تاريخ المباراة:</label><input type="date" id="matchDate"></div>
+                <div class="form-group"><label>وقت المباراة:</label><input type="time" id="matchTime"></div>
+                <div class="form-group"><label>رقم الجولة:</label><input type="number" id="matchRound" min="1" placeholder="مثال: 3"></div>
+                <div class="form-group"><label>الملعب:</label><input type="text" id="matchStadium" placeholder="مثال: سانتياغو برنابيو"></div>
                 <button class="btn-save-match" onclick="saveMatchResult()">💾 حفظ النتيجة</button>
                 <button class="btn-save-match" style="background:#6c757d; margin-top:8px; display:none;" id="cancelMatchEditBtn" onclick="cancelMatchEdit()">إلغاء التعديل</button>
-
                 <hr style="margin:20px 0; border-color:#eee;">
                 <h4>📋 المباريات المسجلة</h4>
                 <ul class="match-list" id="matchListContainer"></ul>
@@ -162,23 +118,25 @@
                         <button onclick="format('insertOrderedList')">1. قائمة</button>
                         <button onclick="format('formatBlock', 'h3')">عنوان</button>
                         <button onclick="insertImage()">🖼️ صورة</button>
-                        <button onclick="format('insertHorizontalRule')">—</button>
                     </div>
                     <div class="editor" id="editor" contenteditable="true"></div>
                 </div>
+                <!-- رفع صورة الغلاف -->
                 <div class="form-group">
                     <label>صورة الغلاف:</label>
-                    <input type="text" id="coverImage" placeholder="ضع رابط الصورة هنا..." style="margin-bottom:8px;">
                     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                        <div class="icon">📤</div>
-                        <p>اضغط لرفع صورة من جهازك</p>
-                        <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="uploadImage()">
+                        <div>📤 اضغط لرفع صورة من هاتفك</div>
+                        <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="uploadImageAsBase64()">
+                    </div>
+                    <input type="hidden" id="coverImage" value="">
+                    <div id="imagePreview" style="margin-top:10px; display:none;">
+                        <img id="previewImg" src="" alt="معاينة" style="max-width:100%; border-radius:8px;">
                     </div>
                 </div>
-                <!-- حقل الفيديو الجديد -->
+                <!-- حقل رابط الفيديو -->
                 <div class="form-group">
-                    <label>رابط الفيديو (YouTube أو أي رابط مضمّن):</label>
-                    <input type="text" id="videoUrl" placeholder="مثال: https://www.youtube.com/embed/...">
+                    <label>رابط الفيديو (YouTube أو MP4):</label>
+                    <input type="text" id="videoUrl" placeholder="الصق الرابط هنا...">
                 </div>
                 <div class="form-group"><label>الدولة:</label><input type="text" id="country" placeholder="مثال: العراق"></div>
                 <div class="form-group"><label>المدينة:</label><input type="text" id="city" placeholder="مثال: بغداد"></div>
@@ -214,26 +172,13 @@
         let allNews = [];
         let allMatches = [];
         let teamsList = [
-            { id: 'rm', name: 'ريال مدريد' },
-            { id: 'bar', name: 'برشلونة' },
-            { id: 'atm', name: 'أتلتيكو مدريد' },
-            { id: 'ath', name: 'أتلتيك بلباو' },
-            { id: 'vil', name: 'فياريال' },
-            { id: 'bet', name: 'ريال بيتيس' },
-            { id: 'rso', name: 'ريال سوسيداد' },
-            { id: 'val', name: 'فالنسيا' },
-            { id: 'sev', name: 'إشبيلية' },
-            { id: 'gir', name: 'خيرونا' },
-            { id: 'osa', name: 'أوساسونا' },
-            { id: 'cel', name: 'سيلتا فيغو' },
-            { id: 'ray', name: 'رايو فايكانو' },
-            { id: 'mad', name: 'خيتافي' },
-            { id: 'esp', name: 'إسبانيول' },
-            { id: 'alm', name: 'ألميريا' },
-            { id: 'gda', name: 'غرناطة' },
-            { id: 'cad', name: 'قادس' },
-            { id: 'mll', name: 'ريال مايوركا' },
-            { id: 'leg', name: 'ليغانيس' }
+            { id: 'rm', name: 'ريال مدريد' }, { id: 'bar', name: 'برشلونة' }, { id: 'atm', name: 'أتلتيكو مدريد' },
+            { id: 'ath', name: 'أتلتيك بلباو' }, { id: 'vil', name: 'فياريال' }, { id: 'bet', name: 'ريال بيتيس' },
+            { id: 'rso', name: 'ريال سوسيداد' }, { id: 'val', name: 'فالنسيا' }, { id: 'sev', name: 'إشبيلية' },
+            { id: 'gir', name: 'خيرونا' }, { id: 'osa', name: 'أوساسونا' }, { id: 'cel', name: 'سيلتا فيغو' },
+            { id: 'ray', name: 'رايو فايكانو' }, { id: 'mad', name: 'خيتافي' }, { id: 'esp', name: 'إسبانيول' },
+            { id: 'alm', name: 'ألميريا' }, { id: 'gda', name: 'غرناطة' }, { id: 'cad', name: 'قادس' },
+            { id: 'mll', name: 'ريال مايوركا' }, { id: 'leg', name: 'ليغانيس' }
         ];
 
         function populateTeamSelects() {
@@ -247,36 +192,20 @@
             });
         }
 
-        // --- قسم المباريات ---
-        function loadMatches() {
-            database.ref('matches').on('value', function(snapshot) {
-                const data = snapshot.val();
-                allMatches = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                renderMatchesList();
-                updateStats();
-            });
-        }
-
-        function renderMatchesList() {
-            const container = document.getElementById('matchListContainer');
-            if (allMatches.length === 0) {
-                container.innerHTML = '<li class="loading">لا توجد مباريات بعد.</li>';
-                return;
-            }
-            let html = '';
-            allMatches.forEach(match => {
-                html += `<li class="match-item">
-                    <div class="info">
-                        <h4>${match.homeTeam} ${match.homeGoals} - ${match.awayGoals} ${match.awayTeam}</h4>
-                        <small>📅 ${match.date || ''} | 🕐 ${match.time || ''} | جولة ${match.round || ''} | 🏟️ ${match.stadium || ''}</small>
-                    </div>
-                    <div class="actions">
-                        <button class="btn-edit" onclick="editMatch('${match.id}')">تعديل</button>
-                        <button class="btn-del" onclick="deleteMatch('${match.id}')">حذف</button>
-                    </div>
-                </li>`;
-            });
-            container.innerHTML = html;
+        function uploadImageAsBase64() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { alert('❌ يرجى اختيار ملف صورة'); return; }
+            if (file.size > 2 * 1024 * 1024) { alert('❌ حجم الصورة كبير جدًا. الحد الأقصى 2 ميجابايت'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64 = e.target.result;
+                document.getElementById('coverImage').value = base64;
+                document.getElementById('previewImg').src = base64;
+                document.getElementById('imagePreview').style.display = 'block';
+                alert('✅ تم تجهيز الصورة');
+            };
+            reader.readAsDataURL(file);
         }
 
         function saveMatchResult() {
@@ -289,31 +218,21 @@
             const matchTime = document.getElementById('matchTime').value;
             const matchRound = document.getElementById('matchRound').value;
             const matchStadium = document.getElementById('matchStadium').value.trim();
-
             if (homeId === awayId) { alert('❌ لا يمكن أن يكون الفريقان متطابقين'); return; }
             const homeTeam = teamsList.find(t => t.id === homeId);
             const awayTeam = teamsList.find(t => t.id === awayId);
             if (!homeTeam || !awayTeam) { alert('❌ الفريق غير موجود'); return; }
-
             const matchData = {
                 homeTeam: homeTeam.name,
                 awayTeam: awayTeam.name,
-                homeGoals: homeGoals,
-                awayGoals: awayGoals,
-                date: matchDate,
-                time: matchTime,
-                round: matchRound,
-                stadium: matchStadium
+                homeGoals, awayGoals,
+                date: matchDate, time: matchTime,
+                round: matchRound, stadium: matchStadium
             };
-
             if (editingId) {
-                database.ref('matches/' + editingId).update(matchData)
-                    .then(() => { alert('✅ تم تحديث المباراة'); resetMatchForm(); })
-                    .catch(error => alert('❌ خطأ: ' + error.message));
+                database.ref('matches/' + editingId).update(matchData).then(() => { alert('✅ تم تحديث المباراة'); resetMatchForm(); });
             } else {
-                database.ref('matches').push(matchData)
-                    .then(() => { alert('✅ تم حفظ النتيجة'); resetMatchForm(); })
-                    .catch(error => alert('❌ خطأ: ' + error.message));
+                database.ref('matches').push(matchData).then(() => { alert('✅ تم حفظ النتيجة'); resetMatchForm(); });
             }
         }
 
@@ -336,7 +255,6 @@
         }
 
         function cancelMatchEdit() { resetMatchForm(); }
-
         function resetMatchForm() {
             document.getElementById('editingMatchId').value = '';
             document.getElementById('matchFormTitle').textContent = '⚽ إضافة نتيجة مباراة';
@@ -348,52 +266,72 @@
             document.getElementById('matchStadium').value = '';
             document.getElementById('cancelMatchEditBtn').style.display = 'none';
         }
+        function deleteMatch(id) { if (confirm('حذف هذه المباراة؟')) database.ref('matches/' + id).remove().then(() => alert('✅ تم الحذف')); }
 
-        function deleteMatch(id) {
-            if (confirm('حذف هذه المباراة؟')) {
-                database.ref('matches/' + id).remove()
-                    .then(() => alert('✅ تم الحذف'))
-                    .catch(error => alert('❌ خطأ: ' + error.message));
-            }
-        }
-
-        // --- قسم الأخبار ---
-        function loadNews() {
-            database.ref('news').on('value', function(snapshot) {
+        function loadMatches() {
+            database.ref('matches').on('value', function(snapshot) {
                 const data = snapshot.val();
-                allNews = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                renderNewsList();
+                allMatches = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                const container = document.getElementById('matchListContainer');
+                if (allMatches.length === 0) { container.innerHTML = '<li class="loading">لا توجد مباريات</li>'; return; }
+                let html = '';
+                allMatches.forEach(match => {
+                    html += `<li class="match-item">
+                        <div>${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}<br><small>${match.date || ''} | ${match.time || ''} | جولة ${match.round || ''} | ${match.stadium || ''}</small></div>
+                        <div><button class="btn-edit" onclick="editMatch('${match.id}')">تعديل</button> <button class="btn-del" onclick="deleteMatch('${match.id}')">حذف</button></div>
+                    </li>`;
+                });
+                container.innerHTML = html;
                 updateStats();
             });
         }
 
-        function renderNewsList() {
-            const container = document.getElementById('newsListContainer');
-            if (allNews.length === 0) {
-                container.innerHTML = '<p class="loading">لا توجد أخبار بعد.</p>';
-                return;
-            }
-            const catNames = {
-                news: 'أخبار', statements: 'تصريحات', laliga: 'الدوري الإسباني',
-                champions: 'دوري الأبطال', local: 'البطولات المحلية',
-                training: 'التدريبات', players: 'أخبار اللاعبين'
+        function submitNews() {
+            const editingId = document.getElementById('editingId').value;
+            const title = document.getElementById('newsTitle').value.trim();
+            const summary = document.getElementById('newsSummary').value.trim();
+            const content = document.getElementById('editor').innerHTML;
+            const cover = document.getElementById('coverImage').value.trim();
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const publishDate = document.getElementById('publishDate').value;
+            const publishTime = document.getElementById('publishTime').value;
+            if (!title || !summary) { alert('أدخل العنوان والملخص'); return; }
+            const newsData = {
+                category: selectedCat,
+                title, summary, content,
+                cover: cover || '',
+                videoUrl: videoUrl || '',
+                country, city,
+                date: publishDate || new Date().toISOString().split('T')[0],
+                time: publishTime || new Date().toTimeString().slice(0,5),
+                createdAt: new Date().toISOString()
             };
-            let html = '<ul class="news-list">';
-            allNews.forEach(item => {
-                html += `<li class="news-item">
-                    <div class="info">
-                        <h4>${item.title}</h4>
-                        <span class="cat">${catNames[item.category] || item.category}</span>
-                        <small style="display:block;color:#999;margin-top:3px;">${item.country || ''} ${item.city ? '- ' + item.city : ''} | ${item.date} ${item.time}</small>
-                    </div>
-                    <div class="actions">
-                        <button class="btn-edit" onclick="editNews('${item.id}')">تعديل</button>
-                        <button class="btn-del" onclick="deleteNews('${item.id}')">حذف</button>
-                    </div>
-                </li>`;
+            if (editingId) {
+                database.ref('news/' + editingId).update(newsData).then(() => { alert('✅ تم تحديث الخبر'); resetForm(); });
+            } else {
+                database.ref('news').push(newsData).then(() => { alert('✅ تم نشر الخبر'); resetForm(); });
+            }
+        }
+
+        function loadNews() {
+            database.ref('news').on('value', function(snapshot) {
+                const data = snapshot.val();
+                allNews = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                const container = document.getElementById('newsListContainer');
+                if (allNews.length === 0) { container.innerHTML = '<p class="loading">لا توجد أخبار بعد.</p>'; return; }
+                const catNames = { news:'أخبار', statements:'تصريحات', laliga:'الدوري الإسباني', champions:'دوري الأبطال', local:'البطولات المحلية', training:'التدريبات', players:'أخبار اللاعبين' };
+                let html = '';
+                allNews.forEach(item => {
+                    html += `<div class="news-item">
+                        <div>${item.title}<br><small>${catNames[item.category] || item.category} | ${item.date || ''} ${item.time || ''}</small></div>
+                        <div><button class="btn-edit" onclick="editNews('${item.id}')">تعديل</button> <button class="btn-del" onclick="deleteNews('${item.id}')">حذف</button></div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+                updateStats();
             });
-            html += '</ul>';
-            container.innerHTML = html;
         }
 
         function editNews(id) {
@@ -414,12 +352,16 @@
             document.getElementById('city').value = article.city || '';
             document.getElementById('publishDate').value = article.date || '';
             document.getElementById('publishTime').value = article.time || '';
+            if (article.cover && article.cover.startsWith('data:image')) {
+                document.getElementById('previewImg').src = article.cover;
+                document.getElementById('imagePreview').style.display = 'block';
+            } else {
+                document.getElementById('imagePreview').style.display = 'none';
+            }
             document.getElementById('cancelEditBtn').style.display = 'block';
-            document.querySelector('.panel').scrollIntoView({ behavior: 'smooth' });
         }
 
         function cancelEdit() { resetForm(); }
-
         function resetForm() {
             document.getElementById('editingId').value = '';
             document.getElementById('formTitle').textContent = '✍️ إضافة خبر جديد';
@@ -430,81 +372,15 @@
             document.getElementById('videoUrl').value = '';
             document.getElementById('country').value = '';
             document.getElementById('city').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            document.getElementById('previewImg').src = '';
             document.getElementById('cancelEditBtn').style.display = 'none';
         }
+        function deleteNews(id) { if (confirm('حذف هذا الخبر؟')) database.ref('news/' + id).remove().then(() => alert('✅ تم الحذف')); }
 
-        function deleteNews(id) {
-            if (confirm('حذف هذا الخبر؟')) {
-                database.ref('news/' + id).remove()
-                    .then(() => alert('✅ تم الحذف'))
-                    .catch(error => alert('❌ خطأ: ' + error.message));
-            }
-        }
-
-        function submitNews() {
-            const editingId = document.getElementById('editingId').value;
-            const title = document.getElementById('newsTitle').value.trim();
-            const summary = document.getElementById('newsSummary').value.trim();
-            const content = document.getElementById('editor').innerHTML;
-            const cover = document.getElementById('coverImage').value.trim();
-            const videoUrl = document.getElementById('videoUrl').value.trim();
-            const country = document.getElementById('country').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const publishDate = document.getElementById('publishDate').value;
-            const publishTime = document.getElementById('publishTime').value;
-
-            if (!title) { alert('أدخل عنوان الخبر'); return; }
-            if (!summary) { alert('أدخل ملخص الخبر'); return; }
-
-            const newsData = {
-                category: selectedCat,
-                title: title,
-                summary: summary,
-                content: content,
-                cover: cover || '',
-                videoUrl: videoUrl || '',
-                country: country,
-                city: city,
-                date: publishDate || new Date().toISOString().split('T')[0],
-                time: publishTime || new Date().toTimeString().slice(0,5),
-                createdAt: new Date().toISOString()
-            };
-
-            if (editingId) {
-                database.ref('news/' + editingId).update(newsData)
-                    .then(() => { alert('✅ تم تحديث الخبر'); resetForm(); })
-                    .catch(error => alert('❌ خطأ: ' + error.message));
-            } else {
-                database.ref('news').push(newsData)
-                    .then(() => { alert('✅ تم نشر الخبر'); resetForm(); })
-                    .catch(error => alert('❌ خطأ: ' + error.message));
-            }
-        }
-
-        function selectCat(btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            selectedCat = btn.dataset.cat;
-        }
-
-        function format(cmd, val) {
-            document.execCommand(cmd, false, val || null);
-            document.getElementById('editor').focus();
-        }
-        function insertImage() {
-            const url = prompt('أدخل رابط الصورة:');
-            if (url) document.execCommand('insertImage', false, url);
-        }
-        function uploadImage() {
-            const file = document.getElementById('fileInput').files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('coverImage').value = e.target.result;
-                alert('✅ تم تحميل الصورة!');
-            };
-            reader.readAsDataURL(file);
-        }
+        function selectCat(btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedCat = btn.dataset.cat; }
+        function format(cmd, val) { document.execCommand(cmd, false, val || null); document.getElementById('editor').focus(); }
+        function insertImage() { const url = prompt('أدخل رابط الصورة:'); if (url) document.execCommand('insertImage', false, url); }
 
         function updateStats() {
             document.getElementById('totalNews').textContent = allNews.length;
@@ -519,32 +395,17 @@
                 document.getElementById('loginBox').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
                 sessionStorage.setItem('med_admin', 'yes');
-                document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
-                document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
                 populateTeamSelects();
                 loadMatches();
                 loadNews();
+                document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
         }
-
-        function logout() {
-            sessionStorage.removeItem('med_admin');
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('loginBox').style.display = 'block';
-            document.getElementById('tokenInput').value = '';
-        }
-
-        if (sessionStorage.getItem('med_admin') === 'yes') {
-            document.getElementById('loginBox').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            document.getElementById('publishDate').value = new Date().toISOString().split('T')[0];
-            document.getElementById('publishTime').value = new Date().toTimeString().slice(0,5);
-            populateTeamSelects();
-            loadMatches();
-            loadNews();
-        }
+        function logout() { sessionStorage.removeItem('med_admin'); location.reload(); }
+        if (sessionStorage.getItem('med_admin') === 'yes') { login(); }
     </script>
 </body>
 </html>
