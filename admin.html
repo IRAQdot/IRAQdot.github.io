@@ -29,7 +29,7 @@
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; font-weight: 700; margin-bottom: 6px; }
         .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; }
-        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
+        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.3s; }
         .upload-area:hover { border-color: var(--primary); }
         .toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 8px; }
         .toolbar button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; }
@@ -45,6 +45,9 @@
         .cat-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
         .cat-btn { padding: 8px 15px; border: 2px solid #ddd; border-radius: 25px; background: #fff; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; transition: all 0.3s; }
         .cat-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .preview-image { position: relative; display: inline-block; margin: 5px; }
+        .preview-image img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+        .preview-image .remove-image { position: absolute; top: -5px; left: -5px; background: var(--danger); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; cursor: pointer; line-height: 20px; text-align: center; }
         @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } .match-row { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -123,6 +126,7 @@
                     </div>
                     <div class="editor" id="editor" contenteditable="true"></div>
                 </div>
+                <!-- صورة الغلاف -->
                 <div class="form-group">
                     <label>صورة الغلاف:</label>
                     <div class="upload-area" onclick="document.getElementById('fileInput').click()">
@@ -134,6 +138,17 @@
                         <img id="previewImg" src="" alt="معاينة" style="max-width:100%; border-radius:8px;">
                     </div>
                 </div>
+                <!-- الصور المتعددة -->
+                <div class="form-group">
+                    <label>صور إضافية للخبر:</label>
+                    <div class="upload-area" onclick="document.getElementById('multiFileInput').click()">
+                        <div>📤 اضغط لرفع صور متعددة</div>
+                        <input type="file" id="multiFileInput" accept="image/*" multiple style="display:none;" onchange="uploadMultipleImagesAsBase64(this)">
+                    </div>
+                    <div id="multiImagePreview" style="margin-top:10px; display:flex; flex-wrap:wrap; gap:8px;"></div>
+                    <input type="hidden" id="multiImages" value="">
+                </div>
+                <!-- رابط فيديو -->
                 <div class="form-group">
                     <label>رابط الفيديو (YouTube أو MP4):</label>
                     <input type="text" id="videoUrl" placeholder="الصق الرابط هنا...">
@@ -171,6 +186,7 @@
         let selectedCat = 'news';
         let allNews = [];
         let allMatches = [];
+        let multiImagesArray = [];
         let teamsList = [
             { id: 'rm', name: 'ريال مدريد' }, { id: 'bar', name: 'برشلونة' }, { id: 'atm', name: 'أتلتيكو مدريد' },
             { id: 'ath', name: 'أتلتيك بلباو' }, { id: 'vil', name: 'فياريال' }, { id: 'bet', name: 'ريال بيتيس' },
@@ -206,6 +222,57 @@
                 alert('✅ تم تجهيز الصورة');
             };
             reader.readAsDataURL(file);
+        }
+
+        // رفع الصور المتعددة
+        function uploadMultipleImagesAsBase64(input) {
+            const files = input.files;
+            if (files.length === 0) return;
+            multiImagesArray = [];
+            const previewContainer = document.getElementById('multiImagePreview');
+            previewContainer.innerHTML = '';
+            let loadedCount = 0;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (!file.type.startsWith('image/')) {
+                    alert('❌ الملف ' + file.name + ' ليس صورة');
+                    continue;
+                }
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('❌ حجم الصورة ' + file.name + ' كبير جدًا (الحد 2 ميجابايت)');
+                    continue;
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    multiImagesArray.push(e.target.result);
+                    const div = document.createElement('div');
+                    div.className = 'preview-image';
+                    div.innerHTML = `
+                        <img src="${e.target.result}" alt="معاينة">
+                        <button class="remove-image" onclick="removeMultiImage(${multiImagesArray.length - 1})">×</button>
+                    `;
+                    previewContainer.appendChild(div);
+                    document.getElementById('multiImages').value = JSON.stringify(multiImagesArray);
+                    loadedCount++;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeMultiImage(index) {
+            multiImagesArray.splice(index, 1);
+            document.getElementById('multiImages').value = JSON.stringify(multiImagesArray);
+            const previewContainer = document.getElementById('multiImagePreview');
+            previewContainer.innerHTML = '';
+            multiImagesArray.forEach((img, i) => {
+                const div = document.createElement('div');
+                div.className = 'preview-image';
+                div.innerHTML = `
+                    <img src="${img}" alt="معاينة">
+                    <button class="remove-image" onclick="removeMultiImage(${i})">×</button>
+                `;
+                previewContainer.appendChild(div);
+            });
         }
 
         function saveMatchResult() {
@@ -302,6 +369,7 @@
             const city = document.getElementById('city').value.trim();
             const publishDate = document.getElementById('publishDate').value;
             const publishTime = document.getElementById('publishTime').value;
+            const multiImages = document.getElementById('multiImages').value;
             if (!title || !summary) { alert('أدخل العنوان والملخص'); return; }
             const newsData = {
                 category: selectedCat,
@@ -311,6 +379,7 @@
                 country, city,
                 date: publishDate || new Date().toISOString().split('T')[0],
                 time: publishTime || new Date().toTimeString().slice(0,5),
+                multiImages: multiImages ? JSON.parse(multiImages) : [],
                 createdAt: new Date().toISOString()
             };
             if (editingId) {
@@ -363,6 +432,17 @@
             } else {
                 document.getElementById('imagePreview').style.display = 'none';
             }
+            // تحميل الصور المتعددة
+            multiImagesArray = article.multiImages || [];
+            document.getElementById('multiImages').value = JSON.stringify(multiImagesArray);
+            const previewContainer = document.getElementById('multiImagePreview');
+            previewContainer.innerHTML = '';
+            multiImagesArray.forEach((img, i) => {
+                const div = document.createElement('div');
+                div.className = 'preview-image';
+                div.innerHTML = `<img src="${img}" alt="معاينة"><button class="remove-image" onclick="removeMultiImage(${i})">×</button>`;
+                previewContainer.appendChild(div);
+            });
             document.getElementById('cancelEditBtn').style.display = 'block';
         }
 
@@ -379,6 +459,9 @@
             document.getElementById('city').value = '';
             document.getElementById('imagePreview').style.display = 'none';
             document.getElementById('previewImg').src = '';
+            document.getElementById('multiImages').value = '';
+            document.getElementById('multiImagePreview').innerHTML = '';
+            multiImagesArray = [];
             document.getElementById('cancelEditBtn').style.display = 'none';
         }
 
