@@ -132,6 +132,132 @@
         .back-to-top.show { display: block; }
         .reveal { opacity: 0; transform: translateY(20px); transition: 0.5s; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* زر مختصرات */
+        .shorts-float-btn {
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.5);
+            z-index: 1501;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .shorts-float-btn:hover { background: #bb2d3b; transform: translateY(-3px); }
+
+        /* مودال المختصرات */
+        .shorts-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 6000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+        .shorts-modal-overlay.active { opacity: 1; visibility: visible; }
+        .shorts-modal-content {
+            position: relative;
+            width: 380px;
+            max-width: 95vw;
+            height: 80vh;
+            max-height: 600px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: #000;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        }
+        .shorts-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+        .shorts-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+        .short-slide {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            position: relative;
+        }
+        .short-slide img {
+            max-width: 100%;
+            max-height: 70%;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .short-slide h3 {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .short-nav-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .short-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .short-arrow:hover { background: rgba(255,255,255,0.4); }
+        .short-arrow.prev { right: 10px; }
+        .short-arrow.next { left: 10px; }
         @media (max-width: 768px) {
             .header-flex { height: auto; padding: 10px 0; flex-wrap: wrap; }
             .logo .main-title { font-size: 1.4rem; }
@@ -145,6 +271,8 @@
             .match-result-item { flex-direction: column; gap: 4px; }
             .video-container iframe { height: 200px; }
             .news-card { min-width: 220px; max-width: 230px; }
+            .shorts-modal-content { width: 95vw; height: 70vh; }
+            .shorts-float-btn { bottom: 70px; right: 8px; padding: 8px 12px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -341,6 +469,17 @@
         </div>
     </div>
 
+    <!-- زر ومودال المختصرات -->
+    <button class="shorts-float-btn" id="shortsFloatBtn">⚡ مختصرات</button>
+    <div class="shorts-modal-overlay" id="shortsModalOverlay">
+        <div class="shorts-modal-content">
+            <button class="shorts-close-btn" id="shortsCloseBtn">×</button>
+            <div class="shorts-container" id="shortsContainer"></div>
+            <button class="short-arrow prev" id="shortPrev">‹</button>
+            <button class="short-arrow next" id="shortNext">›</button>
+        </div>
+    </div>
+
     <footer>
         <div class="container footer-flex">
             <p>جميع الحقوق محفوظة &copy; 2025 Medridistas del Irak</p>
@@ -371,7 +510,7 @@
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
 
-        // --- Authentication ---
+        // ==================== المصادقة ====================
         let currentUser = null;
         auth.onAuthStateChanged(user => { currentUser = user; updateAuthUI(); });
         function updateAuthUI() {
@@ -416,13 +555,13 @@
                 .catch(error => showAuthError('خطأ: ' + error.message));
         }
 
-        // --- التمرير ---
+        // ==================== التمرير الأفقي ====================
         function scrollSection(containerId, direction) {
             const container = document.getElementById(containerId);
             if (container) container.scrollBy({ left: direction * 260, behavior: 'smooth' });
         }
 
-        // --- نتائج المباريات ---
+        // ==================== نتائج المباريات ====================
         function loadMatches() {
             database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -441,19 +580,17 @@
             });
         }
 
-        // --- الأخبار ---
+        // ==================== الأخبار ====================
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                
-                // ترتيب الأخبار من الأحدث إلى الأقدم
+                // ترتيب الأحدث أولاً
                 allNewsData.sort((a, b) => {
                     const dateA = new Date(a.createdAt || (a.date + 'T' + (a.time || '00:00')));
                     const dateB = new Date(b.createdAt || (b.date + 'T' + (b.time || '00:00')));
                     return dateB - dateA;
                 });
-
                 categories.forEach(cat => { const grid = document.getElementById(cat + '-news'); if (grid) grid.innerHTML = ''; });
                 categories.forEach(cat => {
                     const filtered = allNewsData.filter(item => item.category === cat);
@@ -490,7 +627,7 @@
             results.forEach(article => { const grid = document.getElementById(article.category + '-news'); if (grid) grid.appendChild(createNewsCard(article)); });
         }
 
-        // --- المشاركة ---
+        // ==================== المشاركة ====================
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
         function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
         function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl())}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
@@ -499,7 +636,7 @@
         function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl())}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
         function copyLink() { navigator.clipboard.writeText(getShareUrl()).then(() => alert('✅ تم نسخ الرابط')); }
 
-        // --- أخبار ذات صلة ---
+        // ==================== أخبار ذات صلة ====================
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
@@ -531,7 +668,7 @@
             });
         }
 
-        // --- مودال الخبر ---
+        // ==================== مودال الخبر ====================
         function openModal(article) {
             document.getElementById('modalTitle').textContent = article.title;
             let metaHtml = '';
@@ -544,7 +681,7 @@
             if (article.cover && article.cover.trim() !== '') { modalImage.src = article.cover; modalImage.style.display = 'block'; }
             else modalImage.style.display = 'none';
 
-            // عرض الفيديو
+            // فيديو
             const existingVideo = document.querySelector('.video-container');
             if (existingVideo) existingVideo.remove();
             if (article.videoUrl && article.videoUrl.trim() !== '') {
@@ -563,7 +700,7 @@
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             injectInlineRelatedNews(article);
 
-            // عرض الصور المتعددة في نهاية الخبر
+            // صور متعددة في نهاية الخبر
             const existingMulti = document.querySelector('.multi-images-container');
             if (existingMulti) existingMulti.remove();
             if (article.multiImages && article.multiImages.length > 0) {
@@ -589,7 +726,16 @@
             document.body.style.overflow = 'hidden';
         }
 
-        // --- مودال الصورة المكبرة ---
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            const existingVideo = document.querySelector('.video-container');
+            if (existingVideo) existingVideo.remove();
+            const existingMulti = document.querySelector('.multi-images-container');
+            if (existingMulti) existingMulti.remove();
+        }
+
+        // ==================== مودال الصورة المكبرة ====================
         function openImageModal(imageSrc) {
             document.getElementById('imageModalImg').src = imageSrc;
             document.getElementById('imageModalOverlay').classList.add('active');
@@ -601,20 +747,97 @@
         document.getElementById('imageModalOverlay').addEventListener('click', function(e) {
             if (e.target === this) closeImageModal();
         });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeImageModal();
+
+        // ==================== المختصرات ====================
+        let shortsItems = [];
+        let currentShortIndex = 0;
+
+        document.getElementById('shortsFloatBtn').addEventListener('click', openShortsModal);
+        document.getElementById('shortsCloseBtn').addEventListener('click', closeShortsModal);
+        document.getElementById('shortsModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeShortsModal();
         });
 
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            const existingVideo = document.querySelector('.video-container');
-            if (existingVideo) existingVideo.remove();
-            const existingMulti = document.querySelector('.multi-images-container');
-            if (existingMulti) existingMulti.remove();
+        function openShortsModal() {
+            if (allNewsData.length === 0) {
+                alert('لا توجد أخبار بعد');
+                return;
+            }
+            shortsItems = [...allNewsData].sort((a, b) => {
+                const dateA = new Date(a.createdAt || (a.date + 'T' + (a.time || '00:00')));
+                const dateB = new Date(b.createdAt || (b.date + 'T' + (b.time || '00:00')));
+                return dateB - dateA;
+            });
+            currentShortIndex = 0;
+            renderShortSlide();
+            document.getElementById('shortsModalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // --- الوضع الداكن والتمرير ---
+        function closeShortsModal() {
+            document.getElementById('shortsModalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderShortSlide() {
+            const container = document.getElementById('shortsContainer');
+            container.innerHTML = '';
+            if (shortsItems.length === 0) return;
+            const item = shortsItems[currentShortIndex];
+            const slide = document.createElement('div');
+            slide.className = 'short-slide';
+            const imageUrl = item.cover && item.cover.trim() !== '' ? item.cover : 'https://via.placeholder.com/400x300?text=IRAQdot';
+            slide.innerHTML = `
+                <img src="${imageUrl}" alt="${item.title}">
+                <h3>${item.title}</h3>
+                <button class="short-nav-btn" onclick="openModal(shortsItems[${currentShortIndex}])">قراءة الخبر كاملاً</button>
+            `;
+            container.appendChild(slide);
+        }
+
+        document.getElementById('shortPrev').addEventListener('click', () => {
+            if (currentShortIndex > 0) {
+                currentShortIndex--;
+                renderShortSlide();
+            }
+        });
+        document.getElementById('shortNext').addEventListener('click', () => {
+            if (currentShortIndex < shortsItems.length - 1) {
+                currentShortIndex++;
+                renderShortSlide();
+            }
+        });
+
+        let touchStartY = 0;
+        const shortsContainerEl = document.getElementById('shortsContainer');
+        shortsContainerEl.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+        shortsContainerEl.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentShortIndex < shortsItems.length - 1) {
+                    currentShortIndex++;
+                    renderShortSlide();
+                } else if (diff < 0 && currentShortIndex > 0) {
+                    currentShortIndex--;
+                    renderShortSlide();
+                }
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('shortsModalOverlay').classList.contains('active')) {
+                if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+                    if (currentShortIndex < shortsItems.length - 1) { currentShortIndex++; renderShortSlide(); }
+                } else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+                    if (currentShortIndex > 0) { currentShortIndex--; renderShortSlide(); }
+                } else if (e.key === 'Escape') {
+                    closeShortsModal();
+                }
+            }
+        });
+
+        // ==================== الوضع الداكن ====================
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('medridistas_dark', isDark);
@@ -626,12 +849,14 @@
                 document.getElementById('darkToggle').textContent = '☀️';
             }
         }
+
         function revealOnScroll() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
+
         function handleQuickNav() {
             document.querySelectorAll('.quick-nav a').forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -644,7 +869,6 @@
             });
         }
 
-        // --- التحميل ---
         document.addEventListener('DOMContentLoaded', function() {
             initDarkMode();
             renderNews();
