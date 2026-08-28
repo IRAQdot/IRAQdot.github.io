@@ -47,6 +47,13 @@
         .form-group input[type="text"], .form-group input[type="date"], .form-group input[type="time"], .form-group input[type="number"], .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 0.95rem; font-family: inherit; transition: all 0.3s; background: #fff; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); outline: none; }
         .form-group textarea { min-height: 100px; resize: vertical; }
+        .toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; padding: 8px; background: #f8f9fa; border-radius: 8px; }
+        .toolbar button { padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-family: inherit; font-size: 0.8rem; font-weight: 600; }
+        .toolbar button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .editor { min-height: 180px; border: 2px solid #ddd; border-radius: 8px; padding: 12px; font-size: 0.95rem; line-height: 1.7; outline: none; overflow-y: auto; }
+        .editor:focus { border-color: var(--primary); }
+        .upload-area { border: 2px dashed #ddd; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
+        .upload-area:hover { border-color: var(--primary); }
         .match-row { display: grid; grid-template-columns: 1fr 0.5fr 0.5fr 1fr; gap: 8px; align-items: center; margin-bottom: 10px; }
         .match-row select, .match-row input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.85rem; }
         .btn-save-match { padding: 8px 15px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 700; font-size: 0.85rem; }
@@ -167,6 +174,11 @@
                         <p>اضغط لرفع صورة من جهازك</p>
                         <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="uploadImage()">
                     </div>
+                </div>
+                <!-- حقل الفيديو الجديد -->
+                <div class="form-group">
+                    <label>رابط الفيديو (YouTube أو أي رابط مضمّن):</label>
+                    <input type="text" id="videoUrl" placeholder="مثال: https://www.youtube.com/embed/...">
                 </div>
                 <div class="form-group"><label>الدولة:</label><input type="text" id="country" placeholder="مثال: العراق"></div>
                 <div class="form-group"><label>المدينة:</label><input type="text" id="city" placeholder="مثال: بغداد"></div>
@@ -310,7 +322,6 @@
             if (!match) return;
             document.getElementById('editingMatchId').value = id;
             document.getElementById('matchFormTitle').textContent = '✏️ تعديل المباراة';
-            // تعبئة الفرق حسب الاسم
             const homeTeamObj = teamsList.find(t => t.name === match.homeTeam);
             const awayTeamObj = teamsList.find(t => t.name === match.awayTeam);
             document.getElementById('homeTeam').value = homeTeamObj ? homeTeamObj.id : '';
@@ -346,7 +357,7 @@
             }
         }
 
-        // --- قسم الأخبار (الوظائف كما كانت) ---
+        // --- قسم الأخبار ---
         function loadNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -398,6 +409,7 @@
             document.getElementById('newsSummary').value = article.summary || '';
             document.getElementById('editor').innerHTML = article.content || '';
             document.getElementById('coverImage').value = article.cover || '';
+            document.getElementById('videoUrl').value = article.videoUrl || '';
             document.getElementById('country').value = article.country || '';
             document.getElementById('city').value = article.city || '';
             document.getElementById('publishDate').value = article.date || '';
@@ -415,6 +427,7 @@
             document.getElementById('newsSummary').value = '';
             document.getElementById('editor').innerHTML = '';
             document.getElementById('coverImage').value = '';
+            document.getElementById('videoUrl').value = '';
             document.getElementById('country').value = '';
             document.getElementById('city').value = '';
             document.getElementById('cancelEditBtn').style.display = 'none';
@@ -434,6 +447,7 @@
             const summary = document.getElementById('newsSummary').value.trim();
             const content = document.getElementById('editor').innerHTML;
             const cover = document.getElementById('coverImage').value.trim();
+            const videoUrl = document.getElementById('videoUrl').value.trim();
             const country = document.getElementById('country').value.trim();
             const city = document.getElementById('city').value.trim();
             const publishDate = document.getElementById('publishDate').value;
@@ -448,6 +462,7 @@
                 summary: summary,
                 content: content,
                 cover: cover || '',
+                videoUrl: videoUrl || '',
                 country: country,
                 city: city,
                 date: publishDate || new Date().toISOString().split('T')[0],
@@ -521,7 +536,6 @@
             document.getElementById('tokenInput').value = '';
         }
 
-        // التحقق التلقائي
         if (sessionStorage.getItem('med_admin') === 'yes') {
             document.getElementById('loginBox').style.display = 'none';
             document.getElementById('dashboard').style.display = 'block';
