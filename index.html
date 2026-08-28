@@ -117,6 +117,24 @@
         .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-muted); }
         .modal-image { width: 100%; border-radius: 10px; margin-bottom: 12px; max-height: 300px; object-fit: cover; }
         .modal-body { font-size: 0.95rem; line-height: 1.7; }
+
+        /* مشغل الفيديو داخل المودال */
+        .video-container {
+            margin-bottom: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+        }
+        .video-container video {
+            width: 100%;
+            max-height: 400px;
+            border-radius: 10px;
+        }
+
         .inline-related { background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin: 15px 0; }
         .inline-related h4 { font-size: 0.9rem; font-weight: 900; color: var(--gold-dark); margin-bottom: 8px; }
         .inline-related ul { list-style: none; }
@@ -147,6 +165,7 @@
             .hero-overlay { gap: 8px; bottom: 5px; }
             .trophy-btn { width: 60px; height: 60px; border-radius: 12px; }
             .match-result-item { flex-direction: column; gap: 4px; }
+            .video-container iframe { height: 200px; }
         }
     </style>
 </head>
@@ -426,7 +445,37 @@
             if (article.time) metaHtml += `<span>🕐 ${article.time}</span>`;
             document.getElementById('modalMeta').innerHTML = metaHtml;
             const modalImage = document.getElementById('modalImage');
-            if (article.cover && article.cover.trim() !== '') { modalImage.src = article.cover; modalImage.style.display = 'block'; } else { modalImage.style.display = 'none'; }
+            if (article.cover && article.cover.trim() !== '') {
+                modalImage.src = article.cover;
+                modalImage.style.display = 'block';
+            } else {
+                modalImage.style.display = 'none';
+            }
+
+            // إزالة أي فيديو سابق
+            const existingVideo = document.querySelector('.video-container');
+            if (existingVideo) existingVideo.remove();
+
+            // عرض الفيديو إن وجد
+            if (article.videoUrl && article.videoUrl.trim() !== '') {
+                const url = article.videoUrl.trim();
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    const videoId = url.includes('youtu.be') 
+                        ? url.split('/').pop() 
+                        : url.split('v=')[1]?.split('&')[0];
+                    if (videoId) {
+                        videoContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>`;
+                    }
+                } else if (url.match(/\.(mp4|webm|ogg)$/i)) {
+                    videoContainer.innerHTML = `<video controls><source src="${url}" type="video/mp4"></video>`;
+                }
+                if (videoContainer.innerHTML) {
+                    modalImage.after(videoContainer);
+                }
+            }
+
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             injectInlineRelatedNews(article);
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
@@ -438,7 +487,12 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() { document.getElementById('modalOverlay').classList.remove('active'); document.body.style.overflow = 'auto'; }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            const existingVideo = document.querySelector('.video-container');
+            if (existingVideo) existingVideo.remove();
+        }
 
         function revealOnScroll() {
             const observer = new IntersectionObserver((entries) => {
