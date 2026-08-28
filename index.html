@@ -88,7 +88,7 @@
         .modal-content h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; padding-left: 25px; }
         .modal-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; font-size: 0.8rem; color: var(--text-muted); }
         .modal-image { width: 100%; border-radius: 10px; margin-bottom: 12px; max-height: 300px; object-fit: cover; }
-        .multi-images-container { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
+        .multi-images-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; margin-bottom: 15px; }
         .multi-images-container img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform 0.3s; }
         .multi-images-container img:hover { transform: scale(1.05); }
         .modal-body { font-size: 0.95rem; line-height: 1.7; }
@@ -120,6 +120,12 @@
         .auth-submit { width: 100%; padding: 12px; background: var(--gold); color: #fff; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; font-family: inherit; }
         .auth-error { color: #dc3545; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
         .auth-success { color: #198754; font-size: 0.85rem; text-align: center; margin-top: 10px; display: none; }
+        /* مودال الصورة المكبرة */
+        .image-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 5000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; visibility: hidden; transition: 0.3s; }
+        .image-modal-overlay.active { opacity: 1; visibility: visible; }
+        .image-modal-content { max-width: 90vw; max-height: 90vh; position: relative; }
+        .image-modal-content img { width: 100%; height: auto; max-height: 90vh; object-fit: contain; border-radius: 10px; }
+        .image-modal-close { position: absolute; top: -20px; left: -20px; font-size: 2rem; background: #fff; color: #333; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-weight: 900; }
         footer { background: #212529; color: #ccc; padding: 20px 0; margin-top: 30px; }
         .footer-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .footer-flex nav a { margin-left: 15px; color: #ccc; font-size: 0.8rem; }
@@ -301,6 +307,14 @@
                     <button class="share-btn copy" id="shareCopy">نسخ الرابط</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- مودال الصورة المكبرة -->
+    <div class="image-modal-overlay" id="imageModalOverlay">
+        <div class="image-modal-content">
+            <button class="image-modal-close" id="imageModalClose">×</button>
+            <img id="imageModalImg" src="" alt="صورة">
         </div>
     </div>
 
@@ -523,23 +537,6 @@
             if (article.cover && article.cover.trim() !== '') { modalImage.src = article.cover; modalImage.style.display = 'block'; }
             else modalImage.style.display = 'none';
 
-            // عرض الصور المتعددة
-            const existingMulti = document.querySelector('.multi-images-container');
-            if (existingMulti) existingMulti.remove();
-            if (article.multiImages && article.multiImages.length > 0) {
-                const multiContainer = document.createElement('div');
-                multiContainer.className = 'multi-images-container';
-                article.multiImages.forEach(img => {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = img;
-                    imgElement.alt = 'صورة إضافية';
-                    imgElement.loading = 'lazy';
-                    imgElement.addEventListener('click', () => window.open(img, '_blank'));
-                    multiContainer.appendChild(imgElement);
-                });
-                modalImage.after(multiContainer);
-            }
-
             // عرض الفيديو
             const existingVideo = document.querySelector('.video-container');
             if (existingVideo) existingVideo.remove();
@@ -558,6 +555,24 @@
 
             document.getElementById('modalBody').innerHTML = article.content || article.summary || '';
             injectInlineRelatedNews(article);
+
+            // عرض الصور المتعددة في نهاية الخبر (بعد المحتوى)
+            const existingMulti = document.querySelector('.multi-images-container');
+            if (existingMulti) existingMulti.remove();
+            if (article.multiImages && article.multiImages.length > 0) {
+                const multiContainer = document.createElement('div');
+                multiContainer.className = 'multi-images-container';
+                article.multiImages.forEach(img => {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = img;
+                    imgElement.alt = 'صورة إضافية';
+                    imgElement.loading = 'lazy';
+                    imgElement.addEventListener('click', () => openImageModal(img));
+                    multiContainer.appendChild(imgElement);
+                });
+                document.getElementById('modalBody').after(multiContainer);
+            }
+
             document.getElementById('shareFb').onclick = () => shareOnFacebook(article);
             document.getElementById('shareTw').onclick = () => shareOnTwitter(article);
             document.getElementById('shareWa').onclick = () => shareOnWhatsApp(article);
@@ -566,6 +581,22 @@
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
+
+        // --- مودال الصورة المكبرة ---
+        function openImageModal(imageSrc) {
+            document.getElementById('imageModalImg').src = imageSrc;
+            document.getElementById('imageModalOverlay').classList.add('active');
+        }
+        function closeImageModal() {
+            document.getElementById('imageModalOverlay').classList.remove('active');
+        }
+        document.getElementById('imageModalClose').addEventListener('click', closeImageModal);
+        document.getElementById('imageModalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeImageModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeImageModal();
+        });
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
