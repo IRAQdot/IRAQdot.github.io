@@ -83,6 +83,7 @@
                 <div class="form-group"><label>وقت المباراة:</label><input type="time" id="matchTime"></div>
                 <div class="form-group"><label>رقم الجولة:</label><input type="number" id="matchRound" min="1" placeholder="مثال: 3"></div>
                 <div class="form-group"><label>الملعب:</label><input type="text" id="matchStadium" placeholder="مثال: سانتياغو برنابيو"></div>
+                <div class="form-group"><label>اسم البطولة:</label><input type="text" id="matchTournament" placeholder="مثال: الدوري الإسباني، دوري الأبطال، كأس الملك"></div>
                 <button class="btn-save-match" onclick="saveMatchResult()">💾 حفظ النتيجة</button>
                 <button class="btn-save-match" style="background:#6c757d; margin-top:8px; display:none;" id="cancelMatchEditBtn" onclick="cancelMatchEdit()">إلغاء التعديل</button>
                 <hr style="margin:20px 0; border-color:#eee;">
@@ -218,6 +219,7 @@
             const matchTime = document.getElementById('matchTime').value;
             const matchRound = document.getElementById('matchRound').value;
             const matchStadium = document.getElementById('matchStadium').value.trim();
+            const matchTournament = document.getElementById('matchTournament').value.trim();
             if (homeId === awayId) { alert('❌ لا يمكن أن يكون الفريقان متطابقين'); return; }
             const homeTeam = teamsList.find(t => t.id === homeId);
             const awayTeam = teamsList.find(t => t.id === awayId);
@@ -227,7 +229,8 @@
                 awayTeam: awayTeam.name,
                 homeGoals, awayGoals,
                 date: matchDate, time: matchTime,
-                round: matchRound, stadium: matchStadium
+                round: matchRound, stadium: matchStadium,
+                tournament: matchTournament
             };
             if (editingId) {
                 database.ref('matches/' + editingId).update(matchData).then(() => { alert('✅ تم تحديث المباراة'); resetMatchForm(); });
@@ -251,6 +254,7 @@
             document.getElementById('matchTime').value = match.time || '';
             document.getElementById('matchRound').value = match.round || '';
             document.getElementById('matchStadium').value = match.stadium || '';
+            document.getElementById('matchTournament').value = match.tournament || '';
             document.getElementById('cancelMatchEditBtn').style.display = 'block';
         }
 
@@ -264,8 +268,10 @@
             document.getElementById('matchTime').value = '';
             document.getElementById('matchRound').value = '';
             document.getElementById('matchStadium').value = '';
+            document.getElementById('matchTournament').value = '';
             document.getElementById('cancelMatchEditBtn').style.display = 'none';
         }
+
         function deleteMatch(id) { if (confirm('حذف هذه المباراة؟')) database.ref('matches/' + id).remove().then(() => alert('✅ تم الحذف')); }
 
         function loadMatches() {
@@ -277,7 +283,7 @@
                 let html = '';
                 allMatches.forEach(match => {
                     html += `<li class="match-item">
-                        <div>${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}<br><small>${match.date || ''} | ${match.time || ''} | جولة ${match.round || ''} | ${match.stadium || ''}</small></div>
+                        <div>${match.homeTeam} ${match.homeGoals}-${match.awayGoals} ${match.awayTeam}<br><small>${match.tournament || ''} | ${match.date || ''} | ${match.time || ''} | جولة ${match.round || ''} | ${match.stadium || ''}</small></div>
                         <div><button class="btn-edit" onclick="editMatch('${match.id}')">تعديل</button> <button class="btn-del" onclick="deleteMatch('${match.id}')">حذف</button></div>
                     </li>`;
                 });
@@ -376,6 +382,7 @@
             document.getElementById('previewImg').src = '';
             document.getElementById('cancelEditBtn').style.display = 'none';
         }
+
         function deleteNews(id) { if (confirm('حذف هذا الخبر؟')) database.ref('news/' + id).remove().then(() => alert('✅ تم الحذف')); }
 
         function selectCat(btn) { document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedCat = btn.dataset.cat; }
