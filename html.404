@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعادة توجيه...</title>
+    <script>
+        // نحاول استخراج معرف الخبر من الرابط الحالي
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+
+        // إذا كان المسار يشبه /news/معرف أو /news-معرف
+        var match = path.match(/\/(news[-/]?[A-Za-z0-9_-]+)/);
+        if (match && !hash) {
+            var id = match[1].replace('news-', '').replace('news/', '');
+            window.location.replace('/#news-' + id);
+        } else {
+            // غير ذلك، نعيد التوجيه للرئيسية مع الحفاظ على الهاش
+            window.location.replace('/' + hash);
+        }
+    </script>
+</head>
+<body>
+    <p>جاري إعادة التوجيه...</p>
+    <p><a href="/">إذا لم تتم إعادة التوجيه اضغط هنا</a></p>
+</body>
+</html>
