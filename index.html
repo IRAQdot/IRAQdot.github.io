@@ -498,7 +498,7 @@
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
 
-        // ==================== المصادقة ====================
+        /* ==================== المصادقة ==================== */
         let currentUser = null;
         auth.onAuthStateChanged(user => { currentUser = user; updateAuthUI(); });
         function updateAuthUI() {
@@ -543,13 +543,13 @@
                 .catch(error => showAuthError('خطأ: ' + error.message));
         }
 
-        // ==================== التمرير ====================
+        /* ==================== التمرير ==================== */
         function scrollSection(containerId, direction) {
             const container = document.getElementById(containerId);
             if (container) container.scrollBy({ left: direction * 260, behavior: 'smooth' });
         }
 
-        // ==================== نتائج المباريات ====================
+        /* ==================== نتائج المباريات ==================== */
         function loadMatches() {
             database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -568,7 +568,7 @@
             });
         }
 
-        // ==================== الأخبار ====================
+        /* ==================== الأخبار ==================== */
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -585,7 +585,7 @@
                     if (grid && filtered.length > 0) filtered.forEach(article => grid.appendChild(createNewsCard(article)));
                     else if (grid) grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
                 });
-                checkHashAndOpenNews();
+                checkQueryAndOpenNews();
             });
         }
 
@@ -615,23 +615,34 @@
             results.forEach(article => { const grid = document.getElementById(article.category + '-news'); if (grid) grid.appendChild(createNewsCard(article)); });
         }
 
-        // ==================== المشاركة ====================
-        function getShareUrl() {
-            return 'https://medridistas-del-irak.github.io/';
-        }
-        function getCleanId(articleId) {
-            return articleId.startsWith('-') ? articleId.substring(1) : articleId;
-        }
+        /* ==================== المشاركة ==================== */
+        function getShareUrl() { return 'https://medridistas-del-irak.github.io/'; }
+        function getCleanId(articleId) { return articleId.startsWith('-') ? articleId.substring(1) : articleId; }
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
-        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}`, '_blank'); }
-        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl() + '#news-' + getCleanId(article.id))}`, '_blank'); }
-        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function copyLink() { navigator.clipboard.writeText(getShareUrl() + '#news-' + getCleanId(currentOpenArticleId)).then(() => alert('✅ تم نسخ الرابط')); }
+        function shareOnFacebook(article) {
+            const url = getShareUrl() + '?news=' + getCleanId(article.id);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(getShareText(article))}`, '_blank');
+        }
+        function shareOnTwitter(article) {
+            const url = getShareUrl() + '?news=' + getCleanId(article.id);
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+        function shareOnWhatsApp(article) {
+            const url = getShareUrl() + '?news=' + getCleanId(article.id);
+            window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + url)}`, '_blank');
+        }
+        function shareOnTelegram(article) {
+            const url = getShareUrl() + '?news=' + getCleanId(article.id);
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(getShareText(article))}`, '_blank');
+        }
+        function copyLink() {
+            const url = getShareUrl() + '?news=' + getCleanId(currentOpenArticleId);
+            navigator.clipboard.writeText(url).then(() => alert('✅ تم نسخ الرابط'));
+        }
 
         let currentOpenArticleId = null;
 
-        // ==================== أخبار ذات صلة ====================
+        /* ==================== أخبار ذات صلة ==================== */
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
@@ -663,7 +674,7 @@
             });
         }
 
-        // ==================== مودال الخبر ====================
+        /* ==================== مودال الخبر ==================== */
         function openModal(article) {
             currentOpenArticleId = article.id;
             document.getElementById('modalTitle').textContent = article.title;
@@ -719,7 +730,7 @@
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            history.replaceState(null, null, '#news-' + getCleanId(article.id));
+            history.replaceState(null, null, '?news=' + getCleanId(article.id));
         }
 
         function closeModal() {
@@ -733,7 +744,7 @@
             history.replaceState(null, null, window.location.pathname);
         }
 
-        // ==================== مودال الصورة المكبرة ====================
+        /* ==================== مودال الصورة المكبرة ==================== */
         function openImageModal(imageSrc) {
             document.getElementById('imageModalImg').src = imageSrc;
             document.getElementById('imageModalOverlay').classList.add('active');
@@ -746,7 +757,7 @@
             if (e.target === this) closeImageModal();
         });
 
-        // ==================== المختصرات ====================
+        /* ==================== المختصرات ==================== */
         let shortsItems = [];
         let currentShortIndex = 0;
 
@@ -850,7 +861,7 @@
             }
         });
 
-        // ==================== الوضع الداكن ====================
+        /* ==================== الوضع الداكن ==================== */
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('medridistas_dark', isDark);
@@ -882,11 +893,11 @@
             });
         }
 
-        // ==================== فحص الهاش عند التحميل ====================
-        function checkHashAndOpenNews() {
-            const hash = location.hash;
-            if (hash && hash.startsWith('#news-')) {
-                const newsId = hash.substring(6);
+        /* ==================== فحص المعامل عند التحميل ==================== */
+        function checkQueryAndOpenNews() {
+            const params = new URLSearchParams(window.location.search);
+            const newsId = params.get('news');
+            if (newsId) {
                 const article = allNewsData.find(item => {
                     const cleanId = item.id.startsWith('-') ? item.id.substring(1) : item.id;
                     return cleanId === newsId;
