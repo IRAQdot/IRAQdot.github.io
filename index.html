@@ -18,6 +18,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
+        /* نفس التنسيقات السابقة مع إضافة أنماط للقسم المخفي */
         :root { --gold: #B8860B; --gold-dark: #8B6508; --bg: #f0f2f5; --card-bg: #ffffff; --text: #212529; --text-muted: #666; --border: #ddd; }
         body.dark-mode { --bg: #1a1a2e; --card-bg: #16213e; --text: #e8e8e8; --text-muted: #aaa; --border: #2a3a5a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,13 +57,26 @@
         .quick-nav a:hover, .quick-nav a.active { background: var(--gold); color: #fff; }
         .search-box { display: flex; align-items: center; gap: 6px; background: var(--card-bg); border-radius: 20px; padding: 3px 12px; margin: 0 auto 15px; max-width: 700px; width: 92%; border: 1px solid var(--border); }
         .search-box input { flex: 1; border: none; outline: none; font-family: inherit; font-size: 0.8rem; background: transparent; color: var(--text); padding: 5px 0; }
-        .match-results { background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 15px; margin: 10px auto 20px; max-width: 850px; width: 92%; }
+
+        /* قسم نتائج المباريات - مخفي افتراضيًا */
+        .match-results {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 15px;
+            margin: 10px auto 20px;
+            max-width: 850px;
+            width: 92%;
+            display: none; /* مخفي */
+        }
         .match-results h3 { font-size: 1rem; font-weight: 900; color: var(--gold); margin-bottom: 10px; text-align: center; }
         .match-result-item { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
         .match-result-item:last-child { border-bottom: none; }
         .match-result-item .teams { font-weight: 700; }
         .match-result-item .score { background: var(--gold); color: #fff; padding: 2px 12px; border-radius: 15px; font-weight: 900; }
         .match-result-item .info { color: var(--text-muted); font-size: 0.75rem; text-align: center; width: 100%; margin-top: 3px; }
+
+        /* باقي التنسيقات كما هي */
         .news-section { margin-bottom: 35px; position: relative; }
         .section-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 15px; border-right: 4px solid var(--gold); padding-right: 12px; display: inline-block; }
         .scroll-controls { display: flex; gap: 5px; }
@@ -313,12 +327,14 @@
         <a href="#local">البطولات المحلية</a>
         <a href="#training">التدريبات</a>
         <a href="#players">أخبار اللاعبين</a>
+        <a href="#matchResults" id="matchResultsLink" style="cursor:pointer;">نتائج المباريات</a>
     </nav>
 
+    <!-- قسم نتائج المباريات (مخفي) -->
     <div class="match-results" id="matchResults">
         <h3>⚽ نتائج المباريات</h3>
         <div id="matchResultsContainer">
-            <p style="text-align:center; color:#999;">لا توجد نتائج بعد.</p>
+            <p style="text-align:center; color:#999;">لا توجد نتائج خلال آخر 24 ساعة.</p>
         </div>
     </div>
 
@@ -498,7 +514,7 @@
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
 
-        /* المصادقة */
+        // ==================== المصادقة ====================
         let currentUser = null;
         auth.onAuthStateChanged(user => { currentUser = user; updateAuthUI(); });
         function updateAuthUI() {
@@ -543,21 +559,53 @@
                 .catch(error => showAuthError('خطأ: ' + error.message));
         }
 
-        /* التمرير */
+        // ==================== التمرير ====================
         function scrollSection(containerId, direction) {
             const container = document.getElementById(containerId);
             if (container) container.scrollBy({ left: direction * 260, behavior: 'smooth' });
         }
 
-        /* نتائج المباريات */
+        // ==================== نتائج المباريات ====================
         function loadMatches() {
-            database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
+            database.ref('matches').orderByChild('createdAt').limitToLast(100).on('value', function(snapshot) {
                 const data = snapshot.val();
                 const container = document.getElementById('matchResultsContainer');
-                if (!data) { container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نتائج بعد.</p>'; return; }
-                const matches = Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse();
+                if (!data) {
+                    container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نتائج.</p>';
+                    return;
+                }
+                const matches = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                const now = new Date();
+                const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+                
+                // تصفية المباريات التي لم يمض عليها 24 ساعة
+                const recentMatches = matches.filter(match => {
+                    let matchDate;
+                    if (match.createdAt) {
+                        matchDate = new Date(match.createdAt);
+                    } else {
+                        // إذا لم يوجد createdAt، نستخدم date و time
+                        const dateStr = match.date || '';
+                        const timeStr = match.time || '00:00';
+                        matchDate = new Date(dateStr + 'T' + timeStr);
+                    }
+                    return matchDate >= twentyFourHoursAgo && matchDate <= now;
+                });
+
+                if (recentMatches.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; color:#999;">لا توجد نتائج خلال آخر 24 ساعة.</p>';
+                    return;
+                }
+
+                // ترتيب المباريات من الأحدث إلى الأقدم
+                recentMatches.sort((a, b) => {
+                    const dateA = new Date(a.createdAt || (a.date + 'T' + (a.time || '00:00')));
+                    const dateB = new Date(b.createdAt || (b.date + 'T' + (b.time || '00:00')));
+                    return dateB - dateA;
+                });
+
                 let html = '';
-                matches.forEach(match => {
+                recentMatches.forEach(match => {
                     html += `<div class="match-result-item">
                         <span class="teams">${match.homeTeam} - ${match.awayTeam}</span>
                         <span class="score">${match.homeGoals} - ${match.awayGoals}</span>
@@ -568,7 +616,23 @@
             });
         }
 
-        /* الأخبار */
+        // إظهار قسم النتائج عند الضغط على الزر
+        document.getElementById('matchResultsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            var section = document.getElementById('matchResults');
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                // تحميل النتائج إذا لم تكن محملة
+                if (document.getElementById('matchResultsContainer').innerHTML === '') {
+                    loadMatches();
+                }
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                section.style.display = 'none';
+            }
+        });
+
+        // ==================== الأخبار ====================
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -615,7 +679,7 @@
             results.forEach(article => { const grid = document.getElementById(article.category + '-news'); if (grid) grid.appendChild(createNewsCard(article)); });
         }
 
-        /* المشاركة */
+        // ==================== المشاركة ====================
         function getShareUrl() { return 'https://iraqdot.github.io/'; }
         function getCleanId(articleId) { return articleId.startsWith('-') ? articleId.substring(1) : articleId; }
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
@@ -642,7 +706,7 @@
 
         let currentOpenArticleId = null;
 
-        /* أخبار ذات صلة */
+        // ==================== أخبار ذات صلة ====================
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
@@ -674,7 +738,7 @@
             });
         }
 
-        /* مودال الخبر */
+        // ==================== مودال الخبر ====================
         function openModal(article) {
             currentOpenArticleId = article.id;
             document.getElementById('modalTitle').textContent = article.title;
@@ -744,7 +808,7 @@
             history.replaceState(null, null, window.location.pathname);
         }
 
-        /* مودال الصورة */
+        // ==================== مودال الصورة المكبرة ====================
         function openImageModal(imageSrc) {
             document.getElementById('imageModalImg').src = imageSrc;
             document.getElementById('imageModalOverlay').classList.add('active');
@@ -757,7 +821,7 @@
             if (e.target === this) closeImageModal();
         });
 
-        /* المختصرات */
+        // ==================== المختصرات ====================
         let shortsItems = [];
         let currentShortIndex = 0;
 
@@ -861,7 +925,7 @@
             }
         });
 
-        /* الوضع الداكن */
+        // ==================== الوضع الداكن ====================
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('medridistas_dark', isDark);
@@ -883,6 +947,7 @@
 
         function handleQuickNav() {
             document.querySelectorAll('.quick-nav a').forEach(link => {
+                if (link.id === 'matchResultsLink') return; // يتم التعامل معه بشكل منفصل
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     document.querySelectorAll('.quick-nav a').forEach(l => l.classList.remove('active'));
@@ -893,7 +958,7 @@
             });
         }
 
-        /* فحص المعامل */
+        // ==================== فحص المعامل ====================
         function checkQueryAndOpenNews() {
             const params = new URLSearchParams(window.location.search);
             const newsId = params.get('news');
@@ -913,7 +978,7 @@
             renderNews();
             revealOnScroll();
             handleQuickNav();
-            loadMatches();
+            // لم نعد نستدعي loadMatches تلقائيًا، فقط عند الضغط على زر النتائج
             document.getElementById('darkToggle').addEventListener('click', toggleDarkMode);
             document.getElementById('searchInput').addEventListener('input', function() { searchNews(this.value); });
             document.getElementById('navToggle').addEventListener('click', () => document.getElementById('mainNav').classList.toggle('open'));
