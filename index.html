@@ -6,11 +6,11 @@
     <title>Medridistas del Irak | أخبار ريال مدريد</title>
     <meta name="description" content="Medridistas del Irak - مجتمع عشاق ريال مدريد في العراق.">
     <meta name="theme-color" content="#B8860B">
-    <link rel="canonical" href="https://medridistas-del-irak.github.io/">
+    <link rel="canonical" href="https://iraqdot.github.io/">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Medridistas del Irak | أخبار ريال مدريد">
     <meta property="og:description" content="مجتمع عشاق ريال مدريد في العراق.">
-    <meta property="og:image" content="https://medridistas-del-irak.github.io/MEDRIDISTAS DEL IRAQ.png">
+    <meta property="og:image" content="https://iraqdot.github.io/MEDRIDISTAS DEL IRAQ.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -270,7 +270,7 @@
     <header class="top-header" id="topHeader">
         <div class="container header-flex">
             <div class="logo">
-                <a href="https://medridistas-del-irak.github.io/" title="Medridistas del Irak">
+                <a href="https://iraqdot.github.io/" title="Medridistas del Irak">
                     <span class="main-title">MEDRIDISTAS</span>
                     <span class="sub-title">del irak</span>
                 </a>
@@ -498,7 +498,7 @@
         const categories = ['news', 'statements', 'laliga', 'champions', 'local', 'training', 'players'];
         let allNewsData = [];
 
-        /* ==================== المصادقة ==================== */
+        /* المصادقة */
         let currentUser = null;
         auth.onAuthStateChanged(user => { currentUser = user; updateAuthUI(); });
         function updateAuthUI() {
@@ -543,13 +543,13 @@
                 .catch(error => showAuthError('خطأ: ' + error.message));
         }
 
-        /* ==================== التمرير ==================== */
+        /* التمرير */
         function scrollSection(containerId, direction) {
             const container = document.getElementById(containerId);
             if (container) container.scrollBy({ left: direction * 260, behavior: 'smooth' });
         }
 
-        /* ==================== نتائج المباريات ==================== */
+        /* نتائج المباريات */
         function loadMatches() {
             database.ref('matches').orderByChild('date').limitToLast(20).on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -568,7 +568,7 @@
             });
         }
 
-        /* ==================== الأخبار ==================== */
+        /* الأخبار */
         function renderNews() {
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
@@ -615,8 +615,8 @@
             results.forEach(article => { const grid = document.getElementById(article.category + '-news'); if (grid) grid.appendChild(createNewsCard(article)); });
         }
 
-        /* ==================== المشاركة ==================== */
-        function getShareUrl() { return 'https://medridistas-del-irak.github.io/'; }
+        /* المشاركة */
+        function getShareUrl() { return 'https://iraqdot.github.io/'; }
         function getCleanId(articleId) { return articleId.startsWith('-') ? articleId.substring(1) : articleId; }
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
         function shareOnFacebook(article) {
@@ -642,7 +642,7 @@
 
         let currentOpenArticleId = null;
 
-        /* ==================== أخبار ذات صلة ==================== */
+        /* أخبار ذات صلة */
         function injectInlineRelatedNews(article) {
             const related = allNewsData.filter(item => item.category === article.category && item.id !== article.id).slice(0, 3);
             if (related.length === 0) return;
@@ -674,7 +674,7 @@
             });
         }
 
-        /* ==================== مودال الخبر ==================== */
+        /* مودال الخبر */
         function openModal(article) {
             currentOpenArticleId = article.id;
             document.getElementById('modalTitle').textContent = article.title;
@@ -744,7 +744,7 @@
             history.replaceState(null, null, window.location.pathname);
         }
 
-        /* ==================== مودال الصورة المكبرة ==================== */
+        /* مودال الصورة */
         function openImageModal(imageSrc) {
             document.getElementById('imageModalImg').src = imageSrc;
             document.getElementById('imageModalOverlay').classList.add('active');
@@ -757,7 +757,7 @@
             if (e.target === this) closeImageModal();
         });
 
-        /* ==================== المختصرات ==================== */
+        /* المختصرات */
         let shortsItems = [];
         let currentShortIndex = 0;
 
@@ -861,7 +861,7 @@
             }
         });
 
-        /* ==================== الوضع الداكن ==================== */
+        /* الوضع الداكن */
         function toggleDarkMode() {
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('medridistas_dark', isDark);
@@ -893,7 +893,7 @@
             });
         }
 
-        /* ==================== فحص المعامل عند التحميل ==================== */
+        /* فحص المعامل */
         function checkQueryAndOpenNews() {
             const params = new URLSearchParams(window.location.search);
             const newsId = params.get('news');
