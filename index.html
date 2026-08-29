@@ -270,7 +270,7 @@
     <header class="top-header" id="topHeader">
         <div class="container header-flex">
             <div class="logo">
-                <a href="https://medridistas-del-irak.github.io" title="Medridistas del Irak">
+                <a href="https://medridistas-del-irak.github.io/" title="Medridistas del Irak">
                     <span class="main-title">MEDRIDISTAS</span>
                     <span class="sub-title">del irak</span>
                 </a>
@@ -573,7 +573,6 @@
             database.ref('news').on('value', function(snapshot) {
                 const data = snapshot.val();
                 allNewsData = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
-                // ترتيب الأحدث أولاً
                 allNewsData.sort((a, b) => {
                     const dateA = new Date(a.createdAt || (a.date + 'T' + (a.time || '00:00')));
                     const dateB = new Date(b.createdAt || (b.date + 'T' + (b.time || '00:00')));
@@ -586,7 +585,7 @@
                     if (grid && filtered.length > 0) filtered.forEach(article => grid.appendChild(createNewsCard(article)));
                     else if (grid) grid.innerHTML = '<p style="color:#999; text-align:center; width:100%; padding:20px;">لا توجد أخبار في هذا القسم بعد.</p>';
                 });
-                checkHashAndOpenNews(); // استدعاء بعد تحميل الأخبار
+                checkHashAndOpenNews();
             });
         }
 
@@ -617,13 +616,18 @@
         }
 
         // ==================== المشاركة ====================
+        function getShareUrl() {
+            return 'https://medridistas-del-irak.github.io/';
+        }
+        function getCleanId(articleId) {
+            return articleId.startsWith('-') ? articleId.substring(1) : articleId;
+        }
         function getShareText(article) { return article.title + ' - Medridistas del Irak'; }
-        function getShareUrl() { return 'https://medridistas-del-irak.github.io'; }
-        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl() + '#news-' + article.id)}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl() + '#news-' + article.id)}`, '_blank'); }
-        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl() + '#news-' + article.id)}`, '_blank'); }
-        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl() + '#news-' + article.id)}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
-        function copyLink() { navigator.clipboard.writeText(getShareUrl() + '#news-' + currentOpenArticleId).then(() => alert('✅ تم نسخ الرابط')); }
+        function shareOnFacebook(article) { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}&quote=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function shareOnTwitter(article) { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(getShareText(article))}&url=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}`, '_blank'); }
+        function shareOnWhatsApp(article) { window.open(`https://wa.me/?text=${encodeURIComponent(getShareText(article) + ' ' + getShareUrl() + '#news-' + getCleanId(article.id))}`, '_blank'); }
+        function shareOnTelegram(article) { window.open(`https://t.me/share/url?url=${encodeURIComponent(getShareUrl() + '#news-' + getCleanId(article.id))}&text=${encodeURIComponent(getShareText(article))}`, '_blank'); }
+        function copyLink() { navigator.clipboard.writeText(getShareUrl() + '#news-' + getCleanId(currentOpenArticleId)).then(() => alert('✅ تم نسخ الرابط')); }
 
         let currentOpenArticleId = null;
 
@@ -715,8 +719,7 @@
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
 
-            // تحديث الهاش ليعكس الخبر الحالي
-            history.replaceState(null, null, '#news-' + article.id);
+            history.replaceState(null, null, '#news-' + getCleanId(article.id));
         }
 
         function closeModal() {
@@ -727,7 +730,6 @@
             const existingMulti = document.querySelector('.multi-images-container');
             if (existingMulti) existingMulti.remove();
             currentOpenArticleId = null;
-            // مسح الهاش عند الإغلاق
             history.replaceState(null, null, window.location.pathname);
         }
 
@@ -885,7 +887,10 @@
             const hash = location.hash;
             if (hash && hash.startsWith('#news-')) {
                 const newsId = hash.substring(6);
-                const article = allNewsData.find(item => item.id === newsId);
+                const article = allNewsData.find(item => {
+                    const cleanId = item.id.startsWith('-') ? item.id.substring(1) : item.id;
+                    return cleanId === newsId;
+                });
                 if (article) {
                     openModal(article);
                 }
